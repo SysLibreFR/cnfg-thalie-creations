@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choisir son fil pour un amigurumi – Thalie Créations</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Header article ── */
+    .article-header { background: #fff; padding: 44px 40px 0; }
+    .article-header__meta { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+    .article-header__cat { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; background: var(--lavande-pale); color: var(--prune); padding: 5px 14px; border-radius: var(--radius-pill); }
+    .article-header__date, .article-header__time { font-size: 12px; color: var(--text-muted); }
+    .article-header__h1 { font-size: 38px; color: var(--prune); line-height: 1.2; max-width: 680px; margin-bottom: 14px; }
+    .article-header__sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 19px; color: var(--text-muted); line-height: 1.6; max-width: 620px; margin-bottom: 28px; }
+    .author-bar { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-top: 1px solid var(--creme-dark); border-bottom: 1px solid var(--creme-dark); }
+    .author-bar__avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--lavande-pale); border: 2px solid var(--lavande-light); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .author-bar__name { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 500; color: var(--prune); }
+    .author-bar__role { font-size: 11px; color: var(--text-muted); }
+    .share-zone { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+    .share-zone__label { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+    .share-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--lavande-light); background: #fff; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; transition: background .2s; }
+    .share-btn:hover { background: var(--lavande-pale); }
+
+    /* ── Couverture ── */
+    .article-cover { background: var(--lavande-pale); height: 280px; display: flex; align-items: center; justify-content: center; font-size: 80px; position: relative; }
+    .article-cover__caption { position: absolute; bottom: 14px; right: 18px; font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.75); background: rgba(107,42,90,.45); padding: 4px 14px; border-radius: var(--radius-pill); }
+
+    /* ── Layout contenu + sidebar ── */
+    .article-layout { display: grid; grid-template-columns: 1fr 280px; gap: 48px; padding: 44px 40px 52px; align-items: start; }
+
+    /* ── Contenu ── */
+    .article-body p { font-size: 14px; line-height: 1.9; color: var(--text-muted); margin-bottom: 20px; }
+    .article-body h2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 24px; color: var(--prune); margin: 32px 0 14px; }
+    .article-body h3 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 500; color: var(--prune); margin: 22px 0 10px; }
+
+    .quote-block { background: var(--lavande-pale); border-left: 3px solid var(--lavande); padding: 22px 26px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 28px 0; }
+    .quote-block__text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 19px; color: var(--prune); line-height: 1.6; }
+    .quote-block__author { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-top: 10px; }
+
+    .tip-box { background: var(--creme-dark); border-radius: var(--radius-md); padding: 20px 22px; margin: 28px 0; display: flex; gap: 16px; align-items: flex-start; }
+    .tip-box__icon { font-size: 22px; flex-shrink: 0; }
+    .tip-box__label { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--prune); margin-bottom: 7px; }
+    .tip-box__text { font-size: 12px; color: var(--text-muted); line-height: 1.65; }
+
+    .tags-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--creme-dark); }
+    .tags-row__tag { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; background: #fff; color: var(--prune); padding: 7px 16px; border-radius: var(--radius-pill); border: 1px solid var(--lavande-light); cursor: pointer; transition: background .2s; }
+    .tags-row__tag:hover { background: var(--lavande-pale); }
+
+    /* ── Sidebar ── */
+    .sidebar-card { background: #fff; border-radius: var(--radius-lg); padding: 22px 20px; border: 1px solid var(--creme-dark); margin-bottom: 18px; }
+    .sidebar-card__title { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--sable); display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+    .sidebar-card__title::before { content: ''; width: 14px; height: 1px; background: var(--sable); }
+
+    .sidebar-article { display: flex; gap: 12px; margin-bottom: 14px; cursor: pointer; padding-bottom: 14px; border-bottom: 1px solid var(--creme-dark); }
+    .sidebar-article:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .sidebar-article__thumb { width: 52px; height: 52px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+    .sidebar-article__title { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--prune); line-height: 1.4; margin-bottom: 3px; }
+    .sidebar-article__date { font-size: 10px; color: var(--text-muted); }
+
+    .sidebar-cat { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--creme-dark); cursor: pointer; }
+    .sidebar-cat:last-child { border-bottom: none; }
+    .sidebar-cat__name { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); transition: color .2s; }
+    .sidebar-cat:hover .sidebar-cat__name { color: var(--prune); }
+    .sidebar-cat__count { font-size: 11px; background: var(--lavande-pale); color: var(--prune); padding: 2px 9px; border-radius: var(--radius-pill); }
+
+    .sidebar-nl { background: var(--prune); border-radius: var(--radius-lg); padding: 24px 20px; text-align: center; }
+    .sidebar-nl__title { font-family: 'Playfair Display', serif; font-style: italic; font-size: 19px; color: #fff; margin-bottom: 8px; }
+    .sidebar-nl__sub { font-size: 12px; color: rgba(255,255,255,.65); line-height: 1.5; margin-bottom: 16px; }
+    .sidebar-nl__input { width: 100%; border: none; border-radius: var(--radius-pill); padding: 10px 14px; font-family: 'Nunito', sans-serif; font-size: 12px; outline: none; margin-bottom: 10px; }
+    .sidebar-nl__btn { width: 100%; font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; background: var(--rose); color: #fff; border: none; padding: 11px; border-radius: var(--radius-pill); cursor: pointer; transition: opacity .2s; }
+    .sidebar-nl__btn:hover { opacity: .85; }
+
+    /* ── Articles liés ── */
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .related-card { background: #fff; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--creme-dark); cursor: pointer; transition: transform .2s; }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card__img { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 38px; }
+    .related-card__body { padding: 12px 14px 14px; }
+    .related-card__cat { font-family: 'Josefin Sans', sans-serif; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; background: var(--lavande-pale); color: var(--prune); padding: 3px 10px; border-radius: var(--radius-pill); display: inline-block; margin-bottom: 6px; }
+    .related-card__title { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--prune); line-height: 1.35; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">Thalie Créations</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Boutique</a></li>
+      <li><a href="#">Collections</a></li>
+      <li><a href="#">Commande perso</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+    </ul>
+    <button class="nav__cta">Voir la boutique</button>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="blog.html" class="breadcrumb__item">Blog</a>
+    <span class="breadcrumb__sep">›</span>
+    <span class="breadcrumb__item">Tutoriels</span>
+    <span class="breadcrumb__sep">›</span>
+    <span class="breadcrumb__item current">Choisir son fil pour un amigurumi</span>
+  </div>
+
+  <!-- HEADER -->
+  <div class="article-header">
+    <div class="article-header__meta">
+      <span class="article-header__cat">Tutoriel</span>
+      <span class="article-header__date">28 avril 2026</span>
+      <span class="article-header__time">⏱ 6 min de lecture</span>
+    </div>
+    <h1 class="article-header__h1">Comment choisir son fil pour un amigurumi parfait ?</h1>
+    <p class="article-header__sub">Coton, acrylique, laine… Chaque fibre a ses avantages. Je vous guide pour faire le meilleur choix selon votre projet.</p>
+    <div class="author-bar">
+      <div class="author-bar__avatar">🧶</div>
+      <div>
+        <p class="author-bar__name">Thalie</p>
+        <p class="author-bar__role">Créatrice &amp; artisane</p>
+      </div>
+      <div class="share-zone">
+        <span class="share-zone__label">Partager</span>
+        <button class="share-btn" title="Facebook">📘</button>
+        <button class="share-btn" title="Instagram">📷</button>
+        <button class="share-btn" title="Copier le lien">🔗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COUVERTURE -->
+  <div class="article-cover">
+    🧶
+    <span class="article-cover__caption">Atelier Thalie Créations</span>
+  </div>
+
+  <!-- CONTENU + SIDEBAR -->
+  <div class="article-layout">
+
+    <!-- Corps de l'article -->
+    <article class="article-body">
+      <p>Quand on se lance dans son premier amigurumi, on est souvent perdu face aux rayons de fils. Il y en a de toutes les couleurs, de toutes les épaisseurs, de toutes les matières. Et pourtant, ce choix est crucial : il détermine le rendu final, la tenue de la pièce et sa durabilité.</p>
+
+      <h2>Le coton : mon choix de cœur</h2>
+      <p>Pour les amigurumis, je recommande presque toujours le coton. Il a une torsion régulière qui donne un rendu propre et bien défini, ce qui est particulièrement appréciable pour les petits détails comme les yeux brodés ou les oreilles. Il est aussi facile à laver — un vrai avantage pour les peluches destinées aux enfants.</p>
+
+      <div class="quote-block">
+        <p class="quote-block__text">« Un bon fil coton, c'est comme une bonne farine : vous ne le voyez pas, mais il fait toute la différence dans le résultat final. »</p>
+        <p class="quote-block__author">— Thalie</p>
+      </div>
+
+      <h2>L'acrylique : économique et polyvalent</h2>
+      <p>L'acrylique est une excellente option pour débuter, car il est moins cher et existe dans une palette de couleurs très large. Il est aussi très doux pour les modèles plus volumineux, comme les grosses peluches ou les coussins. En revanche, il peut avoir tendance à « boulocher » avec le temps.</p>
+
+      <div class="tip-box">
+        <span class="tip-box__icon">💡</span>
+        <div>
+          <p class="tip-box__label">Astuce de l'atelier</p>
+          <p class="tip-box__text">Pour les amigurumis destinés aux bébés (0–36 mois), choisissez toujours un fil certifié Oeko-Tex ou GOTS. La sécurité avant tout !</p>
+        </div>
+      </div>
+
+      <h2>La laine : chaleur et texture</h2>
+      <p>La laine apporte une texture plus rustique et chaleureuse, parfaite pour des créations hivernales ou des décors de Noël. Attention cependant : elle est plus délicate à laver et peut être irritante pour les peaux sensibles. Je l'utilise surtout pour des décorations murales ou des objets non destinés aux enfants.</p>
+
+      <h3>Mon tableau récapitulatif</h3>
+      <p>En résumé : coton pour les peluches bébé et les détails fins, acrylique pour les gros volumes et les projets économiques, laine pour la déco et l'hiver. Et si vous hésitez encore, n'hésitez pas à me contacter — je suis toujours ravie de conseiller !</p>
+
+      <div class="tags-row">
+        <span class="tags-row__tag">Crochet</span>
+        <span class="tags-row__tag">Amigurumi</span>
+        <span class="tags-row__tag">Fil coton</span>
+        <span class="tags-row__tag">Débutante</span>
+        <span class="tags-row__tag">Matières</span>
+        <span class="tags-row__tag">Tutoriel</span>
+      </div>
+    </article>
+
+    <!-- Sidebar -->
+    <aside>
+      <div class="sidebar-card">
+        <p class="sidebar-card__title">Articles récents</p>
+        <div class="sidebar-article">
+          <div class="sidebar-article__thumb" style="background:var(--lavande-pale);">🌸</div>
+          <div><p class="sidebar-article__title">Une journée dans mon atelier</p><p class="sidebar-article__date">15 avr. 2026</p></div>
+        </div>
+        <div class="sidebar-article">
+          <div class="sidebar-article__thumb" style="background:#FBF0F3;">🐰</div>
+          <div><p class="sidebar-article__title">Mon premier amigurumi : le lapin</p><p class="sidebar-article__date">3 avr. 2026</p></div>
+        </div>
+        <div class="sidebar-article">
+          <div class="sidebar-article__thumb" style="background:#F5EEE8;">🎨</div>
+          <div><p class="sidebar-article__title">Palette printemps 2026</p><p class="sidebar-article__date">20 mars 2026</p></div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <p class="sidebar-card__title">Catégories</p>
+        <div class="sidebar-cat"><span class="sidebar-cat__name">Tutoriels</span><span class="sidebar-cat__count">12</span></div>
+        <div class="sidebar-cat"><span class="sidebar-cat__name">Coulisses</span><span class="sidebar-cat__count">8</span></div>
+        <div class="sidebar-cat"><span class="sidebar-cat__name">Inspirations</span><span class="sidebar-cat__count">6</span></div>
+        <div class="sidebar-cat"><span class="sidebar-cat__name">Conseils</span><span class="sidebar-cat__count">9</span></div>
+        <div class="sidebar-cat"><span class="sidebar-cat__name">Nouveautés</span><span class="sidebar-cat__count">5</span></div>
+      </div>
+
+      <div class="sidebar-nl">
+        <p class="sidebar-nl__title">La newsletter</p>
+        <p class="sidebar-nl__sub">Recevez mes articles et exclusivités chaque mois ✉️</p>
+        <input class="sidebar-nl__input" type="email" placeholder="votre@email.fr">
+        <button class="sidebar-nl__btn">Je m'abonne</button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ARTICLES LIÉS -->
+  <section class="section section--creme">
+    <div class="section__header">
+      <span class="section__eyebrow">Dans la même veine</span>
+      <h2 class="section__title">Vous aimerez aussi…</h2>
+      <div class="section__line"></div>
+    </div>
+    <div class="related-grid">
+      <div class="related-card"><div class="related-card__img" style="background:#FBF0F3;">🐰</div><div class="related-card__body"><span class="related-card__cat">Tutoriel</span><p class="related-card__title">Mon premier amigurumi : le lapin facile</p></div></div>
+      <div class="related-card"><div class="related-card__img" style="background:#E8F0ED;">🌿</div><div class="related-card__body"><span class="related-card__cat">Conseils</span><p class="related-card__title">Entretenir ses créations en coton</p></div></div>
+      <div class="related-card"><div class="related-card__img" style="background:var(--lavande-pale);">🌸</div><div class="related-card__body"><span class="related-card__cat">Coulisses</span><p class="related-card__title">Une journée dans mon atelier</p></div></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div><p class="footer__logo">Thalie Créations</p><p class="footer__tagline">Créations au crochet faites avec amour</p></div>
+    <ul class="footer__links"><li><a href="#">Instagram</a></li><li><a href="#">Etsy</a></li><li><a href="#">Contact</a></li></ul>
+    <span class="footer__hearts">♥ ♥ ♥</span>
+  </footer>
+
+</body>
+</html>

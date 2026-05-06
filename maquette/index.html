@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thalie Créations – Accueil</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Hero ── */
+    .hero { display: grid; grid-template-columns: 1fr 1fr; background: #fff; min-height: 440px; }
+    .hero__left { padding: 64px 48px 64px 40px; display: flex; flex-direction: column; justify-content: center; }
+    .hero__h1 { font-size: 44px; color: var(--prune); line-height: 1.2; margin-bottom: 14px; }
+    .hero__sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: var(--text-muted); line-height: 1.7; margin-bottom: 30px; }
+    .hero__btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero__right { background: var(--lavande-pale); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
+    .hero__monogram { width: 200px; height: 200px; border-radius: 50%; background: #fff; border: 2px solid var(--lavande-light); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 0 20px var(--lavande-pale); }
+    .hero__mono-t { font-family: 'Playfair Display', serif; font-size: 80px; font-weight: 600; color: var(--prune); line-height: 1; }
+    .hero__mono-c { font-family: 'Playfair Display', serif; font-size: 60px; color: var(--lavande); line-height: 1; margin-top: -8px; }
+    .hero__caption { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--lavande); margin-top: 20px; }
+
+    /* ── Produits ── */
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .product-card { background: #fff; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--creme-dark); transition: transform .2s, box-shadow .2s; cursor: pointer; }
+    .product-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(107,42,90,.1); }
+    .product-card__img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 56px; position: relative; }
+    .product-card__badge { position: absolute; top: 12px; left: 12px; }
+    .product-card__info { padding: 16px 18px 18px; }
+    .product-card__name { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 500; color: var(--prune); margin-bottom: 5px; }
+    .product-card__desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px; }
+    .product-card__footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-card__price { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--prune); }
+    .product-card__btn { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; background: var(--lavande-pale); color: var(--prune); border: none; padding: 8px 14px; border-radius: var(--radius-pill); cursor: pointer; transition: background .2s; }
+    .product-card__btn:hover { background: var(--lavande-light); }
+
+    /* ── Valeurs ── */
+    .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .value-card { text-align: center; padding: 28px 18px; border-radius: var(--radius-lg); background: var(--creme); }
+    .value-card__icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .value-card__title { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 500; color: var(--prune); margin-bottom: 8px; }
+    .value-card__text { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">Thalie Créations</a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="active">Boutique</a></li>
+      <li><a href="#">Collections</a></li>
+      <li><a href="#">Commande perso</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <button class="nav__cta">Voir la boutique</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__left">
+      <span class="eyebrow-row">Artisanat fait main</span>
+      <h1 class="hero__h1">Chaque maille,<br>une histoire d'amour</h1>
+      <p class="hero__sub">Des créations au crochet uniques,<br>imaginées et réalisées avec soin.</p>
+      <div class="hero__btns">
+        <button class="btn btn--primary">Découvrir la boutique</button>
+        <button class="btn btn--outline">Commande personnalisée</button>
+      </div>
+    </div>
+    <div class="hero__right">
+      <div class="hero__monogram">
+        <span class="hero__mono-t">T</span>
+        <span class="hero__mono-c">C</span>
+      </div>
+      <p class="hero__caption">Créations au crochet</p>
+    </div>
+  </section>
+
+  <!-- BANDEAU -->
+  <div class="bandeau">
+    <div class="bandeau__inner">
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Livraison soignée</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Fait main avec amour</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Commandes personnalisées</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Pièces uniques</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Matières douces &amp; naturelles</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Livraison soignée</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Fait main avec amour</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Commandes personnalisées</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Pièces uniques</span>
+      <span class="bandeau__item"><span class="bandeau__dot"></span>Matières douces &amp; naturelles</span>
+    </div>
+  </div>
+
+  <!-- PRODUITS -->
+  <section class="section section--creme">
+    <div class="section__header">
+      <span class="section__eyebrow">Nouveautés</span>
+      <h2 class="section__title">Coup de cœur du moment</h2>
+      <div class="section__line"></div>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-card__img" style="background:var(--lavande-pale);">
+          <span>🌸</span>
+          <span class="product-card__badge badge badge--new">Nouveauté</span>
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__name">Fleur amigurumi</p>
+          <p class="product-card__desc">Décoration florale au crochet, en fil coton biologique</p>
+          <div class="product-card__footer">
+            <span class="product-card__price">14 €</span>
+            <button class="product-card__btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card__img" style="background:#FBF0F3;">
+          <span>🧸</span>
+          <span class="product-card__badge badge badge--fav">Coup de ♥</span>
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__name">Lapin doudou</p>
+          <p class="product-card__desc">Peluche douce, idéale pour les tout-petits</p>
+          <div class="product-card__footer">
+            <span class="product-card__price">28 €</span>
+            <a href="product.html"><button class="product-card__btn">Voir →</button></a>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card__img" style="background:#F5EEE8;">
+          <span>🌿</span>
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__name">Suspension murale</p>
+          <p class="product-card__desc">Mandala bohème, coton naturel, fait main</p>
+          <div class="product-card__footer">
+            <span class="product-card__price">36 €</span>
+            <button class="product-card__btn">Voir →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALEURS -->
+  <section class="section section--white">
+    <div class="section__header">
+      <span class="section__eyebrow">Mes engagements</span>
+      <h2 class="section__title">L'artisanat dans l'âme</h2>
+      <div class="section__line"></div>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <span class="value-card__icon">🧶</span>
+        <p class="value-card__title">Fait main</p>
+        <p class="value-card__text">Chaque pièce est crochée à la main, une à une</p>
+      </div>
+      <div class="value-card">
+        <span class="value-card__icon">✨</span>
+        <p class="value-card__title">Pièce unique</p>
+        <p class="value-card__text">Aucune création n'est strictement identique</p>
+      </div>
+      <div class="value-card">
+        <span class="value-card__icon">🌱</span>
+        <p class="value-card__title">Matières douces</p>
+        <p class="value-card__text">Fils sélectionnés pour leur douceur et qualité</p>
+      </div>
+      <div class="value-card">
+        <span class="value-card__icon">💌</span>
+        <p class="value-card__title">Personnalisé</p>
+        <p class="value-card__text">Couleurs, tailles, prénoms brodés sur demande</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter">
+    <span class="section__eyebrow section__eyebrow--white">Newsletter</span>
+    <h2 class="newsletter__title">Du fil à retordre… en bonne compagnie</h2>
+    <p class="newsletter__sub">Recevez chaque mois mes nouveautés, exclusivités et coulisses d'atelier.</p>
+    <form class="newsletter__form" onsubmit="return false;">
+      <input class="newsletter__input" type="email" placeholder="votre@email.fr">
+      <button class="btn btn--rose">Je m'abonne</button>
+    </form>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div>
+      <p class="footer__logo">Thalie Créations</p>
+      <p class="footer__tagline">Créations au crochet faites avec amour</p>
+    </div>
+    <ul class="footer__links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Etsy</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Mentions légales</a></li>
+    </ul>
+    <span class="footer__hearts">♥ ♥ ♥</span>
+  </footer>
+
+</body>
+</html>

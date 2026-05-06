@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos – Thalie Créations</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Hero ── */
+    .hero-about { display: grid; grid-template-columns: 1fr 1fr; background: #fff; min-height: 340px; }
+    .hero-about__visual { background: var(--lavande-pale); display: flex; align-items: center; justify-content: center; padding: 48px; position: relative; overflow: hidden; }
+    .portrait { width: 220px; height: 260px; border-radius: 120px 120px 80px 80px; background: #fff; border: 3px solid var(--lavande-light); display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 8px 40px rgba(155,139,196,.2); }
+    .portrait__emoji { font-size: 72px; }
+    .portrait__badge { position: absolute; bottom: -14px; background: var(--prune); color: #fff; font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 6px 18px; border-radius: var(--radius-pill); }
+    .deco-leaf { position: absolute; font-size: 28px; opacity: .4; }
+    .deco-leaf--tl { top: 20px; left: 20px; transform: rotate(-30deg); }
+    .deco-leaf--br { bottom: 30px; right: 16px; transform: rotate(40deg); }
+    .deco-heart { position: absolute; font-size: 16px; color: var(--rose); }
+    .deco-heart--t { top: 32px; right: 32px; }
+    .deco-heart--b { bottom: 52px; left: 20px; }
+    .hero-about__content { padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; }
+    .hero-about__h1 { font-size: 36px; color: var(--prune); line-height: 1.2; margin-bottom: 16px; }
+    .hero-about__intro { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: var(--text-muted); line-height: 1.8; margin-bottom: 22px; }
+    .signature { font-family: 'Playfair Display', serif; font-style: italic; font-size: 30px; color: var(--prune); }
+    .signature__sub { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--sable); margin-top: 3px; }
+
+    /* ── Timeline ── */
+    .timeline { position: relative; max-width: 660px; margin: 0 auto; }
+    .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px; background: var(--lavande-light); transform: translateX(-50%); }
+    .tl-item { display: grid; grid-template-columns: 1fr 48px 1fr; align-items: start; margin-bottom: 40px; }
+    .tl-item__left { padding-right: 30px; text-align: right; }
+    .tl-item__right { padding-left: 30px; }
+    .tl-item__dot-wrap { display: flex; justify-content: center; padding-top: 4px; }
+    .tl-item__dot { width: 14px; height: 14px; border-radius: 50%; background: var(--prune); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--lavande-light); flex-shrink: 0; }
+    .tl-item__year { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--sable); margin-bottom: 5px; }
+    .tl-item__title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 500; color: var(--prune); margin-bottom: 7px; }
+    .tl-item__text { font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── Valeurs ── */
+    .valeurs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .valeur-card { background: var(--creme); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; border: 1px solid var(--creme-dark); }
+    .valeur-card__icon { font-size: 32px; margin-bottom: 14px; display: block; }
+    .valeur-card__title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 500; color: var(--prune); margin-bottom: 10px; }
+    .valeur-card__text { font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── Atelier ── */
+    .atelier { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .atelier__visual { background: var(--lavande-pale); border-radius: var(--radius-xl); height: 300px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; padding: 24px; }
+    .atelier__cell { background: #fff; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 34px; }
+    .atelier__h2 { font-size: 28px; color: var(--prune); margin-bottom: 16px; line-height: 1.3; }
+    .atelier__p { font-size: 13px; color: var(--text-muted); line-height: 1.85; margin-bottom: 14px; }
+    .atelier__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .atelier__tag { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; background: var(--lavande-pale); color: var(--prune); padding: 7px 16px; border-radius: var(--radius-pill); border: 1px solid var(--lavande-light); }
+
+    /* ── Chiffres ── */
+    .chiffres-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .chiffre { text-align: center; padding: 20px; border-right: 1px solid rgba(255,255,255,.15); }
+    .chiffre:last-child { border-right: none; }
+    .chiffre__num { font-family: 'Playfair Display', serif; font-size: 42px; color: #fff; display: block; margin-bottom: 6px; }
+    .chiffre__label { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+
+    /* ── CTA ── */
+    .cta-final { text-align: center; }
+    .cta-final__h2 { font-size: 30px; color: var(--prune); margin-bottom: 12px; }
+    .cta-final__p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: var(--text-muted); margin-bottom: 28px; }
+    .cta-final__btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">Thalie Créations</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Boutique</a></li>
+      <li><a href="#">Collections</a></li>
+      <li><a href="#">Commande perso</a></li>
+      <li><a href="about.html" class="active">À propos</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <button class="nav__cta">Voir la boutique</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-about">
+    <div class="hero-about__visual">
+      <span class="deco-leaf deco-leaf--tl">🌿</span>
+      <span class="deco-leaf deco-leaf--br">🌸</span>
+      <span class="deco-heart deco-heart--t">♥</span>
+      <span class="deco-heart deco-heart--b">♥</span>
+      <div class="portrait">
+        <span class="portrait__emoji">🧶</span>
+        <span class="portrait__badge">Créatrice</span>
+      </div>
+    </div>
+    <div class="hero-about__content">
+      <span class="eyebrow-row">Mon histoire</span>
+      <h1 class="hero-about__h1">Bonjour,<br>je suis Thalie !</h1>
+      <p class="hero-about__intro">Passionnée de crochet depuis l'enfance, j'ai transformé ma passion en métier pour partager des créations uniques, faites avec amour et dans les moindres détails.</p>
+      <p class="signature">Thalie</p>
+      <p class="signature__sub">Créatrice &amp; artisane</p>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section section--creme">
+    <div class="section__header">
+      <span class="section__eyebrow">Le parcours</span>
+      <h2 class="section__title">D'une passion à une vocation</h2>
+      <div class="section__line"></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-item__left">
+          <p class="tl-item__year">Enfance</p>
+          <p class="tl-item__title">Le premier point</p>
+          <p class="tl-item__text">C'est ma grand-mère qui m'a appris les premiers points de crochet. Une complicité et une transmission qui ont tout déclenché.</p>
+        </div>
+        <div class="tl-item__dot-wrap"><div class="tl-item__dot"></div></div>
+        <div></div>
+      </div>
+      <div class="tl-item">
+        <div></div>
+        <div class="tl-item__dot-wrap"><div class="tl-item__dot"></div></div>
+        <div class="tl-item__right">
+          <p class="tl-item__year">2018</p>
+          <p class="tl-item__title">Les premiers amigurumis</p>
+          <p class="tl-item__text">Je découvre les amigurumis japonais et je craque. Je passe mes soirées à créer des petites créatures qui font craquer mon entourage.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-item__left">
+          <p class="tl-item__year">2021</p>
+          <p class="tl-item__title">La première boutique Etsy</p>
+          <p class="tl-item__text">Encouragée par mes proches, je franchis le cap et j'ouvre ma boutique en ligne. Les premières commandes arrivent… et ne s'arrêtent plus !</p>
+        </div>
+        <div class="tl-item__dot-wrap"><div class="tl-item__dot"></div></div>
+        <div></div>
+      </div>
+      <div class="tl-item">
+        <div></div>
+        <div class="tl-item__dot-wrap"><div class="tl-item__dot"></div></div>
+        <div class="tl-item__right">
+          <p class="tl-item__year">Aujourd'hui</p>
+          <p class="tl-item__title">Thalie Créations</p>
+          <p class="tl-item__text">Un atelier à temps plein, des centaines de créations envoyées aux quatre coins de la France, et toujours autant d'amour dans chaque maille.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALEURS -->
+  <section class="section section--white">
+    <div class="section__header">
+      <span class="section__eyebrow">Ce qui me guide</span>
+      <h2 class="section__title">Mes valeurs</h2>
+      <div class="section__line"></div>
+    </div>
+    <div class="valeurs-grid">
+      <div class="valeur-card"><span class="valeur-card__icon">🤍</span><p class="valeur-card__title">L'authenticité</p><p class="valeur-card__text">Chaque pièce porte ma signature. Les légères variations font toute la beauté de l'artisanat.</p></div>
+      <div class="valeur-card"><span class="valeur-card__icon">🌱</span><p class="valeur-card__title">Le soin des matières</p><p class="valeur-card__text">Je sélectionne des fils doux, certifiés Oeko-Tex, souvent biologiques.</p></div>
+      <div class="valeur-card"><span class="valeur-card__icon">💌</span><p class="valeur-card__title">Le lien humain</p><p class="valeur-card__text">Chaque commande est unique, chaque client est écouté. Une commande personnalisée, c'est d'abord une conversation.</p></div>
+    </div>
+  </section>
+
+  <!-- ATELIER -->
+  <section class="section section--creme">
+    <div class="atelier">
+      <div class="atelier__visual">
+        <div class="atelier__cell">🧶</div>
+        <div class="atelier__cell">✂️</div>
+        <div class="atelier__cell">🪡</div>
+        <div class="atelier__cell">🌸</div>
+      </div>
+      <div>
+        <span class="eyebrow-row eyebrow-row--sable">Coulisses</span>
+        <h2 class="atelier__h2">Dans mon atelier</h2>
+        <p class="atelier__p">Mon atelier, c'est un petit coin cosy où s'entassent les pelotes colorées, les crochets de toutes tailles et les créations en cours. C'est là que naissent toutes les pièces, à la lumière du jour.</p>
+        <p class="atelier__p">Je travaille seule, avec soin et sans me presser. C'est pourquoi les délais de création peuvent varier — et c'est ce qui fait la valeur de chaque pièce.</p>
+        <div class="atelier__tags">
+          <span class="atelier__tag">Artisanat local</span>
+          <span class="atelier__tag">Sans intermédiaire</span>
+          <span class="atelier__tag">Fait sur commande</span>
+          <span class="atelier__tag">Emballage soigné</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHIFFRES -->
+  <section class="section section--prune">
+    <div class="section__header">
+      <span class="section__eyebrow section__eyebrow--white">En quelques chiffres</span>
+      <h2 class="section__title section__title--white">Thalie Créations, c'est…</h2>
+      <div class="section__line section__line--white"></div>
+    </div>
+    <div class="chiffres-grid">
+      <div class="chiffre"><span class="chiffre__num">+500</span><span class="chiffre__label">Créations réalisées</span></div>
+      <div class="chiffre"><span class="chiffre__num">5 ans</span><span class="chiffre__label">D'artisanat en ligne</span></div>
+      <div class="chiffre"><span class="chiffre__num">4,9★</span><span class="chiffre__label">Note moyenne</span></div>
+      <div class="chiffre"><span class="chiffre__num">100%</span><span class="chiffre__label">Fait main avec ♥</span></div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="section section--white cta-final">
+    <h2 class="cta-final__h2">Envie d'une création unique ?</h2>
+    <p class="cta-final__p">Chaque commande est une belle aventure. Je serais ravie d'en créer une rien que pour vous.</p>
+    <div class="cta-final__btns">
+      <a href="index.html" class="btn btn--primary">Découvrir la boutique</a>
+      <button class="btn btn--outline">Me contacter</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div><p class="footer__logo">Thalie Créations</p><p class="footer__tagline">Créations au crochet faites avec amour</p></div>
+    <ul class="footer__links"><li><a href="#">Instagram</a></li><li><a href="#">Etsy</a></li><li><a href="#">Contact</a></li><li><a href="#">Mentions légales</a></li></ul>
+    <span class="footer__hearts">♥ ♥ ♥</span>
+  </footer>
+
+</body>
+</html>

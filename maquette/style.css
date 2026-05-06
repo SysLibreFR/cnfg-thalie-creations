@@ -1,0 +1,287 @@
+/* ============================================================
+   THALIE CRÉATIONS — Feuille de style commune
+   Polices : Playfair Display · Cormorant Garamond · Nunito · Josefin Sans
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Nunito:wght@300;400;500;600&family=Josefin+Sans:wght@300;400;500&display=swap');
+
+/* ── Variables ── */
+:root {
+  --prune:          #6B2A5A;
+  --prune-light:    #8B3A78;
+  --lavande:        #9B8BC4;
+  --lavande-light:  #C8B8DE;
+  --lavande-pale:   #EDE8F5;
+  --rose:           #C96880;
+  --sable:          #C4A47C;
+  --creme:          #F7F1EB;
+  --creme-dark:     #EDE5DC;
+  --text:           #3A1F35;
+  --text-muted:     #7A6070;
+  --radius-sm:      8px;
+  --radius-md:      12px;
+  --radius-lg:      16px;
+  --radius-xl:      20px;
+  --radius-pill:    30px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--creme);
+  color: var(--text);
+  line-height: 1.6;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+ul { list-style: none; }
+
+/* ── Typographie globale ── */
+h1 { font-family: 'Playfair Display', serif; font-style: italic; }
+h2 { font-family: 'Playfair Display', serif; font-style: italic; }
+h3 { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+
+/* ── Navigation ── */
+.nav {
+  background: #fff;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  border-bottom: 1px solid var(--lavande-light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav__logo {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 20px;
+  color: var(--prune);
+}
+.nav__links {
+  display: flex;
+  gap: 28px;
+}
+.nav__links a {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color .2s;
+}
+.nav__links a:hover,
+.nav__links a.active { color: var(--prune); }
+
+.nav__cta {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: var(--prune);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  transition: background .2s;
+}
+.nav__cta:hover { background: var(--prune-light); }
+
+/* ── Boutons ── */
+.btn {
+  display: inline-block;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 13px 28px;
+  border-radius: var(--radius-pill);
+  border: none;
+  transition: all .2s;
+}
+.btn--primary { background: var(--prune); color: #fff; }
+.btn--primary:hover { background: var(--prune-light); }
+.btn--outline { background: transparent; color: var(--prune); border: 1.5px solid var(--lavande); }
+.btn--outline:hover { background: var(--lavande-pale); }
+.btn--rose { background: var(--rose); color: #fff; }
+.btn--rose:hover { opacity: .9; }
+
+/* ── Bandeau défilant ── */
+.bandeau {
+  background: var(--prune);
+  padding: 12px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.bandeau__inner {
+  display: inline-flex;
+  gap: 40px;
+  animation: scroll-band 22s linear infinite;
+}
+.bandeau__item {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.8);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.bandeau__dot { width: 4px; height: 4px; background: var(--rose); border-radius: 50%; }
+@keyframes scroll-band {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── Section générique ── */
+.section { padding: 56px 40px; }
+.section--white { background: #fff; }
+.section--creme { background: var(--creme); }
+.section--prune { background: var(--prune); }
+
+.section__header { text-align: center; margin-bottom: 40px; }
+.section__eyebrow {
+  display: block;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--sable);
+  margin-bottom: 8px;
+}
+.section__eyebrow--white { color: rgba(255,255,255,.55); }
+.section__title { font-size: 30px; color: var(--prune); margin-bottom: 10px; }
+.section__title--white { color: #fff; }
+.section__line { width: 40px; height: 2px; background: var(--lavande-light); margin: 0 auto; border-radius: 2px; }
+.section__line--white { background: rgba(255,255,255,.25); }
+
+/* ── Eyebrow avec trait ── */
+.eyebrow-row {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--rose);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.eyebrow-row::before { content: ''; width: 20px; height: 1px; background: currentColor; display: inline-block; }
+.eyebrow-row--sable { color: var(--sable); }
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-bottom: 1px solid var(--creme-dark);
+}
+.breadcrumb__item {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.breadcrumb__item.current { color: var(--prune); }
+.breadcrumb__sep { color: var(--lavande-light); }
+
+/* ── Cards génériques ── */
+.card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--creme-dark);
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(107,42,90,.1);
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-block;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+.badge--new   { background: var(--rose);   color: #fff; }
+.badge--fav   { background: var(--sable);  color: #fff; }
+.badge--cat   { background: var(--lavande-pale); color: var(--prune); }
+.badge--une   { background: var(--prune);  color: #fff; }
+
+/* ── Newsletter commune ── */
+.newsletter {
+  text-align: center;
+  padding: 48px 40px;
+  background: var(--prune);
+}
+.newsletter__title { font-size: 28px; color: #fff; margin-bottom: 8px; }
+.newsletter__sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: rgba(255,255,255,.7);
+  margin-bottom: 24px;
+}
+.newsletter__form { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; }
+.newsletter__input {
+  flex: 1;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 12px 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+}
+
+/* ── Footer ── */
+.footer {
+  background: var(--prune);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.footer__logo {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 21px;
+  color: #fff;
+}
+.footer__tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: rgba(255,255,255,.55);
+  margin-top: 2px;
+}
+.footer__links { display: flex; gap: 20px; }
+.footer__links a {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  transition: color .2s;
+}
+.footer__links a:hover { color: #fff; }
+.footer__hearts { color: var(--rose); letter-spacing: 4px; font-size: 14px; }

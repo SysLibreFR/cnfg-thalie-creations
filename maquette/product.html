@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapin doudou pastel – Thalie Créations</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Layout produit ── */
+    .product-layout { display: grid; grid-template-columns: 1fr 1fr; background: #fff; margin: 0; }
+
+    /* ── Galerie ── */
+    .gallery { background: var(--lavande-pale); padding: 36px; display: flex; flex-direction: column; gap: 14px; }
+    .gallery__main { background: #fff; border-radius: var(--radius-lg); height: 320px; display: flex; align-items: center; justify-content: center; font-size: 100px; position: relative; border: 1px solid var(--creme-dark); }
+    .gallery__badge { position: absolute; top: 14px; left: 14px; }
+    .gallery__thumbs { display: flex; gap: 10px; }
+    .gallery__thumb { flex: 1; height: 70px; background: #fff; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 28px; border: 2px solid transparent; cursor: pointer; transition: border-color .2s; }
+    .gallery__thumb.active { border-color: var(--prune); }
+    .gallery__thumb:hover { border-color: var(--lavande); }
+
+    /* ── Info ── */
+    .product-info { padding: 40px 44px; display: flex; flex-direction: column; }
+    .product-info__title { font-size: 30px; color: var(--prune); line-height: 1.2; margin-bottom: 6px; }
+    .product-info__sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--text-muted); margin-bottom: 18px; }
+    .stars { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .stars__icons { color: var(--sable); font-size: 14px; letter-spacing: 2px; }
+    .stars__count { font-size: 12px; color: var(--text-muted); }
+    .price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 24px; }
+    .price-row__price { font-family: 'Playfair Display', serif; font-size: 34px; color: var(--prune); }
+    .price-row__note { font-size: 12px; color: var(--text-muted); }
+
+    /* ── Options ── */
+    .option-group { margin-bottom: 20px; }
+    .option-label { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 10px; }
+    .option-label strong { color: var(--prune); }
+    .color-swatches { display: flex; gap: 10px; }
+    .color-swatch { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; outline: 2px solid transparent; transition: outline .2s; }
+    .color-swatch.active { outline: 2px solid var(--prune); outline-offset: 2px; }
+    .size-options { display: flex; gap: 10px; flex-wrap: wrap; }
+    .size-btn { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .08em; padding: 8px 18px; border-radius: var(--radius-pill); border: 1px solid var(--lavande-light); background: #fff; color: var(--text); cursor: pointer; transition: all .2s; }
+    .size-btn.active, .size-btn:hover { background: var(--prune); color: #fff; border-color: var(--prune); }
+
+    /* ── Perso ── */
+    .perso-box { background: var(--lavande-pale); border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 22px; }
+    .perso-box__title { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--prune); margin-bottom: 10px; }
+    .perso-box__input { width: 100%; border: 1px solid var(--lavande-light); border-radius: var(--radius-sm); padding: 10px 14px; font-family: 'Nunito', sans-serif; font-size: 13px; color: var(--text); background: #fff; outline: none; }
+    .perso-box__input:focus { border-color: var(--lavande); }
+
+    /* ── Actions ── */
+    .actions { display: flex; gap: 12px; margin-bottom: 22px; }
+    .btn-add { flex: 1; }
+    .btn-fav { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--lavande-light); background: #fff; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; flex-shrink: 0; }
+    .btn-fav:hover { background: var(--lavande-pale); }
+    .btn-fav.active { color: var(--rose); }
+
+    /* ── Livraison ── */
+    .delivery { display: flex; gap: 16px; flex-wrap: wrap; }
+    .delivery__item { display: flex; align-items: center; gap: 7px; }
+    .delivery__icon { font-size: 16px; }
+    .delivery__text { font-size: 12px; color: var(--text-muted); }
+
+    /* ── Onglets ── */
+    .tabs { border-bottom: 2px solid var(--creme-dark); display: flex; gap: 0; margin-bottom: 28px; }
+    .tab { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 14px 24px; background: none; border: none; color: var(--text-muted); cursor: pointer; position: relative; transition: color .2s; }
+    .tab.active { color: var(--prune); }
+    .tab.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--prune); border-radius: 2px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .tab-text { font-size: 13px; color: var(--text-muted); line-height: 1.9; }
+    .features { display: flex; flex-direction: column; gap: 14px; }
+    .feature { display: flex; align-items: flex-start; gap: 12px; }
+    .feature__icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+    .feature__label { font-weight: 600; color: var(--prune); display: block; font-size: 12px; margin-bottom: 3px; }
+    .feature__text { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── Produits similaires ── */
+    .similar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .similar-card { background: #fff; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--creme-dark); cursor: pointer; transition: transform .2s; }
+    .similar-card:hover { transform: translateY(-2px); }
+    .similar-card__img { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 38px; }
+    .similar-card__info { padding: 12px 14px 14px; }
+    .similar-card__name { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--prune); margin-bottom: 4px; }
+    .similar-card__price { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--prune); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">Thalie Créations</a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="active">Boutique</a></li>
+      <li><a href="#">Collections</a></li>
+      <li><a href="#">Commande perso</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <button class="nav__cta" id="cart-btn">🛒 Panier (0)</button>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="index.html" class="breadcrumb__item">Boutique</a>
+    <span class="breadcrumb__sep">›</span>
+    <span class="breadcrumb__item">Amigurumis</span>
+    <span class="breadcrumb__sep">›</span>
+    <span class="breadcrumb__item current">Lapin doudou pastel</span>
+  </div>
+
+  <!-- FICHE PRODUIT -->
+  <div class="product-layout">
+    <!-- Galerie -->
+    <div class="gallery">
+      <div class="gallery__main">
+        🐰
+        <span class="gallery__badge badge badge--fav">Coup de ♥</span>
+      </div>
+      <div class="gallery__thumbs">
+        <div class="gallery__thumb active">🐰</div>
+        <div class="gallery__thumb">🧶</div>
+        <div class="gallery__thumb">🌸</div>
+        <div class="gallery__thumb">📦</div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="product-info">
+      <span class="eyebrow-row eyebrow-row--sable">Amigurumi · Fait main</span>
+      <h1 class="product-info__title">Lapin doudou pastel</h1>
+      <p class="product-info__sub">Peluche au crochet, idéale de la naissance à 36 mois</p>
+      <div class="stars">
+        <span class="stars__icons">★★★★★</span>
+        <span class="stars__count">4,9 · 37 avis</span>
+      </div>
+      <div class="price-row">
+        <span class="price-row__price">28 €</span>
+        <span class="price-row__note">Livraison offerte dès 40 €</span>
+      </div>
+
+      <!-- Couleur -->
+      <div class="option-group">
+        <span class="option-label">Couleur — <strong id="color-label">Lavande</strong></span>
+        <div class="color-swatches">
+          <div class="color-swatch active" style="background:#C8B8DE;" data-name="Lavande"></div>
+          <div class="color-swatch" style="background:#F4C0C0;" data-name="Rose poudré"></div>
+          <div class="color-swatch" style="background:#C8DEC8;" data-name="Sauge"></div>
+          <div class="color-swatch" style="background:#E8D9C0;" data-name="Sable"></div>
+          <div class="color-swatch" style="background:#FFF; border:1px solid #ddd;" data-name="Blanc crème"></div>
+        </div>
+      </div>
+
+      <!-- Taille -->
+      <div class="option-group">
+        <span class="option-label">Taille</span>
+        <div class="size-options">
+          <button class="size-btn">Mini (15 cm)</button>
+          <button class="size-btn active">Moyen (22 cm)</button>
+          <button class="size-btn">Grand (30 cm)</button>
+        </div>
+      </div>
+
+      <!-- Personnalisation -->
+      <div class="perso-box">
+        <p class="perso-box__title">✏️ Personnalisation (optionnel)</p>
+        <input class="perso-box__input" type="text" placeholder="Prénom à broder ex : Léa — +3 €" maxlength="15">
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn btn--primary btn-add" id="add-btn">Ajouter au panier</button>
+        <button class="btn-fav" id="fav-btn" aria-label="Ajouter aux favoris">♡</button>
+      </div>
+
+      <!-- Livraison -->
+      <div class="delivery">
+        <div class="delivery__item"><span class="delivery__icon">📦</span><span class="delivery__text">Expédié en 3–5 jours</span></div>
+        <div class="delivery__item"><span class="delivery__icon">🇫🇷</span><span class="delivery__text">Fabriqué en France</span></div>
+        <div class="delivery__item"><span class="delivery__icon">✅</span><span class="delivery__text">Normes CE bébé</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ONGLETS DESCRIPTION -->
+  <section class="section section--creme">
+    <div class="tabs">
+      <button class="tab active" data-tab="description">Description</button>
+      <button class="tab" data-tab="matieres">Matières</button>
+      <button class="tab" data-tab="entretien">Entretien</button>
+      <button class="tab" data-tab="avis">Avis (37)</button>
+    </div>
+
+    <div class="tab-content active" id="tab-description">
+      <p class="tab-text">
+        Ce petit lapin est crocheté entièrement à la main avec beaucoup d'amour et d'attention. Chaque pièce est unique — les légères variations font partie du charme de l'artisanat. Rembourré de fibres hypoallergéniques, il est parfaitement adapté aux bébés dès la naissance.
+        <br><br>
+        Idéal comme cadeau de naissance, baptême ou premier anniversaire. Peut être personnalisé avec le prénom de l'enfant brodé sur l'oreille.
+      </p>
+      <div class="features">
+        <div class="feature"><span class="feature__icon">🧶</span><div><span class="feature__label">Fil coton doux certifié Oeko-Tex</span><span class="feature__text">Agréable au toucher, sans produits chimiques</span></div></div>
+        <div class="feature"><span class="feature__icon">🐰</span><div><span class="feature__label">Yeux brodés (sans pièces rapportées)</span><span class="feature__text">Sécurisé pour les bébés dès la naissance</span></div></div>
+        <div class="feature"><span class="feature__icon">📏</span><div><span class="feature__label">Taille 22 cm (version Moyen)</span><span class="feature__text">La taille parfaite pour les petites mains</span></div></div>
+        <div class="feature"><span class="feature__icon">🎁</span><div><span class="feature__label">Emballage cadeau inclus</span><span class="feature__text">Ruban lavande et carte artisanale</span></div></div>
+      </div>
+    </div>
+    <div class="tab-content" id="tab-matieres">
+      <p class="tab-text">Fil 100 % coton peigné, certifié Oeko-Tex Standard 100. Bourrage en fibres polyester hypoallergéniques et lavables. Aucune pièce rapportée (boutons, yeux plastiques).</p>
+    </div>
+    <div class="tab-content" id="tab-entretien">
+      <p class="tab-text">Lavage à la main recommandé à 30 °C. Séchage à plat. Ne pas utiliser de sèche-linge. Ne pas repasser directement sur la peluche.</p>
+    </div>
+    <div class="tab-content" id="tab-avis">
+      <p class="tab-text">⭐⭐⭐⭐⭐ « Absolument adorable, ma fille ne le lâche plus ! Livraison rapide et emballage soigné. » — Marie L.</p>
+    </div>
+  </section>
+
+  <!-- PRODUITS SIMILAIRES -->
+  <section class="section section--white">
+    <div class="section__header">
+      <span class="section__eyebrow">Dans la même veine</span>
+      <h2 class="section__title">Vous aimerez aussi…</h2>
+      <div class="section__line"></div>
+    </div>
+    <div class="similar-grid">
+      <div class="similar-card"><div class="similar-card__img" style="background:#EDE8F5;">🐻</div><div class="similar-card__info"><p class="similar-card__name">Ourson caramel</p><p class="similar-card__price">28 €</p></div></div>
+      <div class="similar-card"><div class="similar-card__img" style="background:#FBF0F3;">🌸</div><div class="similar-card__info"><p class="similar-card__name">Fleur amigurumi</p><p class="similar-card__price">14 €</p></div></div>
+      <div class="similar-card"><div class="similar-card__img" style="background:#F5EEE8;">🦊</div><div class="similar-card__info"><p class="similar-card__name">Renard des bois</p><p class="similar-card__price">32 €</p></div></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div><p class="footer__logo">Thalie Créations</p><p class="footer__tagline">Créations au crochet faites avec amour</p></div>
+    <ul class="footer__links"><li><a href="#">Instagram</a></li><li><a href="#">Etsy</a></li><li><a href="#">Contact</a></li></ul>
+    <span class="footer__hearts">♥ ♥ ♥</span>
+  </footer>
+
+  <script>
+    // Galerie
+    document.querySelectorAll('.gallery__thumb').forEach(t => {
+      t.addEventListener('click', () => { document.querySelectorAll('.gallery__thumb').forEach(x => x.classList.remove('active')); t.classList.add('active'); });
+    });
+    // Couleur
+    document.querySelectorAll('.color-swatch').forEach(s => {
+      s.addEventListener('click', () => {
+        document.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('active'));
+        s.classList.add('active');
+        document.getElementById('color-label').textContent = s.dataset.name;
+      });
+    });
+    // Taille
+    document.querySelectorAll('.size-btn').forEach(b => {
+      b.addEventListener('click', () => { document.querySelectorAll('.size-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); });
+    });
+    // Onglets
+    document.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById('tab-' + t.dataset.tab).classList.add('active');
+      });
+    });
+    // Panier
+    let count = 0;
+    document.getElementById('add-btn').addEventListener('click', function() {
+      count++;
+      document.getElementById('cart-btn').textContent = `🛒 Panier (${count})`;
+      this.textContent = '✓ Ajouté !'; this.style.background = '#7AB87A';
+      setTimeout(() => { this.textContent = 'Ajouter au panier'; this.style.background = ''; }, 2000);
+    });
+    // Favoris
+    document.getElementById('fav-btn').addEventListener('click', function() {
+      this.classList.toggle('active');
+      this.textContent = this.classList.contains('active') ? '♥' : '♡';
+    });
+  </script>
+</body>
+</html>
