@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getArtisan, getProducts, getTestimonials, getEditorialBlocks } from "@/lib/api";
 import { blockData } from "@/lib/utils";
+import type { BlockValueItem } from "@/lib/types";
 import Hero from "@/components/home/Hero";
 import Bandeau from "@/components/layout/Bandeau";
 import ProductCard from "@/components/products/ProductCard";
@@ -21,27 +22,45 @@ export default async function HomePage() {
 
   if (!artisan) notFound();
 
-  const heroData        = blockData(blocks, "hero");
-  const bandeauData     = blockData(blocks, "bandeau");
-  const featuredData    = blockData(blocks, "featured-products");
-  const valuesData      = blockData(blocks, "values");
-  const testimonialsData = blockData(blocks, "testimonials");
-  const newsletterData  = blockData(blocks, "newsletter");
+  const heroData = blockData(blocks, "hero") as {
+    eyebrow?: string;
+    title?: string;
+    subtitle?: string;
+    caption?: string;
+  };
+  const bandeauData = blockData(blocks, "bandeau") as { items?: string[] };
+  const featuredData = blockData(blocks, "featured-products") as {
+    eyebrow?: string;
+    title?: string;
+  };
+  const valuesData = blockData(blocks, "values") as {
+    eyebrow?: string;
+    title?: string;
+    items?: BlockValueItem[];
+  };
+  const testimonialsData = blockData(blocks, "testimonials") as {
+    eyebrow?: string;
+    title?: string;
+  };
+  const newsletterData = blockData(blocks, "newsletter") as {
+    title?: string;
+    subtitle?: string;
+  };
 
   return (
     <>
       <Hero artisan={artisan} data={heroData} />
-      <Bandeau items={bandeauData.items as string[] | undefined} />
+      <Bandeau items={bandeauData.items} />
 
       {/* Produits en vedette */}
       {featuredProducts?.items?.length > 0 && (
         <section className="section section--creme">
           <div className="section__header">
             {featuredData.eyebrow && (
-              <span className="section__eyebrow">{featuredData.eyebrow as string}</span>
+              <span className="section__eyebrow">{featuredData.eyebrow}</span>
             )}
             {featuredData.title && (
-              <h2 className="section__title">{featuredData.title as string}</h2>
+              <h2 className="section__title">{featuredData.title}</h2>
             )}
             <div className="section__line" />
           </div>
@@ -70,8 +89,8 @@ export default async function HomePage() {
 
       {/* Newsletter */}
       <NewsletterSection
-        title={newsletterData.title as string | undefined}
-        subtitle={newsletterData.subtitle as string | undefined}
+        title={newsletterData.title}
+        subtitle={newsletterData.subtitle}
       />
     </>
   );
