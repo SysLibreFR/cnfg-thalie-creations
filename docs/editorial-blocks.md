@@ -20,6 +20,7 @@ Chaque bloc est identifié par son `slug`. Le frontend récupère la valeur `dat
 | `timeline` | À propos | Frise chronologique |
 | `atelier` | À propos | Section atelier |
 | `stats` | À propos | Statistiques clés |
+| `boutique-hero` | Boutique | En-tête de la page boutique |
 | `blog-hero` | Blog | Bannière de la page blog |
 
 ---
@@ -166,6 +167,17 @@ Chiffres clés sur la page À propos. **Si `items` est vide, la section n'est pa
 |-------|------|---------|
 | `number` | string | `"500+"` |
 | `label` | string | `"créations réalisées"` |
+
+---
+
+### `boutique-hero`
+En-tête de la page boutique. Si absent, le frontend replie sur le nom et la description du profil artisan.
+
+| Champ | Type | Exemple |
+|-------|------|---------|
+| `eyebrow` | string | `"Collections"` |
+| `title` | string | `"La boutique"` |
+| `subtitle` | string | `"Toutes mes créations, disponibles à la commande."` |
 
 ---
 
