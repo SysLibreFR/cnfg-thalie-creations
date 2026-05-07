@@ -1,9 +1,15 @@
+import type { EditorialBlock } from "./types";
+
+// ── Price ────────────────────────────────────────────────────────────────────────
+
 export function formatPrice(price: string | null): string {
   if (price === null) return "";
   return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(
     parseFloat(price)
   );
 }
+
+// ── Date ────────────────────────────────────────────────────────────────────────
 
 export function formatDate(date: string | null): string {
   if (!date) return "";
@@ -22,6 +28,31 @@ export function formatDateShort(date: string | null): string {
     year: "numeric",
   }).format(new Date(date));
 }
+
+// ── Editorial blocks helpers ────────────────────────────────────────────────
+
+/**
+ * Retourne les `data` d'un bloc par son slug, ou un objet vide si absent.
+ * Usage : const d = blockData(blocks, 'hero')  =>  d.title, d.items
+ */
+export function blockData(
+  blocks: EditorialBlock[] | null | undefined,
+  slug: string
+): Record<string, unknown> {
+  return blocks?.find((b) => b.slug === slug)?.data ?? {};
+}
+
+/**
+ * Indique si un bloc est présent et actif dans la liste.
+ */
+export function hasBlock(
+  blocks: EditorialBlock[] | null | undefined,
+  slug: string
+): boolean {
+  return !!blocks?.find((b) => b.slug === slug && b.is_active);
+}
+
+// ── Misc ───────────────────────────────────────────────────────────────────────
 
 export function coverImage(
   images: { url: string; is_cover: boolean }[]

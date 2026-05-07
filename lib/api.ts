@@ -2,6 +2,7 @@ import type {
   Artisan,
   BlogPost,
   Category,
+  EditorialBlock,
   Menu,
   Page,
   PaginatedResponse,
@@ -51,6 +52,15 @@ async function apiFetch<T>(path: string, opts: FetchOptions = {}): Promise<T> {
 
 export function getArtisan(): Promise<Artisan | null> {
   return apiFetch(`/api/v1/artisans/${SLUG}/`, { revalidate: 3600, tags: ["artisan"] });
+}
+
+// ── Editorial blocks ──────────────────────────────────────────────────────────
+
+export function getEditorialBlocks(): Promise<EditorialBlock[]> {
+  return apiFetch(`/api/v1/artisans/${SLUG}/editorial-blocks/`, {
+    revalidate: 600,
+    tags: ["editorial"],
+  });
 }
 
 // ── Products ─────────────────────────────────────────────────────────────────
