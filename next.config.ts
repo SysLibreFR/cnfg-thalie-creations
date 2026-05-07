@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
       ...(apiHostname ? [{ protocol: "https" as const, hostname: apiHostname }] : []),
       { protocol: "https" as const, hostname: "*.railway.app" },
       { protocol: "https" as const, hostname: "*.cfng.fr" },
+      { protocol: "https" as const, hostname: "*.craieetfee.net" },
       { protocol: "http" as const, hostname: "localhost" },
     ],
   },
