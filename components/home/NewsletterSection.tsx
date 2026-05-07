@@ -1,15 +1,19 @@
 "use client";
 import { useState } from "react";
-import type { ThemeConfig } from "@/lib/types";
 
-export default function NewsletterSection({ theme }: { theme?: ThemeConfig }) {
+export default function NewsletterSection({
+  title,
+  subtitle,
+}: {
+  title?: string;
+  subtitle?: string;
+}) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
 
-  const title = theme?.newsletter_title ?? "Du fil à retordre… en bonne compagnie";
-  const subtitle =
-    theme?.newsletter_subtitle ??
-    "Recevez chaque mois mes nouveautés, exclusivités et coulisses d’atelier.";
+  const displayTitle = title ?? "Du fil à retordre… en bonne compagnie";
+  const displaySub =
+    subtitle ?? "Recevez chaque mois mes nouveautés, exclusivités et coulisses d’atelier.";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -29,24 +33,14 @@ export default function NewsletterSection({ theme }: { theme?: ThemeConfig }) {
 
   return (
     <div className="newsletter">
-      <span
-        className="section__eyebrow section__eyebrow--white"
-        style={{ marginBottom: "12px" }}
-      >
+      <span className="section__eyebrow section__eyebrow--white" style={{ marginBottom: "12px" }}>
         Newsletter
       </span>
-      <h2 className="newsletter__title">{title}</h2>
-      <p className="newsletter__sub">{subtitle}</p>
+      <h2 className="newsletter__title">{displayTitle}</h2>
+      <p className="newsletter__sub">{displaySub}</p>
 
       {status === "ok" ? (
-        <p
-          style={{
-            color: "rgba(255,255,255,.9)",
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: "italic",
-            fontSize: "17px",
-          }}
-        >
+        <p style={{ color: "rgba(255,255,255,.9)", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "17px" }}>
           ♥ Merci ! Votre inscription est confirmée.
         </p>
       ) : (
@@ -59,11 +53,7 @@ export default function NewsletterSection({ theme }: { theme?: ThemeConfig }) {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <button
-            type="submit"
-            className="btn btn--rose"
-            disabled={status === "loading"}
-          >
+          <button type="submit" className="btn btn--rose" disabled={status === "loading"}>
             {status === "loading" ? "…" : "Je m’abonne"}
           </button>
         </form>
