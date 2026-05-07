@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { getArtisan, getProducts, getCategories } from "@/lib/api";
+import { getArtisan, getProducts, getCategories, getEditorialBlocks } from "@/lib/api";
+import { blockData } from "@/lib/utils";
 import ProductCard from "@/components/products/ProductCard";
 import CategoryFilter from "@/components/products/CategoryFilter";
 import Link from "next/link";
@@ -18,7 +19,7 @@ export default async function BoutiquePage({
   const categorySlug = params.categorie;
   const page = parseInt(params.page ?? "1", 10);
 
-  const [artisan, categories, products] = await Promise.all([
+  const [artisan, categories, products, blocks] = await Promise.all([
     getArtisan(),
     getCategories(),
     getProducts({
@@ -26,9 +27,16 @@ export default async function BoutiquePage({
       page_size: PAGE_SIZE,
       category_slug: categorySlug,
     }),
+    getEditorialBlocks(),
   ]);
 
-  const theme = artisan?.theme_config ?? {};
+  const boutiqueData = blockData(blocks, "boutique-hero") as {
+    eyebrow?: string;
+    title?: string;
+    subtitle?: string;
+  };
+
+  const eyebrow = boutiqueData.eyebrow ?? "Collections";
   const totalPages = Math.ceil((products?.total ?? 0) / PAGE_SIZE);
 
   const buildUrl = (p: number, cat?: string) => {
@@ -50,10 +58,10 @@ export default async function BoutiquePage({
         }}
       >
         <span className="eyebrow-row eyebrow-row--sable">
-          {theme.featured_eyebrow ?? "Collections"}
+          {eyebrow}
         </span>
         <h1 style={{ fontSize: "36px", color: "var(--prune)", marginBottom: "8px" }}>
-          {artisan?.name ?? ""}
+          {boutiqueData.title ?? artisan?.name ?? ""}
         </h1>
         <p
           style={{
@@ -64,7 +72,7 @@ export default async function BoutiquePage({
             marginBottom: "28px",
           }}
         >
-          {artisan?.description ?? ""}
+          {boutiqueData.subtitle ?? artisan?.description ?? ""}
         </p>
 
         {categories.length > 0 && (
