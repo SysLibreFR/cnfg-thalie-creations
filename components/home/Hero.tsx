@@ -32,10 +32,59 @@ export default function Hero({
         minHeight: "440px",
       }}
     >
-      {/* Gauche */}
+      {/* Gauche — monogramme ou logo */}
       <div
         style={{
-          padding: "64px 48px 64px 40px",
+          background: "var(--lavande-pale)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          gap: "12px",
+          padding: "56px",
+        }}
+      >
+        {artisan.logo_url ? (
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              aspectRatio: "1 / 1",
+              maxWidth: "320px",
+            }}
+          >
+            <Image src={artisan.logo_url} alt={`Logo ${artisan.name}`} fill className="object-contain" />
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: mono.length > 2 ? "96px" : "140px", fontWeight: 600, color: "var(--prune)", lineHeight: 1 }}>
+              {mono[0]}
+            </span>
+            {mono[1] && (
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "110px", color: "var(--lavande)", lineHeight: 1, marginTop: "-16px" }}>
+                {mono[1]}
+              </span>
+            )}
+          </div>
+        )}
+        {caption && (
+          <p style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: "10px", letterSpacing: ".15em", textTransform: "uppercase", color: "var(--lavande)", marginTop: "16px" }}>
+            {caption}
+          </p>
+        )}
+      </div>
+
+      {/* Droite — texte */}
+      <div
+        style={{
+          padding: "64px 40px 64px 48px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -74,65 +123,6 @@ export default function Hero({
             En savoir plus
           </Link>
         </div>
-      </div>
-
-      {/* Droite — monogramme ou logo */}
-      <div
-        style={{
-          background: "var(--lavande-pale)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          gap: "12px",
-          padding: "40px",
-        }}
-      >
-        {artisan.logo_url ? (
-          <div
-            style={{
-              width: "200px",
-              height: "200px",
-              borderRadius: "50%",
-              background: "#fff",
-              border: "2px solid var(--lavande-light)",
-              boxShadow: "0 0 0 20px var(--lavande-pale)",
-              overflow: "hidden",
-              position: "relative",
-            }}
-          >
-            <Image src={artisan.logo_url} alt={`Logo ${artisan.name}`} fill className="object-cover" />
-          </div>
-        ) : (
-          <div
-            style={{
-              width: "200px",
-              height: "200px",
-              borderRadius: "50%",
-              background: "#fff",
-              border: "2px solid var(--lavande-light)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 0 0 20px var(--lavande-pale)",
-            }}
-          >
-            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: mono.length > 2 ? "48px" : "80px", fontWeight: 600, color: "var(--prune)", lineHeight: 1 }}>
-              {mono[0]}
-            </span>
-            {mono[1] && (
-              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "60px", color: "var(--lavande)", lineHeight: 1, marginTop: "-8px" }}>
-                {mono[1]}
-              </span>
-            )}
-          </div>
-        )}
-        {caption && (
-          <p style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: "10px", letterSpacing: ".15em", textTransform: "uppercase", color: "var(--lavande)", marginTop: "20px" }}>
-            {caption}
-          </p>
-        )}
       </div>
     </section>
   );
