@@ -2,6 +2,7 @@ import type {
   Artisan,
   BlogPost,
   Category,
+  EditorialBlock,
   Menu,
   Page,
   PaginatedResponse,
@@ -12,8 +13,9 @@ import type {
 const API_URL = (process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
 const SLUG = process.env.ARTISAN_SLUG ?? "";
 
-if (!SLUG && typeof window === "undefined") {
-  console.warn("[api] ARTISAN_SLUG n'est pas défini");
+if (typeof window === "undefined") {
+  if (!API_URL) console.warn("[api] API_URL n'est pas défini");
+  if (!SLUG)    console.warn("[api] ARTISAN_SLUG n'est pas défini");
 }
 
 // ── Core fetch ───────────────────────────────────────────────────────────────
@@ -25,6 +27,9 @@ interface FetchOptions {
 }
 
 async function apiFetch<T>(path: string, opts: FetchOptions = {}): Promise<T> {
+  // Guard: env vars absent during build — return null instead of crashing
+  if (!API_URL || !SLUG) return null as T;
+
   const url = new URL(`${API_URL}${path}`);
   if (opts.params) {
     for (const [k, v] of Object.entries(opts.params)) {
@@ -39,18 +44,33 @@ async function apiFetch<T>(path: string, opts: FetchOptions = {}): Promise<T> {
   }
   if (opts.tags?.length) nextConfig.tags = opts.tags;
 
-  const res = await fetch(url.toString(), { next: nextConfig });
-  if (!res.ok) {
-    if (res.status === 404) return null as T;
-    throw new Error(`API ${res.status}: ${url.pathname}`);
+  try {
+    const res = await fetch(url.toString(), { next: nextConfig });
+    if (!res.ok) {
+      if (res.status === 404) return null as T;
+      throw new Error(`API ${res.status}: ${url.pathname}`);
+    }
+    return res.json();
+  } catch (err) {
+    console.error(`[api] fetch failed for ${path}:`, err);
+    return null as T;
   }
-  return res.json();
 }
 
 // ── Artisan ──────────────────────────────────────────────────────────────────
 
 export function getArtisan(): Promise<Artisan | null> {
   return apiFetch(`/api/v1/artisans/${SLUG}/`, { revalidate: 3600, tags: ["artisan"] });
+}
+
+// ── Editorial blocks ──────────────────────────────────────────────────────────
+
+export async function getEditorialBlocks(): Promise<EditorialBlock[]> {
+  const result = await apiFetch<EditorialBlock[] | null>(
+    `/api/v1/artisans/${SLUG}/editorial-blocks/`,
+    { revalidate: 600, tags: ["editorial"] }
+  );
+  return result ?? [];
 }
 
 // ── Products ─────────────────────────────────────────────────────────────────
@@ -79,8 +99,12 @@ export function getProduct(slug: string): Promise<Product | null> {
 
 // ── Categories ───────────────────────────────────────────────────────────────
 
-export function getCategories(): Promise<Category[]> {
-  return apiFetch(`/api/v1/artisans/${SLUG}/categories/`, { revalidate: 3600 });
+export async function getCategories(): Promise<Category[]> {
+  const result = await apiFetch<Category[] | null>(
+    `/api/v1/artisans/${SLUG}/categories/`,
+    { revalidate: 3600 }
+  );
+  return result ?? [];
 }
 
 // ── Pages ────────────────────────────────────────────────────────────────────

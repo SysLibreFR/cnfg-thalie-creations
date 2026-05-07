@@ -3,12 +3,24 @@ import Image from "next/image";
 import type { Artisan } from "@/lib/types";
 import { initials } from "@/lib/utils";
 
-export default function Hero({ artisan }: { artisan: Artisan }) {
-  const theme = artisan.theme_config;
-  const eyebrow = theme.hero_eyebrow ?? "Artisanat fait main";
-  const title = theme.hero_title ?? artisan.name;
-  const subtitle = theme.hero_subtitle ?? artisan.description ?? "";
-  const caption = theme.hero_caption ?? "Créations artisanales";
+interface HeroBlockData {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  caption?: string;
+}
+
+export default function Hero({
+  artisan,
+  data,
+}: {
+  artisan: Artisan;
+  data: HeroBlockData;
+}) {
+  const eyebrow = data.eyebrow ?? "Artisanat fait main";
+  const title = data.title ?? artisan.name;
+  const subtitle = data.subtitle ?? artisan.description ?? "";
+  const caption = data.caption ?? "";
   const mono = initials(artisan.name);
 
   return (
@@ -40,18 +52,20 @@ export default function Hero({ artisan }: { artisan: Artisan }) {
         >
           {title}
         </h1>
-        <p
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: "italic",
-            fontSize: "18px",
-            color: "var(--text-muted)",
-            lineHeight: 1.7,
-            marginBottom: "30px",
-          }}
-        >
-          {subtitle}
-        </p>
+        {subtitle && (
+          <p
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: "italic",
+              fontSize: "18px",
+              color: "var(--text-muted)",
+              lineHeight: 1.7,
+              marginBottom: "30px",
+            }}
+          >
+            {subtitle}
+          </p>
+        )}
         <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
           <Link href="/boutique" className="btn btn--primary">
             Découvrir la boutique
@@ -62,7 +76,7 @@ export default function Hero({ artisan }: { artisan: Artisan }) {
         </div>
       </div>
 
-      {/* Droite */}
+      {/* Droite — monogramme ou logo */}
       <div
         style={{
           background: "var(--lavande-pale)",
@@ -87,12 +101,7 @@ export default function Hero({ artisan }: { artisan: Artisan }) {
               position: "relative",
             }}
           >
-            <Image
-              src={artisan.logo_url}
-              alt={`Logo ${artisan.name}`}
-              fill
-              className="object-cover"
-            />
+            <Image src={artisan.logo_url} alt={`Logo ${artisan.name}`} fill className="object-cover" />
           </div>
         ) : (
           <div
@@ -109,44 +118,21 @@ export default function Hero({ artisan }: { artisan: Artisan }) {
               boxShadow: "0 0 0 20px var(--lavande-pale)",
             }}
           >
-            <span
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: mono.length > 2 ? "48px" : "80px",
-                fontWeight: 600,
-                color: "var(--prune)",
-                lineHeight: 1,
-              }}
-            >
+            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: mono.length > 2 ? "48px" : "80px", fontWeight: 600, color: "var(--prune)", lineHeight: 1 }}>
               {mono[0]}
             </span>
             {mono[1] && (
-              <span
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: "60px",
-                  color: "var(--lavande)",
-                  lineHeight: 1,
-                  marginTop: "-8px",
-                }}
-              >
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "60px", color: "var(--lavande)", lineHeight: 1, marginTop: "-8px" }}>
                 {mono[1]}
               </span>
             )}
           </div>
         )}
-        <p
-          style={{
-            fontFamily: "'Josefin Sans', sans-serif",
-            fontSize: "10px",
-            letterSpacing: ".15em",
-            textTransform: "uppercase",
-            color: "var(--lavande)",
-            marginTop: "20px",
-          }}
-        >
-          {caption}
-        </p>
+        {caption && (
+          <p style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: "10px", letterSpacing: ".15em", textTransform: "uppercase", color: "var(--lavande)", marginTop: "20px" }}>
+            {caption}
+          </p>
+        )}
       </div>
     </section>
   );

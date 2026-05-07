@@ -8,17 +8,11 @@ const DEFAULT_ITEMS = [
 
 export default function Bandeau({ items }: { items?: string[] }) {
   const list = items?.length ? items : DEFAULT_ITEMS;
+  // Doubler la liste pour que l'animation soit seamless
   const doubled = [...list, ...list];
 
   return (
-    <div
-      style={{
-        background: "var(--prune)",
-        padding: "12px 0",
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-      }}
-    >
+    <div style={{ background: "var(--prune)", padding: "12px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
       <div className="bandeau-inner" style={{ display: "inline-flex", gap: "40px" }}>
         {doubled.map((item, i) => (
           <span
@@ -35,16 +29,7 @@ export default function Bandeau({ items }: { items?: string[] }) {
               flexShrink: 0,
             }}
           >
-            <span
-              style={{
-                width: "4px",
-                height: "4px",
-                background: "var(--rose)",
-                borderRadius: "50%",
-                display: "inline-block",
-                flexShrink: 0,
-              }}
-            />
+            <span style={{ width: "4px", height: "4px", background: "var(--rose)", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
             {item}
           </span>
         ))}

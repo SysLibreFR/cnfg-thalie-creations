@@ -7,82 +7,62 @@ export interface PaginatedResponse<T> {
   items: T[];
 }
 
-// ── Theme config extensions for Thalie Créations ────────────────────────────
-// Ces champs sont configurés dans l'admin CFNG via theme_config (JSONB libre)
+// ── Editorial blocks ─────────────────────────────────────────────────────────
+// Retournés par GET /api/v1/artisans/{slug}/editorial-blocks/
+// Chaque bloc a un slug unique, un schéma de champs (fields) et les valeurs (data).
 
-export interface ValueItem {
-  icon: string;     // emoji ou URL d'icône
+export interface EditorialBlockField {
+  name: string;
+  label: string;
+  field_type: string;
+  options?: { value: string; label: string }[];
+}
+
+export interface EditorialBlock {
+  id: string;
+  slug: string;
+  fields: EditorialBlockField[];
+  data: Record<string, unknown>;
+  sort_order: number;
+  is_active: boolean;
+}
+
+// Types utilitaires pour les valeurs de blocs fréquemment utilisées
+
+export interface BlockValueItem {
+  icon: string;
   title: string;
   text: string;
 }
 
-export interface StatItem {
-  number: string;   // ex: "+500", "4,9★"
+export interface BlockTimelineItem {
+  year: string;
+  title: string;
+  text: string;
+}
+
+export interface BlockStatItem {
+  number: string;
   label: string;
 }
 
-export interface TimelineItem {
-  year: string;     // ex: "Enfance", "2021", "Aujourd'hui"
-  title: string;
-  text: string;
-  side?: "left" | "right"; // position dans la timeline, sinon alterné
-}
-
-export interface AtelierCell {
+export interface BlockAtelierCell {
   icon: string;
 }
 
+// ── Theme config (design system uniquement) ──────────────────────────────────
+// Le contenu éditorial (textes de sections, listes) est dans les editorial blocks.
+// theme_config contient seulement : couleurs, polices, méta-infos artisan.
+
 export interface ThemeConfig {
-  // Couleurs / polices (standard CFNG)
   primary_color?: string;
   font_heading?: string;
   font_subtitle?: string;
   font_body?: string;
   font_label?: string;
   layout?: "default" | "sidebar" | "fullwidth";
-
-  // Hero accueil
-  hero_eyebrow?: string;    // ex: "Artisanat fait main"
-  hero_title?: string;      // ex: "Chaque maille, une histoire d'amour"
-  hero_subtitle?: string;   // texte sous le titre
-  hero_caption?: string;    // sous le monogramme, ex: "Créations au crochet"
-
-  // Bandeau défilant
-  banner_items?: string[];  // ex: ["Livraison soignée", "Fait main", ...]
-
-  // Section produits vedettes (accueil)
-  featured_eyebrow?: string;
-  featured_title?: string;
-
-  // Valeurs / engagements
-  values_eyebrow?: string;
-  values_title?: string;
-  values?: ValueItem[];
-
-  // Témoignages
-  testimonials_eyebrow?: string;
-  testimonials_title?: string;
-
-  // Newsletter
-  newsletter_title?: string;
-  newsletter_subtitle?: string;
-
-  // À propos
-  artisan_role?: string;       // ex: "Créatrice & artisane"
-  about_eyebrow?: string;
-  timeline?: TimelineItem[];
-  atelier_title?: string;
-  atelier_text1?: string;
-  atelier_text2?: string;
-  atelier_tags?: string[];
-  atelier_cells?: AtelierCell[];
-  stats?: StatItem[];
-  stats_eyebrow?: string;
-  stats_title?: string;
-
-  // URLs sociales / externes (complément du champ contact)
-  etsy_url?: string;
-
+  artisan_role?: string;  // ex: "Créatrice & artisane"
+  etsy_url?: string;      // URL boutique Etsy
   [key: string]: unknown;
 }
 
