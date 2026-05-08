@@ -278,8 +278,8 @@ export default async function ProductPage({
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "16px",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "14px",
             }}
           >
             {similarProducts.map((p) => (

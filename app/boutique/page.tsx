@@ -90,8 +90,8 @@ export default async function BoutiquePage({
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "18px",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: "14px",
                 marginBottom: "40px",
               }}
             >
