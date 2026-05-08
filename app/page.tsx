@@ -3,6 +3,7 @@ import { getArtisan, getProducts, getTestimonials, getEditorialBlocks } from "@/
 import { blockData, hasBlock } from "@/lib/utils";
 import type { BlockValueItem } from "@/lib/types";
 import Hero from "@/components/home/Hero";
+import CoverImage from "@/components/home/CoverImage";
 import Bandeau from "@/components/layout/Bandeau";
 import ProductCard from "@/components/products/ProductCard";
 import ValuesSection from "@/components/home/ValuesSection";
@@ -50,6 +51,7 @@ export default async function HomePage() {
   return (
     <>
       <Hero artisan={artisan} data={heroData} />
+      {artisan.cover_url && <CoverImage src={artisan.cover_url} alt={artisan.name} />}
       <Bandeau items={bandeauData.items} />
 
       {/* Produits en vedette */}
