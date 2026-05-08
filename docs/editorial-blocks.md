@@ -12,7 +12,7 @@ Chaque bloc est identifié par son `slug`. Le frontend récupère la valeur `dat
 |------|---------|---------|
 | `hero` | Accueil | Bannière principale |
 | `bandeau` | Accueil (global) | Bandeau défilant |
-| `featured-products` | Accueil | En-tête section produits vedettes |
+| `featured_products` | Accueil | En-tête section produits vedettes |
 | `values` | Accueil, À propos | Section valeurs |
 | `testimonials` | Accueil | En-tête section témoignages |
 | `newsletter` | Accueil, Blog, Article | Section newsletter |
@@ -50,7 +50,7 @@ Si le bloc est absent, le frontend affiche des éléments par défaut.
 
 ---
 
-### `featured-products`
+### `featured_products`
 En-tête de la section "Produits vedettes" sur la page d'accueil.
 
 | Champ | Type | Exemple |
