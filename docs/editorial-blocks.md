@@ -20,8 +20,8 @@ Chaque bloc est identifié par son `slug`. Le frontend récupère la valeur `dat
 | `timeline` | À propos | Frise chronologique |
 | `atelier` | À propos | Section atelier |
 | `stats` | À propos | Statistiques clés |
-| `boutique-hero` | Boutique | En-tête de la page boutique |
-| `blog-hero` | Blog | Bannière de la page blog |
+| `boutique_hero` | Boutique | En-tête de la page boutique |
+| `blog_hero` | Blog | Bannière de la page blog |
 | `about_cta` | À propos | Bloc d'appel à l'action en bas de page |
 
 ---
@@ -183,7 +183,7 @@ Si le bloc est absent ou si un champ est manquant, le frontend utilise les valeu
 
 ---
 
-### `boutique-hero`
+### `boutique_hero`
 En-tête de la page boutique. Si absent, le frontend replie sur le nom et la description du profil artisan.
 
 | Champ | Type | Exemple |
@@ -194,7 +194,7 @@ En-tête de la page boutique. Si absent, le frontend replie sur le nom et la des
 
 ---
 
-### `blog-hero`
+### `blog_hero`
 Bannière de la page listing du blog.
 
 | Champ | Type | Exemple |

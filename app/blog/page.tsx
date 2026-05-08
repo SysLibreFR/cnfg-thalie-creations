@@ -26,7 +26,7 @@ export default async function BlogPage({
     getBlogPosts({ page, page_size: PAGE_SIZE + 1, tag }),
   ]);
 
-  const blogHeroData  = blockData(blocks, "blog-hero");
+  const blogHeroData  = blockData(blocks, "blog_hero");
   const newsletterData = blockData(blocks, "newsletter");
 
   const allPosts = posts?.items ?? [];
