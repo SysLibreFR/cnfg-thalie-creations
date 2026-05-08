@@ -176,7 +176,7 @@ ul     { list-style: none; }
 /* ── Product card ── */
 .product-card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid var(--creme-dark); transition: transform .2s, box-shadow .2s; cursor: pointer; }
 .product-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(107,42,90,.1); }
-.product-card__img { aspect-ratio: 1 / 1; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 8px; box-sizing: border-box; }
+.product-card__img { aspect-ratio: 1 / 1; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 16px 8px; box-sizing: border-box; }
 .product-card__badge { position: absolute; top: 12px; left: 12px; }
 .product-card__info { padding: 16px 18px 18px; }
 .product-card__name { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 500; color: var(--prune); margin-bottom: 5px; }
