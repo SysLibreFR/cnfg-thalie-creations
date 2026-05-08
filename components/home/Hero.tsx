@@ -51,6 +51,9 @@ export default function Hero({
               width: "100%",
               aspectRatio: "1 / 1",
               maxWidth: "320px",
+              borderRadius: "50%",
+              background: "var(--lavande-pale)",
+              overflow: "hidden",
             }}
           >
             <Image src={artisan.logo_url} alt={`Logo ${artisan.name}`} fill className="object-contain" />
