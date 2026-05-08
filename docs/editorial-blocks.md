@@ -22,6 +22,7 @@ Chaque bloc est identifié par son `slug`. Le frontend récupère la valeur `dat
 | `stats` | À propos | Statistiques clés |
 | `boutique-hero` | Boutique | En-tête de la page boutique |
 | `blog-hero` | Blog | Bannière de la page blog |
+| `about_cta` | À propos | Bloc d'appel à l'action en bas de page |
 
 ---
 
@@ -167,6 +168,18 @@ Chiffres clés sur la page À propos. **Si `items` est vide, la section n'est pa
 |-------|------|---------|
 | `number` | string | `"500+"` |
 | `label` | string | `"créations réalisées"` |
+
+---
+
+### `about_cta`
+Bloc d'appel à l'action affiché en bas de la page À propos, avant la newsletter.
+
+| Champ | Type | Exemple |
+|-------|------|---------|
+| `title` | string | `"Envie d'une création unique ?"` |
+| `text` | string | `"Chaque commande est une belle aventure. Je serais ravie de créer quelque chose rien que pour vous."` |
+
+Si le bloc est absent ou si un champ est manquant, le frontend utilise les valeurs par défaut ci-dessus.
 
 ---
 
