@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProduct, getProducts, getCategories, getArtisan } from "@/lib/api";
+import { getProduct, getProducts, getCategories, getArtisan, getFieldSchema } from "@/lib/api";
+import type { FieldSchemaDef } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 import ProductGallery from "@/components/products/ProductGallery";
 import ProductCard from "@/components/products/ProductCard";
@@ -9,6 +10,36 @@ import Link from "next/link";
 import { marked } from "marked";
 
 export const revalidate = 300;
+
+function isFieldVisible(
+  field: FieldSchemaDef,
+  fieldDefs: FieldSchemaDef[],
+  customFields: Record<string, unknown>
+): boolean {
+  if (!field.conditional_on_field_id) return true;
+  const dep = fieldDefs.find((f) => f.id === field.conditional_on_field_id);
+  if (!dep) return true;
+  return String(customFields[dep.name] ?? "") === field.conditional_on_value;
+}
+
+function getFieldDisplayValue(field: FieldSchemaDef, customFields: Record<string, unknown>): string | null {
+  const raw = customFields[field.name];
+  if (raw === undefined || raw === null || raw === "") return null;
+  switch (field.field_type) {
+    case "boolean":
+      return raw === true || raw === "true" ? field.label : null;
+    case "select": {
+      const opt = field.options.find((o) => o.value === String(raw));
+      return opt ? opt.label : String(raw);
+    }
+    case "multiselect": {
+      const vals = Array.isArray(raw) ? raw : String(raw).split(",");
+      return vals.map((v: string) => field.options.find((o) => o.value === v.trim())?.label ?? v.trim()).join(", ");
+    }
+    default:
+      return String(raw);
+  }
+}
 
 export async function generateMetadata({
   params,
@@ -31,11 +62,12 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
 
-  const [product, artisan, categories, similar] = await Promise.all([
+  const [product, artisan, categories, similar, fieldSchema] = await Promise.all([
     getProduct(slug),
     getArtisan(),
     getCategories(),
     getProducts({ page_size: 3, is_featured: true }),
+    getFieldSchema(),
   ]);
 
   if (!product) notFound();
@@ -213,21 +245,40 @@ export default async function ProductPage({
               </a>
             )}
 
-            {/* Infos livraison */}
-            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-                <span style={{ fontSize: "16px" }}>📦</span>
-                <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Expédié en 3–5 jours</span>
+            {/* Champs personnalisés produit */}
+            {fieldSchema.length > 0 ? (
+              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                {fieldSchema
+                  .filter((f) => f.field_type !== "image" && f.field_type !== "file")
+                  .filter((f) => isFieldVisible(f, fieldSchema, product.custom_fields))
+                  .map((f) => {
+                    const display = getFieldDisplayValue(f, product.custom_fields);
+                    if (!display) return null;
+                    return (
+                      <div key={f.id} style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                        <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+                          {f.field_type === "boolean" ? display : `${f.label} : ${display}`}
+                        </span>
+                      </div>
+                    );
+                  })}
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-                <span style={{ fontSize: "16px" }}>🇫🇷</span>
-                <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Fabriqué en France</span>
+            ) : (
+              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                  <span style={{ fontSize: "16px" }}>📦</span>
+                  <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Expédié en 3–5 jours</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                  <span style={{ fontSize: "16px" }}>🇫🇷</span>
+                  <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Fabriqué en France</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                  <span style={{ fontSize: "16px" }}>✅</span>
+                  <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Fait à la main</span>
+                </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-                <span style={{ fontSize: "16px" }}>✅</span>
-                <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Fait à la main</span>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Description complète — déplacée dans la colonne droite */}

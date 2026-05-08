@@ -3,6 +3,7 @@ import type {
   BlogPost,
   Category,
   EditorialBlock,
+  FieldSchemaDef,
   Menu,
   Page,
   PaginatedResponse,
@@ -69,6 +70,16 @@ export async function getEditorialBlocks(): Promise<EditorialBlock[]> {
   const result = await apiFetch<EditorialBlock[] | null>(
     `/api/v1/artisans/${SLUG}/editorial-blocks/`,
     { revalidate: 600, tags: ["editorial"] }
+  );
+  return result ?? [];
+}
+
+// ── Field schema ─────────────────────────────────────────────────────────────
+
+export async function getFieldSchema(): Promise<FieldSchemaDef[]> {
+  const result = await apiFetch<FieldSchemaDef[] | null>(
+    `/api/v1/artisans/${SLUG}/field-schema/`,
+    { revalidate: 3600, tags: ["artisan"] }
   );
   return result ?? [];
 }

@@ -138,6 +138,22 @@ export interface Product {
   published_at: string | null;
 }
 
+// ── Custom field schema ───────────────────────────────────────────────────────
+
+export interface FieldSchemaDef {
+  id: string;
+  artisan_id: string;
+  name: string;
+  label: string;
+  field_type: "text" | "textarea" | "number" | "decimal" | "boolean" | "select" | "multiselect" | "date" | "image" | "file";
+  options: { value: string; label: string }[];
+  is_required: boolean;
+  help_text: string | null;
+  display_order: number;
+  conditional_on_field_id: string | null;
+  conditional_on_value: string | null;
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export interface Page {
