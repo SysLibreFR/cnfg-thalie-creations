@@ -30,7 +30,7 @@ export default async function BoutiquePage({
     getEditorialBlocks(),
   ]);
 
-  const boutiqueData = blockData(blocks, "boutique-hero") as {
+  const boutiqueData = blockData(blocks, "boutique_hero") as {
     eyebrow?: string;
     title?: string;
     subtitle?: string;
