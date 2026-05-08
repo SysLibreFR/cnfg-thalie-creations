@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getBlogPosts, getArtisan, getEditorialBlocks } from "@/lib/api";
-import { blockData } from "@/lib/utils";
+import { blockData, hasBlock } from "@/lib/utils";
 import FeaturedArticle from "@/components/blog/FeaturedArticle";
 import ArticleCard from "@/components/blog/ArticleCard";
 import NewsletterSection from "@/components/home/NewsletterSection";
@@ -97,10 +97,12 @@ export default async function BlogPage({
         </section>
       )}
 
-      <NewsletterSection
-        title={newsletterData.title as string | undefined}
-        subtitle={newsletterData.subtitle as string | undefined}
-      />
+      {hasBlock(blocks, "newsletter") && (
+        <NewsletterSection
+          title={newsletterData.title as string | undefined}
+          subtitle={newsletterData.subtitle as string | undefined}
+        />
+      )}
     </>
   );
 }

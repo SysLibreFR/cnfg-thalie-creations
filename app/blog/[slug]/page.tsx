@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getBlogPost, getBlogPosts, getArtisan, getEditorialBlocks } from "@/lib/api";
-import { formatDate, readTime, blockData } from "@/lib/utils";
+import { formatDate, readTime, blockData, hasBlock } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import ArticleCard from "@/components/blog/ArticleCard";
@@ -119,14 +119,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
           )}
 
-          <div style={{ background: "var(--prune)", borderRadius: "16px", padding: "24px 20px", textAlign: "center" }}>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "19px", color: "#fff", marginBottom: "8px" }}>La newsletter</p>
-            <p style={{ fontSize: "12px", color: "rgba(255,255,255,.65)", lineHeight: 1.5, marginBottom: "16px" }}>Recevez mes articles et exclusivités chaque mois ✉️</p>
-            <NewsletterSection
-              title=""
-              subtitle=""
-            />
-          </div>
+          {hasBlock(blocks, "newsletter") && (
+            <div style={{ background: "var(--prune)", borderRadius: "16px", padding: "24px 20px", textAlign: "center" }}>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "19px", color: "#fff", marginBottom: "8px" }}>La newsletter</p>
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,.65)", lineHeight: 1.5, marginBottom: "16px" }}>Recevez mes articles et exclusivités chaque mois ✉️</p>
+              <NewsletterSection
+                title=""
+                subtitle=""
+              />
+            </div>
+          )}
         </aside>
       </div>
 

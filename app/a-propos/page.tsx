@@ -201,10 +201,12 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <NewsletterSection
-        title={newsletterData.title as string | undefined}
-        subtitle={newsletterData.subtitle as string | undefined}
-      />
+      {hasBlock(blocks, "newsletter") && (
+        <NewsletterSection
+          title={newsletterData.title as string | undefined}
+          subtitle={newsletterData.subtitle as string | undefined}
+        />
+      )}
     </>
   );
 }
