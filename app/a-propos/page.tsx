@@ -47,13 +47,15 @@ export default async function AboutPage() {
           <span style={{ position: "absolute", bottom: "30px", right: "16px", fontSize: "28px", opacity: 0.4, transform: "rotate(40deg)" }}>🌸</span>
           <span style={{ position: "absolute", top: "32px", right: "32px", fontSize: "16px", color: "var(--rose)" }}>♥</span>
           <span style={{ position: "absolute", bottom: "52px", left: "20px", fontSize: "16px", color: "var(--rose)" }}>♥</span>
-          <div style={{ position: "relative", width: "100%", maxWidth: "320px", aspectRatio: "1 / 1", border: "3px solid var(--lavande-light)", background: "#fff" }}>
-            {artisan?.logo_url ? (
-              <Image src={artisan.logo_url} alt={artisan.name} fill className="object-contain" />
-            ) : (
-              <span style={{ fontSize: "72px", display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>🧶</span>
-            )}
-            <span style={{ position: "absolute", bottom: "-14px", left: "50%", transform: "translateX(-50%)", background: "var(--prune)", color: "#fff", fontFamily: "'Josefin Sans', sans-serif", fontSize: "9px", letterSpacing: ".12em", textTransform: "uppercase", padding: "6px 18px", borderRadius: "30px", whiteSpace: "nowrap" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", width: "100%", maxWidth: "320px" }}>
+            <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", border: "3px solid var(--lavande-light)", background: "#fff" }}>
+              {artisan?.logo_url ? (
+                <Image src={artisan.logo_url} alt={artisan.name} fill className="object-contain" />
+              ) : (
+                <span style={{ fontSize: "72px", display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>🧶</span>
+              )}
+            </div>
+            <span style={{ background: "var(--prune)", color: "#fff", fontFamily: "'Josefin Sans', sans-serif", fontSize: "9px", letterSpacing: ".12em", textTransform: "uppercase", padding: "6px 18px", borderRadius: "30px", whiteSpace: "nowrap" }}>
               {artisanRole}
             </span>
           </div>
