@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getArtisan, getProducts, getTestimonials, getEditorialBlocks } from "@/lib/api";
-import { blockData } from "@/lib/utils";
+import { blockData, hasBlock } from "@/lib/utils";
 import type { BlockValueItem } from "@/lib/types";
 import Hero from "@/components/home/Hero";
 import Bandeau from "@/components/layout/Bandeau";
@@ -88,10 +88,12 @@ export default async function HomePage() {
       )}
 
       {/* Newsletter */}
-      <NewsletterSection
-        title={newsletterData.title}
-        subtitle={newsletterData.subtitle}
-      />
+      {hasBlock(blocks, "newsletter") && (
+        <NewsletterSection
+          title={newsletterData.title}
+          subtitle={newsletterData.subtitle}
+        />
+      )}
     </>
   );
 }
