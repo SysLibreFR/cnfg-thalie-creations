@@ -19,7 +19,7 @@ export default async function AboutPage() {
   const theme = artisan?.theme_config ?? {};
   const artisanRole = theme.artisan_role as string | undefined ?? "Créatrice & artisane";
 
-  const aboutHeroData = blockData(blocks, "about-hero");
+  const aboutHeroData = blockData(blocks, "about_hero");
   const timelineData  = blockData(blocks, "timeline");
   const valuesData    = blockData(blocks, "values");
   const atelierData   = blockData(blocks, "atelier");

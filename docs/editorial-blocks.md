@@ -16,7 +16,7 @@ Chaque bloc est identifié par son `slug`. Le frontend récupère la valeur `dat
 | `values` | Accueil, À propos | Section valeurs |
 | `testimonials` | Accueil | En-tête section témoignages |
 | `newsletter` | Accueil, Blog, Article | Section newsletter |
-| `about-hero` | À propos | Bannière de la page |
+| `about_hero` | À propos | Bannière de la page |
 | `timeline` | À propos | Frise chronologique |
 | `atelier` | À propos | Section atelier |
 | `stats` | À propos | Statistiques clés |
@@ -99,7 +99,7 @@ Section d'inscription à la newsletter. Utilisée sur la page d'accueil, les pag
 
 ---
 
-### `about-hero`
+### `about_hero`
 Bannière en haut de la page À propos.
 
 | Champ | Type | Exemple |
