@@ -137,7 +137,7 @@ export default function ProductGallery({
                 onClick={() => setActive(img.id)}
                 style={{
                   flex: 1,
-                  height: "70px",
+                  aspectRatio: "1 / 1",
                   background: "#fff",
                   borderRadius: "12px",
                   border: `2px solid ${
@@ -153,7 +153,7 @@ export default function ProductGallery({
                   src={img.url}
                   alt={img.alt_text || productName}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="80px"
                 />
               </button>
