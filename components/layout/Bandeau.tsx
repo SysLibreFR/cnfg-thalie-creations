@@ -13,7 +13,7 @@ export default function Bandeau({ items }: { items?: string[] }) {
 
   return (
     <div style={{ background: "var(--prune)", padding: "12px 0", overflow: "hidden", whiteSpace: "nowrap" }}>
-      <div className="bandeau-inner" style={{ display: "inline-flex", gap: "40px" }}>
+      <div className="bandeau-inner" style={{ display: "inline-flex" }}>
         {doubled.map((item, i) => (
           <span
             key={i}
@@ -27,6 +27,7 @@ export default function Bandeau({ items }: { items?: string[] }) {
               alignItems: "center",
               gap: "12px",
               flexShrink: 0,
+              marginRight: "40px",
             }}
           >
             <span style={{ width: "4px", height: "4px", background: "var(--rose)", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
