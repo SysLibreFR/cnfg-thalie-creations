@@ -6,6 +6,7 @@ import ProductGallery from "@/components/products/ProductGallery";
 import ProductCard from "@/components/products/ProductCard";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import Link from "next/link";
+import { marked } from "marked";
 
 export const revalidate = 300;
 
@@ -245,7 +246,7 @@ export default async function ProductPage({
               {product.description && (
                 <div
                   className="prose-content"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
+                  dangerouslySetInnerHTML={{ __html: marked(product.description) as string }}
                 />
               )}
               {hasDimensions && (

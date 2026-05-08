@@ -45,6 +45,7 @@ ul     { list-style: none; }
 /* ── Prose CMS ── */
 .prose-content { font-size: 0.875rem; color: var(--text-muted); line-height: 1.9; }
 .prose-content p   { margin-bottom: 1.25rem; }
+.prose-content h1  { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.875rem; color: var(--prune); margin: 2.25rem 0 1rem; }
 .prose-content h2  { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; color: var(--prune); margin: 2rem 0 0.875rem; }
 .prose-content h3  { font-family: 'Cormorant Garamond', serif; font-size: 1.125rem; font-weight: 500; color: var(--prune); margin: 1.375rem 0 0.625rem; }
 .prose-content blockquote {
