@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@/lib/types";
-import { formatPrice, coverImage } from "@/lib/utils";
+import { formatPrice, coverImage, stripMarkdown } from "@/lib/utils";
 
 function getBadge(product: Product): { label: string; cls: string } | null {
   if (product.is_featured) return { label: "Coup de ♥", cls: "badge--fav" };
@@ -41,7 +41,11 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="product-card__info">
         <p className="product-card__name">{product.name}</p>
         <p className="product-card__desc">
-          {product.short_description || product.description?.slice(0, 80)}
+          {product.short_description
+            ? stripMarkdown(product.short_description).slice(0, 80)
+            : product.description
+              ? stripMarkdown(product.description).slice(0, 80)
+              : ""}
         </p>
         <div className="product-card__footer">
           <span className="product-card__price">

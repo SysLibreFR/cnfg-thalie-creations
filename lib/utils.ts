@@ -73,3 +73,18 @@ export function initials(name: string): string {
     .map((w) => w[0].toUpperCase())
     .join("");
 }
+
+export function stripMarkdown(text: string): string {
+  return text
+    .replace(/#{1,6}\s+/g, "")        // titres
+    .replace(/(\*\*|__)(.*?)\1/g, "$2") // gras
+    .replace(/(\*|_)(.*?)\1/g, "$2")    // italique
+    .replace(/`{1,3}[^`]*`{1,3}/g, "") // code
+    .replace(/!\[.*?\]\(.*?\)/g, "")    // images
+    .replace(/\[([^\]]+)\]\(.*?\)/g, "$1") // liens
+    .replace(/^[-*+]\s+/gm, "")        // listes à puces
+    .replace(/^\d+\.\s+/gm, "")        // listes numérotées
+    .replace(/^>\s+/gm, "")            // citations
+    .replace(/\n+/g, " ")
+    .trim();
+}
