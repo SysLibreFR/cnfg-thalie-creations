@@ -3,8 +3,9 @@ import { getArtisan, getPage, getEditorialBlocks } from "@/lib/api";
 import { blockData, hasBlock } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import type { BlockTimelineItem, BlockStatItem, BlockValueItem, BlockAtelierCell } from "@/lib/types";
+import type { BlockTimelineItem, BlockStatItem, BlockAtelierCell } from "@/lib/types";
 import NewsletterSection from "@/components/home/NewsletterSection";
+import ValuesSection from "@/components/home/ValuesSection";
 
 export const metadata: Metadata = { title: "À propos" };
 export const revalidate = 3600;
@@ -26,9 +27,10 @@ export default async function AboutPage() {
   const statsData     = blockData(blocks, "stats");
   const newsletterData = blockData(blocks, "newsletter");
 
+  const aboutCtaData  = blockData(blocks, "about_cta");
+
   const timelineItems = timelineData.items as BlockTimelineItem[] | undefined ?? [];
   const statsItems    = statsData.items as BlockStatItem[] | undefined ?? [];
-  const valuesItems   = valuesData.items as BlockValueItem[] | undefined ?? [];
   const atelierTags   = atelierData.tags as string[] | undefined ?? [];
   const atelierCells  = atelierData.cells as BlockAtelierCell[] | undefined ??
     [{ icon: "🧶" }, { icon: "✂️" }, { icon: "🪡" }, { icon: "🌸" }];
@@ -45,13 +47,15 @@ export default async function AboutPage() {
           <span style={{ position: "absolute", bottom: "30px", right: "16px", fontSize: "28px", opacity: 0.4, transform: "rotate(40deg)" }}>🌸</span>
           <span style={{ position: "absolute", top: "32px", right: "32px", fontSize: "16px", color: "var(--rose)" }}>♥</span>
           <span style={{ position: "absolute", bottom: "52px", left: "20px", fontSize: "16px", color: "var(--rose)" }}>♥</span>
-          <div style={{ width: "220px", height: "260px", borderRadius: "120px 120px 80px 80px", background: "#fff", border: "3px solid var(--lavande-light)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", boxShadow: "0 8px 40px rgba(155,139,196,.2)", overflow: "hidden" }}>
-            {artisan?.logo_url ? (
-              <Image src={artisan.logo_url} alt={artisan.name} fill className="object-cover" />
-            ) : (
-              <span style={{ fontSize: "72px" }}>🧶</span>
-            )}
-            <span style={{ position: "absolute", bottom: "-14px", background: "var(--prune)", color: "#fff", fontFamily: "'Josefin Sans', sans-serif", fontSize: "9px", letterSpacing: ".12em", textTransform: "uppercase", padding: "6px 18px", borderRadius: "30px" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", width: "100%", maxWidth: "320px" }}>
+            <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", border: "3px solid var(--lavande-light)", background: "#fff" }}>
+              {artisan?.logo_url ? (
+                <Image src={artisan.logo_url} alt={artisan.name} fill className="object-contain" />
+              ) : (
+                <span style={{ fontSize: "72px", display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>🧶</span>
+              )}
+            </div>
+            <span style={{ background: "var(--prune)", color: "#fff", fontFamily: "'Josefin Sans', sans-serif", fontSize: "9px", letterSpacing: ".12em", textTransform: "uppercase", padding: "6px 18px", borderRadius: "30px", whiteSpace: "nowrap" }}>
               {artisanRole}
             </span>
           </div>
@@ -124,24 +128,7 @@ export default async function AboutPage() {
       )}
 
       {/* Valeurs */}
-      {valuesItems.length > 0 && (
-        <section className="section section--white">
-          <div className="section__header">
-            {(valuesData.eyebrow as string | undefined) && <span className="section__eyebrow">{valuesData.eyebrow as string}</span>}
-            {(valuesData.title as string | undefined) && <h2 className="section__title">{valuesData.title as string}</h2>}
-            <div className="section__line" />
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(valuesItems.length, 3)}, 1fr)`, gap: "22px" }}>
-            {valuesItems.map((v, i) => (
-              <div key={i} style={{ background: "var(--creme)", borderRadius: "16px", padding: "32px 24px", textAlign: "center", border: "1px solid var(--creme-dark)" }}>
-                <span style={{ fontSize: "32px", marginBottom: "14px", display: "block" }}>{v.icon}</span>
-                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px", fontWeight: 500, color: "var(--prune)", marginBottom: "10px" }}>{v.title}</p>
-                <p style={{ fontSize: "12px", color: "var(--text-muted)", lineHeight: 1.7 }}>{v.text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      <ValuesSection data={valuesData} />
 
       {/* Atelier */}
       {hasBlock(blocks, "atelier") && (
@@ -200,9 +187,11 @@ export default async function AboutPage() {
 
       {/* CTA */}
       <section className="section section--white" style={{ textAlign: "center" }}>
-        <h2 style={{ fontSize: "30px", color: "var(--prune)", marginBottom: "12px" }}>Envie d’une création unique ?</h2>
+        <h2 style={{ fontSize: "30px", color: "var(--prune)", marginBottom: "12px" }}>
+          {(aboutCtaData.title as string | undefined) ?? "Envie d’une création unique ?"}
+        </h2>
         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "17px", color: "var(--text-muted)", marginBottom: "28px" }}>
-          Chaque commande est une belle aventure.{artisan?.contact?.email && " Je serais ravie de créer quelque chose rien que pour vous."}
+          {(aboutCtaData.text as string | undefined) ?? "Chaque commande est une belle aventure. Je serais ravie de créer quelque chose rien que pour vous."}
         </p>
         <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
           <Link href="/boutique" className="btn btn--primary">Découvrir la boutique</Link>
