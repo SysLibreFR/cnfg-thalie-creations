@@ -46,17 +46,20 @@ export default function ProductGallery({
       <div
         style={{
           background: "var(--lavande-pale)",
-          padding: "36px",
+          padding: "48px 36px",
           display: "flex",
           flexDirection: "column",
           gap: "14px",
+          height: "100%",
+          boxSizing: "border-box",
         }}
       >
         <div
           style={{
             background: "#fff",
             borderRadius: "16px",
-            height: "320px",
+            flex: 1,
+            minHeight: "200px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -75,10 +78,12 @@ export default function ProductGallery({
       <div
         style={{
           background: "var(--lavande-pale)",
-          padding: "36px",
+          padding: "48px 36px",
           display: "flex",
           flexDirection: "column",
           gap: "14px",
+          height: "100%",
+          boxSizing: "border-box",
         }}
       >
         {/* Image principale — cliquable pour zoom */}
@@ -88,7 +93,8 @@ export default function ProductGallery({
           style={{
             background: "#fff",
             borderRadius: "16px",
-            height: "320px",
+            flex: 1,
+            minHeight: "200px",
             position: "relative",
             border: "1px solid var(--creme-dark)",
             overflow: "hidden",
@@ -104,7 +110,7 @@ export default function ProductGallery({
               alt={activeImg.alt_text || productName}
               fill
               className="object-contain"
-              sizes="50vw"
+              sizes="33vw"
               priority
             />
           )}
