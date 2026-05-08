@@ -29,7 +29,7 @@ export default async function HomePage() {
     caption?: string;
   };
   const bandeauData = blockData(blocks, "bandeau") as { items?: string[] };
-  const featuredData = blockData(blocks, "featured-products") as {
+  const featuredData = blockData(blocks, "featured_products") as {
     eyebrow?: string;
     title?: string;
   };
