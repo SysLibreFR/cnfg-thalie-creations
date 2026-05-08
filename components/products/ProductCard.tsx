@@ -24,7 +24,7 @@ export default function ProductCard({ product }: { product: Product }) {
             src={img}
             alt={product.images.find((i) => i.is_cover)?.alt_text ?? product.name}
             fill
-            className="object-cover"
+            className="object-contain"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (
