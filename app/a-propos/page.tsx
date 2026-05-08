@@ -47,13 +47,13 @@ export default async function AboutPage() {
           <span style={{ position: "absolute", bottom: "30px", right: "16px", fontSize: "28px", opacity: 0.4, transform: "rotate(40deg)" }}>🌸</span>
           <span style={{ position: "absolute", top: "32px", right: "32px", fontSize: "16px", color: "var(--rose)" }}>♥</span>
           <span style={{ position: "absolute", bottom: "52px", left: "20px", fontSize: "16px", color: "var(--rose)" }}>♥</span>
-          <div style={{ width: "260px", height: "300px", borderRadius: "120px 120px 80px 80px", background: "#fff", border: "3px solid var(--lavande-light)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", boxShadow: "0 8px 40px rgba(155,139,196,.2)" }}>
+          <div style={{ position: "relative", width: "100%", maxWidth: "320px", aspectRatio: "1 / 1", border: "3px solid var(--lavande-light)", background: "#fff" }}>
             {artisan?.logo_url ? (
-              <Image src={artisan.logo_url} alt={artisan.name} fill className="object-contain" style={{ padding: "16px" }} />
+              <Image src={artisan.logo_url} alt={artisan.name} fill className="object-contain" />
             ) : (
-              <span style={{ fontSize: "72px" }}>🧶</span>
+              <span style={{ fontSize: "72px", display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>🧶</span>
             )}
-            <span style={{ position: "absolute", bottom: "-14px", background: "var(--prune)", color: "#fff", fontFamily: "'Josefin Sans', sans-serif", fontSize: "9px", letterSpacing: ".12em", textTransform: "uppercase", padding: "6px 18px", borderRadius: "30px" }}>
+            <span style={{ position: "absolute", bottom: "-14px", left: "50%", transform: "translateX(-50%)", background: "var(--prune)", color: "#fff", fontFamily: "'Josefin Sans', sans-serif", fontSize: "9px", letterSpacing: ".12em", textTransform: "uppercase", padding: "6px 18px", borderRadius: "30px", whiteSpace: "nowrap" }}>
               {artisanRole}
             </span>
           </div>
