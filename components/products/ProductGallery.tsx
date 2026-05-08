@@ -130,23 +130,25 @@ export default function ProductGallery({
 
         {/* Vignettes */}
         {images.length > 1 && (
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
             {images.map((img) => (
               <button
                 key={img.id}
                 onClick={() => setActive(img.id)}
                 style={{
-                  flex: 1,
-                  aspectRatio: "1 / 1",
+                  width: "60px",
+                  height: "60px",
+                  flexShrink: 0,
                   background: "#fff",
-                  borderRadius: "12px",
+                  borderRadius: "8px",
                   border: `2px solid ${
-                    active === img.id ? "var(--prune)" : "transparent"
+                    active === img.id ? "var(--prune)" : "var(--creme-dark)"
                   }`,
                   cursor: "pointer",
                   position: "relative",
                   overflow: "hidden",
-                  padding: 0,
+                  padding: "4px",
+                  boxSizing: "border-box",
                 }}
               >
                 <Image
