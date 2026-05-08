@@ -13,6 +13,17 @@ const TYPE_MAP: Record<string, { tags: string[]; paths: string[] }> = {
   page:            { tags: [],            paths: ["/mentions-legales"] },
 };
 
+function extractSecret(req: NextRequest, body: Record<string, unknown> | null): string {
+  // 1. Authorization: Bearer <secret>
+  const auth = req.headers.get("authorization") ?? "";
+  if (auth.startsWith("Bearer ")) return auth.slice(7);
+  // 2. X-Revalidate-Secret header
+  const header = req.headers.get("x-revalidate-secret") ?? "";
+  if (header) return header;
+  // 3. body.secret field
+  return (body?.secret as string) ?? "";
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
 
@@ -20,8 +31,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Corps de requête invalide" }, { status: 400 });
   }
 
-  // Validate secret when configured
-  if (REVALIDATE_SECRET && body.secret !== REVALIDATE_SECRET) {
+  // Validate secret when configured (accepts header or body field)
+  if (REVALIDATE_SECRET && extractSecret(req, body) !== REVALIDATE_SECRET) {
+    console.warn("[revalidate] Secret invalide — vérifier REVALIDATE_SECRET côté frontend et backend");
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
