@@ -82,8 +82,8 @@ export default async function BoutiquePage({
         {products?.items?.length ? (
           <>
             <div className="cards-grid-4" style={{ marginBottom: "40px" }}>
-              {products.items.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {products.items.map((product, i) => (
+                <ProductCard key={product.id} product={product} priority={i === 0} />
               ))}
             </div>
 

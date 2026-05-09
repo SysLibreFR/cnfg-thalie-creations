@@ -12,7 +12,7 @@ function getBadge(product: Product): { label: string; cls: string } | null {
   return null;
 }
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const badge = getBadge(product);
   const img = coverImage(product.images);
 
@@ -26,7 +26,8 @@ export default function ProductCard({ product }: { product: Product }) {
               alt={product.images.find((i) => i.is_cover)?.alt_text ?? product.name}
               fill
               className="object-contain"
-              sizes="(max-width: 768px) 100vw, 33vw"
+              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 25vw"
+              priority={priority}
             />
           </div>
         ) : (
