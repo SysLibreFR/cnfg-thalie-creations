@@ -28,6 +28,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
               className="object-contain"
               sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 25vw"
               priority={priority}
+              fetchPriority={priority ? "high" : "auto"}
             />
           </div>
         ) : (
