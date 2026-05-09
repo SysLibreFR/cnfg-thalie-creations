@@ -63,7 +63,7 @@ export default function Hero({
               {mono[0]}
             </span>
             {mono[1] && (
-              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "110px", color: "var(--lavande)", lineHeight: 1, marginTop: "-16px" }}>
+              <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "110px", color: "var(--prune-light)", lineHeight: 1, marginTop: "-16px" }}>
                 {mono[1]}
               </span>
             )}
