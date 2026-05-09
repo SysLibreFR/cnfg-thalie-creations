@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Nunito:wght@300;400;500;600&family=Josefin+Sans:wght@300;400;500&display=swap');
-
 /* ── Variables ── */
 :root {
   --prune:         #6B2A5A;
@@ -23,13 +21,13 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-nunito), 'Nunito', sans-serif;
   background: var(--creme);
   color: var(--text);
   line-height: 1.6;
 }
-h1, h2 { font-family: 'Playfair Display', serif; font-style: italic; }
-h3     { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+h1, h2 { font-family: var(--font-playfair), 'Playfair Display', serif; font-style: italic; }
+h3     { font-family: var(--font-cormorant), 'Cormorant Garamond', serif; font-weight: 500; }
 img    { display: block; max-width: 100%; }
 a      { color: inherit; text-decoration: none; }
 button { cursor: pointer; font-family: inherit; }
@@ -67,7 +65,7 @@ ul     { list-style: none; }
 /* ── Boutons ── */
 .btn {
   display: inline-block;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: var(--font-josefin), 'Josefin Sans', sans-serif;
   font-size: 11px;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -108,11 +106,11 @@ ul     { list-style: none; }
 .section__header { text-align: center; margin-bottom: 40px; }
 .section__eyebrow {
   display: block;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: var(--font-josefin), 'Josefin Sans', sans-serif;
   font-size: 10px;
   letter-spacing: .15em;
   text-transform: uppercase;
-  color: var(--sable);
+  color: var(--text-muted); /* #7A6070 — ratio 5.6:1 sur blanc (WCAG AA) */
   margin-bottom: 8px;
 }
 .section__eyebrow--white { color: rgba(255,255,255,.55); }
@@ -123,18 +121,18 @@ ul     { list-style: none; }
 
 /* ── Eyebrow avec trait ── */
 .eyebrow-row {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: var(--font-josefin), 'Josefin Sans', sans-serif;
   font-size: 10px;
   letter-spacing: .15em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: #9e3d57; /* rose foncé — ratio 6.5:1 sur blanc (WCAG AA) */
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 14px;
 }
 .eyebrow-row::before { content: ''; width: 20px; height: 1px; background: currentColor; display: inline-block; }
-.eyebrow-row--sable { color: var(--sable); }
+.eyebrow-row--sable { color: var(--text-muted); }
 
 /* ── Breadcrumb ── */
 .breadcrumb {
@@ -168,9 +166,9 @@ ul     { list-style: none; }
   border-top: 1px solid rgba(255,255,255,.1);
 }
 .footer__logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 21px; color: #fff; }
-.footer__tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: rgba(255,255,255,.55); margin-top: 2px; }
+.footer__tagline { font-family: var(--font-cormorant), 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: rgba(255,255,255,.65); margin-top: 2px; }
 .footer__links { display: flex; gap: 20px; }
-.footer__links a { font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); transition: color .2s; }
+.footer__links a { font-family: var(--font-josefin), 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.7); transition: color .2s; }
 .footer__links a:hover { color: #fff; }
 .footer__hearts { color: var(--rose); letter-spacing: 4px; font-size: 14px; }
 
