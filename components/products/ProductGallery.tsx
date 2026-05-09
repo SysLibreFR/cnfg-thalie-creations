@@ -110,7 +110,7 @@ export default function ProductGallery({
               alt={activeImg.alt_text || productName}
               fill
               className="object-contain"
-              sizes="33vw"
+              sizes="(max-width: 768px) calc(100vw - 72px), 33vw"
               priority
             />
           )}
@@ -162,7 +162,7 @@ export default function ProductGallery({
                   alt={img.alt_text || productName}
                   fill
                   className="object-contain"
-                  sizes="80px"
+                  sizes="52px"
                 />
               </button>
             ))}
