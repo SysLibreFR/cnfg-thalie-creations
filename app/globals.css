@@ -113,7 +113,7 @@ ul     { list-style: none; }
   color: var(--text-muted); /* #7A6070 — ratio 5.6:1 sur blanc (WCAG AA) */
   margin-bottom: 8px;
 }
-.section__eyebrow--white { color: rgba(255,255,255,.55); }
+.section__eyebrow--white { color: rgba(255,255,255,.75); }
 .section__title { font-size: 30px; color: var(--prune); margin-bottom: 10px; }
 .section__title--white { color: #fff; }
 .section__line { width: 40px; height: 2px; background: var(--lavande-light); margin: 0 auto; border-radius: 2px; }
