@@ -5,20 +5,7 @@ import { formatDateShort } from "@/lib/utils";
 
 export default function FeaturedArticle({ post }: { post: BlogPost }) {
   return (
-    <Link
-      href={`/blog/${post.slug}`}
-      style={{
-        background: "#fff",
-        borderRadius: "16px",
-        overflow: "hidden",
-        display: "grid",
-        gridTemplateColumns: "1.2fr 1fr",
-        border: "1px solid var(--creme-dark)",
-        cursor: "pointer",
-        transition: "box-shadow .2s",
-        textDecoration: "none",
-      }}
-    >
+    <Link href={`/blog/${post.slug}`} className="featured-article-grid">
       {/* Image */}
       <div
         style={{

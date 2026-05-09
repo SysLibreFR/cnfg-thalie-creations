@@ -206,3 +206,116 @@ ul     { list-style: none; }
 .tab { font-family: 'Josefin Sans', sans-serif; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 14px 24px; background: none; border: none; color: var(--text-muted); cursor: pointer; position: relative; transition: color .2s; }
 .tab.active, .tab[data-active="true"] { color: var(--prune); }
 .tab.active::after, .tab[data-active="true"]::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--prune); border-radius: 2px; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE LAYOUT CLASSES
+   ═══════════════════════════════════════════ */
+
+/* Hero 2 colonnes */
+.hero-2col          { display: grid; grid-template-columns: 1fr 1fr; background: #fff; }
+.hero-2col--tall    { min-height: 440px; }
+.hero-2col--medium  { min-height: 340px; }
+
+/* Fiche produit : galerie | infos */
+.product-page-layout { display: grid; grid-template-columns: 1fr 2fr; height: calc(100vh - 64px); min-height: 560px; background: #fff; }
+
+/* Section atelier : visuel | texte */
+.atelier-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+
+/* Article avec sidebar */
+.article-with-sidebar { display: grid; grid-template-columns: 1fr 280px; gap: 48px; padding: 44px 40px 52px; align-items: start; background: #fff; }
+
+/* Article à la une (blog) */
+.featured-article-grid { background: #fff; border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr; border: 1px solid var(--creme-dark); cursor: pointer; transition: box-shadow .2s; text-decoration: none; color: inherit; }
+
+/* Grilles de cartes */
+.cards-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.cards-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+/* En-têtes de page */
+.page-header-shop { background: #fff; padding: 48px 40px 32px; border-bottom: 1px solid var(--creme-dark); }
+.page-header-blog { background: #fff; padding: 56px 40px; text-align: center; border-bottom: 1px solid var(--creme-dark); }
+.article-header-box { background: #fff; padding: 44px 40px 0; }
+.article-cover { height: 280px; position: relative; overflow: hidden; background: var(--lavande-pale); }
+
+/* Timeline */
+.timeline-row { display: grid; grid-template-columns: 1fr 48px 1fr; align-items: start; margin-bottom: 40px; }
+.timeline-content--l { padding-right: 30px; text-align: right; }
+.timeline-content--r { padding-left: 30px; }
+
+/* Description produit (grille conditionnelle) */
+.product-desc-grid { display: grid; gap: 32px; align-items: start; }
+
+/* ═══════════════════════════════════════════
+   MEDIA QUERIES — 768px (tablette / mobile)
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Sections */
+  .section        { padding: 32px 16px; }
+  .section__header { margin-bottom: 24px; }
+  .section__title  { font-size: 22px; }
+
+  /* Breadcrumb */
+  .breadcrumb { padding: 10px 16px; }
+
+  /* Newsletter */
+  .newsletter       { padding: 36px 20px; }
+  .newsletter__form { flex-direction: column; }
+  .newsletter__input { min-width: 0; }
+
+  /* Footer */
+  .footer { padding: 24px 16px; flex-direction: column; align-items: flex-start; }
+
+  /* Tabs scrollables */
+  .tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+
+  /* Hero → 1 colonne */
+  .hero-2col, .hero-2col--tall, .hero-2col--medium { grid-template-columns: 1fr; min-height: auto; }
+
+  /* Fiche produit → empilement */
+  .product-page-layout { grid-template-columns: 1fr; height: auto; min-height: auto; }
+  .product-gallery-col { height: 320px !important; overflow: hidden !important; border-right: none !important; border-bottom: 1px solid var(--creme-dark); }
+  .product-info-col    { height: auto !important; overflow-y: visible !important; }
+  .product-info-pad    { padding: 24px 16px !important; }
+  .product-desc-grid   { grid-template-columns: 1fr !important; padding: 24px 16px !important; }
+
+  /* Atelier → empilement */
+  .atelier-grid   { grid-template-columns: 1fr; gap: 24px; }
+  .atelier-visual { height: 220px !important; }
+
+  /* Article + sidebar → 1 colonne */
+  .article-with-sidebar { grid-template-columns: 1fr; padding: 24px 16px; gap: 28px; }
+
+  /* Article à la une → 1 colonne */
+  .featured-article-grid { grid-template-columns: 1fr; }
+
+  /* Grilles de cartes */
+  .cards-grid-4         { grid-template-columns: repeat(2, 1fr); }
+  .cards-grid-3         { grid-template-columns: repeat(2, 1fr); }
+  .cards-grid-values    { grid-template-columns: repeat(2, 1fr) !important; }
+  .cards-grid-testimonials { grid-template-columns: 1fr !important; }
+
+  /* Timeline → liste verticale */
+  .timeline-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px; }
+  .timeline-line { display: none; }
+  .timeline-dot-wrapper { flex-shrink: 0; order: -1; padding-top: 3px; }
+  .timeline-content--l,
+  .timeline-content--r { padding: 0 !important; text-align: left !important; flex: 1; visibility: visible !important; }
+  .timeline-content--hidden { display: none !important; }
+
+  /* En-têtes de page */
+  .page-header-shop   { padding: 24px 16px 20px; }
+  .page-header-blog   { padding: 32px 16px; }
+  .article-header-box { padding: 20px 16px 0; }
+  .article-cover      { height: 200px; }
+}
+
+/* ═══════════════════════════════════════════
+   MEDIA QUERIES — 480px (petit mobile)
+   ═══════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .section__title  { font-size: 20px; }
+  .cards-grid-3    { grid-template-columns: 1fr; }
+  .cards-grid-4    { grid-template-columns: 1fr; }
+  .cards-grid-values { grid-template-columns: 1fr !important; }
+}

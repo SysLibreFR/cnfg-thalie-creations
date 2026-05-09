@@ -40,7 +40,7 @@ export default async function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", background: "#fff", minHeight: "340px" }}>
+      <section className="hero-2col hero-2col--medium">
         {/* Visuel */}
         <div style={{ background: "var(--lavande-pale)", display: "flex", alignItems: "center", justifyContent: "center", padding: "48px", position: "relative", overflow: "hidden" }}>
           <span style={{ position: "absolute", top: "20px", left: "20px", fontSize: "28px", opacity: 0.4, transform: "rotate(-30deg)" }}>🌿</span>
@@ -103,7 +103,7 @@ export default async function AboutPage() {
             <div className="section__line" />
           </div>
           <div style={{ position: "relative", maxWidth: "660px", margin: "0 auto" }}>
-            <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: "1.5px", background: "var(--lavande-light)", transform: "translateX(-50%)" }} />
+            <div className="timeline-line" style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: "1.5px", background: "var(--lavande-light)", transform: "translateX(-50%)" }} />
             {timelineItems.map((item, i) => {
               const isLeft = i % 2 === 0;
               const content = (
@@ -114,12 +114,20 @@ export default async function AboutPage() {
                 </>
               );
               return (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 48px 1fr", alignItems: "start", marginBottom: "40px" }}>
-                  <div style={{ paddingRight: "30px", textAlign: "right", visibility: isLeft ? "visible" : "hidden" }}>{content}</div>
-                  <div style={{ display: "flex", justifyContent: "center", paddingTop: "4px" }}>
+                <div key={i} className="timeline-row">
+                  <div
+                    className={`timeline-content--l${!isLeft ? " timeline-content--hidden" : ""}`}
+                  >
+                    {content}
+                  </div>
+                  <div className="timeline-dot-wrapper" style={{ display: "flex", justifyContent: "center", paddingTop: "4px" }}>
                     <div style={{ width: "14px", height: "14px", borderRadius: "50%", background: "var(--prune)", border: "3px solid #fff", boxShadow: "0 0 0 2px var(--lavande-light)", flexShrink: 0 }} />
                   </div>
-                  <div style={{ paddingLeft: "30px", visibility: isLeft ? "hidden" : "visible" }}>{content}</div>
+                  <div
+                    className={`timeline-content--r${isLeft ? " timeline-content--hidden" : ""}`}
+                  >
+                    {content}
+                  </div>
                 </div>
               );
             })}
@@ -133,8 +141,8 @@ export default async function AboutPage() {
       {/* Atelier */}
       {hasBlock(blocks, "atelier") && (
         <section className="section section--creme">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "56px", alignItems: "center" }}>
-            <div style={{ background: "var(--lavande-pale)", borderRadius: "20px", height: "300px", display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "1fr 1fr", gap: "14px", padding: "24px" }}>
+          <div className="atelier-grid">
+            <div className="atelier-visual" style={{ background: "var(--lavande-pale)", borderRadius: "20px", height: "300px", display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "1fr 1fr", gap: "14px", padding: "24px" }}>
               {atelierCells.map((cell, i) => (
                 <div key={i} style={{ background: "#fff", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "34px" }}>
                   {cell.icon}
@@ -174,7 +182,7 @@ export default async function AboutPage() {
             {(statsData.title as string | undefined) && <h2 className="section__title section__title--white">{statsData.title as string}</h2>}
             <div className="section__line section__line--white" />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(${statsItems.length}, 1fr)` }}>
+          <div className="cards-grid-4" style={{ gridTemplateColumns: `repeat(${statsItems.length}, 1fr)` }}>
             {statsItems.map((stat, i) => (
               <div key={i} style={{ textAlign: "center", padding: "20px", borderRight: i < statsItems.length - 1 ? "1px solid rgba(255,255,255,.15)" : "none" }}>
                 <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "42px", color: "#fff", display: "block", marginBottom: "6px" }}>{stat.number}</span>

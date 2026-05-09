@@ -46,7 +46,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       ]} />
 
       {/* En-tête */}
-      <div style={{ background: "#fff", padding: "44px 40px 0" }}>
+      <div className="article-header-box">
         <div className="article-meta" style={{ marginBottom: "18px" }}>
           {post.tags[0] && <span className="article-meta__cat">{post.tags[0]}</span>}
           <span className="article-meta__date">{formatDate(post.published_at)}</span>
@@ -77,13 +77,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       </div>
 
       {post.cover_url && (
-        <div style={{ background: "var(--lavande-pale)", height: "280px", position: "relative", overflow: "hidden" }}>
+        <div className="article-cover">
           <Image src={post.cover_url} alt={post.title} fill className="object-cover" priority />
         </div>
       )}
 
       {/* Contenu + Sidebar */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 280px", gap: "48px", padding: "44px 40px 52px", alignItems: "start", background: "#fff" }}>
+      <div className="article-with-sidebar">
         <article className="prose-content" dangerouslySetInnerHTML={{ __html: post.content }} />
 
         <aside>
@@ -139,7 +139,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <h2 className="section__title">Vous aimerez aussi…</h2>
             <div className="section__line" />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
+          <div className="cards-grid-3" style={{ gap: "16px" }}>
             {relatedPosts.map((p) => <ArticleCard key={p.id} post={p} />)}
           </div>
         </section>

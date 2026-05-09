@@ -50,13 +50,7 @@ export default async function BoutiquePage({
   return (
     <>
       {/* En-tête boutique */}
-      <div
-        style={{
-          background: "#fff",
-          padding: "48px 40px 32px",
-          borderBottom: "1px solid var(--creme-dark)",
-        }}
-      >
+      <div className="page-header-shop">
         <span className="eyebrow-row eyebrow-row--sable">
           {eyebrow}
         </span>
@@ -87,14 +81,7 @@ export default async function BoutiquePage({
       <section className="section section--creme">
         {products?.items?.length ? (
           <>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: "14px",
-                marginBottom: "40px",
-              }}
-            >
+            <div className="cards-grid-4" style={{ marginBottom: "40px" }}>
               {products.items.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
