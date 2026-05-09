@@ -70,7 +70,7 @@ export default function Hero({
           </div>
         )}
         {caption && (
-          <p style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: "10px", letterSpacing: ".15em", textTransform: "uppercase", color: "var(--lavande)", marginTop: "16px" }}>
+          <p style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: "10px", letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-muted)", marginTop: "16px" }}>
             {caption}
           </p>
         )}
