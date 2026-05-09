@@ -48,7 +48,7 @@ export default function Hero({
               background: "#fff",
             }}
           >
-            <Image src={artisan.logo_url} alt={`Logo ${artisan.name}`} fill priority sizes="(max-width: 768px) 100vw, 320px" className="object-contain" />
+            <Image src={artisan.logo_url} alt={`Logo ${artisan.name}`} fill priority sizes="(max-width: 480px) calc(100vw - 112px), 320px" className="object-contain" />
           </div>
         ) : (
           <div
