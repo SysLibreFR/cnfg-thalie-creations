@@ -24,6 +24,7 @@ export default function ValuesSection({ data }: { data: ValuesBlockData }) {
       )}
       {items.length > 0 && (
         <div
+          className="cards-grid-values"
           style={{
             display: "grid",
             gridTemplateColumns: `repeat(${Math.min(items.length, 4)}, 1fr)`,

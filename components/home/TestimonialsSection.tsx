@@ -26,6 +26,7 @@ export default function TestimonialsSection({
         </div>
       )}
       <div
+        className="cards-grid-testimonials"
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${Math.min(testimonials.length, 3)}, 1fr)`,

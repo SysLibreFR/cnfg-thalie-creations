@@ -24,14 +24,7 @@ export default function Hero({
   const mono = initials(artisan.name);
 
   return (
-    <section
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        background: "#fff",
-        minHeight: "440px",
-      }}
-    >
+    <section className="hero-2col hero-2col--tall">
       {/* Gauche — monogramme ou logo */}
       <div
         style={{

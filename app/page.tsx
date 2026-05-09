@@ -66,7 +66,7 @@ export default async function HomePage() {
             )}
             <div className="section__line" />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "14px" }}>
+          <div className="cards-grid-4">
             {featuredProducts.items.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

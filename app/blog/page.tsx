@@ -44,7 +44,7 @@ export default async function BlogPage({
   return (
     <>
       {/* Hero blog */}
-      <div style={{ background: "#fff", padding: "56px 40px", textAlign: "center", borderBottom: "1px solid var(--creme-dark)" }}>
+      <div className="page-header-blog">
         {(blogHeroData.eyebrow as string | undefined) && (
           <span className="section__eyebrow">{blogHeroData.eyebrow as string}</span>
         )}
@@ -79,7 +79,7 @@ export default async function BlogPage({
           <p className="eyebrow-row eyebrow-row--sable" style={{ marginBottom: "22px" }}>
             {featured ? "Derniers articles" : "Articles"}
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "18px", marginBottom: totalPages > 1 ? "32px" : 0 }}>
+          <div className="cards-grid-3" style={{ marginBottom: totalPages > 1 ? "32px" : 0 }}>
             {list.map((post) => <ArticleCard key={post.id} post={post} />)}
           </div>
           {totalPages > 1 && (

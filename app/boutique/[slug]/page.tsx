@@ -90,18 +90,11 @@ export default async function ProductPage({
         ]}
       />
 
-      {/* Layout produit : 1/3 image fixe | 2/3 informations défilables */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 2fr",
-          height: "calc(100vh - 64px)",
-          minHeight: "560px",
-          background: "#fff",
-        }}
-      >
-        {/* Colonne image — fixe, hauteur pleine */}
+      {/* Layout produit : galerie | informations */}
+      <div className="product-page-layout">
+        {/* Colonne image */}
         <div
+          className="product-gallery-col"
           style={{
             height: "100%",
             overflow: "hidden",
@@ -111,8 +104,9 @@ export default async function ProductPage({
           <ProductGallery images={product.images} productName={product.name} />
         </div>
 
-        {/* Colonne informations — défilable */}
+        {/* Colonne informations */}
         <div
+          className="product-info-col"
           style={{
             height: "100%",
             overflowY: "auto",
@@ -122,6 +116,7 @@ export default async function ProductPage({
         >
           {/* Informations produit */}
           <div
+            className="product-info-pad"
             style={{
               padding: "40px 44px",
               display: "flex",
@@ -281,17 +276,15 @@ export default async function ProductPage({
             )}
           </div>
 
-          {/* Description complète — déplacée dans la colonne droite */}
+          {/* Description complète */}
           {(product.description || hasDimensions) && (
             <div
+              className="product-desc-grid"
               style={{
                 padding: "40px 44px",
                 background: "var(--creme)",
                 borderTop: "1px solid var(--creme-dark)",
-                display: "grid",
                 gridTemplateColumns: hasDimensions ? "1fr 1fr" : "1fr",
-                gap: "32px",
-                alignItems: "start",
               }}
             >
               {product.description && (
@@ -353,13 +346,7 @@ export default async function ProductPage({
             <h2 className="section__title">Vous aimerez aussi…</h2>
             <div className="section__line" />
           </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "14px",
-            }}
-          >
+          <div className="cards-grid-4">
             {similarProducts.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
