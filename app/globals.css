@@ -244,6 +244,9 @@ ul     { list-style: none; }
 /* Grille de créations (2 colonnes, pavés penchés) */
 .creations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 720px; margin: 0 auto; }
 
+/* Deux pavés côte à côte (valeurs + créations) */
+.tiles-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+
 /* Description produit (grille conditionnelle) */
 .product-desc-grid { display: grid; gap: 32px; align-items: start; }
 
@@ -295,6 +298,7 @@ ul     { list-style: none; }
   .cards-grid-3         { grid-template-columns: repeat(2, 1fr); }
   .cards-grid-values    { grid-template-columns: repeat(2, 1fr) !important; }
   .cards-grid-testimonials { grid-template-columns: 1fr !important; }
+  .tiles-2col           { grid-template-columns: 1fr; }
 
   /* Timeline → liste verticale */
   .timeline-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px; }
@@ -320,4 +324,5 @@ ul     { list-style: none; }
   .cards-grid-4    { grid-template-columns: 1fr; }
   .cards-grid-values { grid-template-columns: 1fr !important; }
   .creations-grid  { grid-template-columns: 1fr; }
+  .tiles-2col      { gap: 24px; }
 }
