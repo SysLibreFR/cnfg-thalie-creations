@@ -50,6 +50,11 @@ export interface BlockAtelierCell {
   icon: string;
 }
 
+export interface BlockCreationItem {
+  icon: string;
+  label: string;
+}
+
 // ── Theme config (design system uniquement) ──────────────────────────────────
 // Le contenu éditorial (textes de sections, listes) est dans les editorial blocks.
 // theme_config contient seulement : couleurs, polices, méta-infos artisan.
