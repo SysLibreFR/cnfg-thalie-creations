@@ -241,6 +241,9 @@ ul     { list-style: none; }
 .timeline-content--l { padding-right: 30px; text-align: right; }
 .timeline-content--r { padding-left: 30px; }
 
+/* Grille de créations (2 colonnes, pavés penchés) */
+.creations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 720px; margin: 0 auto; }
+
 /* Description produit (grille conditionnelle) */
 .product-desc-grid { display: grid; gap: 32px; align-items: start; }
 
@@ -316,4 +319,5 @@ ul     { list-style: none; }
   .cards-grid-3    { grid-template-columns: 1fr; }
   .cards-grid-4    { grid-template-columns: 1fr; }
   .cards-grid-values { grid-template-columns: 1fr !important; }
+  .creations-grid  { grid-template-columns: 1fr; }
 }
