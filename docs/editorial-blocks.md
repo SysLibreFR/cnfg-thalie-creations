@@ -17,12 +17,14 @@ Chaque bloc est identifié par son `slug`. Le frontend récupère la valeur `dat
 | `testimonials` | Accueil | En-tête section témoignages |
 | `newsletter` | Accueil, Blog, Article | Section newsletter |
 | `about_hero` | À propos | Bannière de la page |
+| `about_universe` | À propos | Paragraphe "Mon univers" |
 | `timeline` | À propos | Frise chronologique |
 | `atelier` | À propos | Section atelier |
 | `stats` | À propos | Statistiques clés |
+| `creations` | À propos | Liste des types de créations |
 | `boutique_hero` | Boutique | En-tête de la page boutique |
 | `blog_hero` | Blog | Bannière de la page blog |
-| `about_cta` | À propos | Bloc d'appel à l'action en bas de page |
+| `about_cta` | À propos | Bloc d'appel à l'action et phrase de clôture |
 
 ---
 
@@ -106,9 +108,25 @@ Bannière en haut de la page À propos.
 | Champ | Type | Exemple |
 |-------|------|---------|
 | `eyebrow` | string | `"Mon histoire"` |
-| `subtitle` | string | `"Artisane depuis plus de 10 ans, je crée des pièces uniques au crochet dans mon atelier niçois."` |
+| `title` | string | `"Bonjour, je suis Nathalie !"` |
+| `subtitle` | string | `"Je suis passionnée de crochet depuis plusieurs années. J'aime transformer un simple fil en créations uniques, réalisées avec patience, créativité et beaucoup de cœur."` |
+| `photo_url` | string (URL) | `"https://…/nathalie.jpg"` |
+| `signature_name` | string | `"Nathalie"` |
+| `signature_role` | string | `"Créatrice & artisane"` |
 
-Le titre principal de la bannière est le nom de l'artisane, fourni par le profil artisan (`artisan.name`).
+- `title` : ligne d'accueil affichée comme `<h1>`. Si absent, le frontend replie sur `"Bonjour, je suis {prénom} !"` construit à partir de `artisan.name`.
+- `photo_url` : portrait de l'artisane affiché dans la colonne visuelle. Si absent, le frontend utilise `artisan.logo_url`.
+- `signature_name` : prénom affiché en signature cursive sous le texte. Si absent, le frontend utilise le premier mot de `artisan.name`.
+- `signature_role` : rôle affiché en petites capitales sous la signature. Si absent, le frontend utilise `artisan.theme_config.artisan_role` (valeur par défaut : `"Créatrice & artisane"`).
+
+---
+
+### `about_universe`
+Court paragraphe de tonalité affiché entre le hero et la frise chronologique sur la page À propos. **Si ce bloc est absent, la section n'est pas affichée.**
+
+| Champ | Type | Exemple |
+|-------|------|---------|
+| `text` | string | `"Mon univers est empreint de douceur, de couleurs et d'une touche de poésie que j'aime insuffler dans chacune de mes réalisations."` |
 
 ---
 
@@ -172,14 +190,57 @@ Chiffres clés sur la page À propos. **Si `items` est vide, la section n'est pa
 ---
 
 ### `about_cta`
-Bloc d'appel à l'action affiché en bas de la page À propos, avant la newsletter.
+Bloc d'appel à l'action affiché en bas de la page À propos, avant la newsletter. Contient également la phrase de clôture affichée après les boutons.
 
 | Champ | Type | Exemple |
 |-------|------|---------|
 | `title` | string | `"Envie d'une création unique ?"` |
-| `text` | string | `"Chaque commande est une belle aventure. Je serais ravie de créer quelque chose rien que pour vous."` |
+| `text` | string | `"Si un modèle vous plaît mais que vous souhaitez une autre couleur, n'hésitez pas à me contacter. Je pourrai réaliser une création personnalisée selon vos envies (dans la limite des matériaux disponibles)."` |
+| `farewell_line1` | string | `"Installez-vous, explorez… et laissez-vous inspirer."` |
+| `farewell_line2` | string | `"Merci d'être ici 💜"` |
 
-Si le bloc est absent ou si un champ est manquant, le frontend utilise les valeurs par défaut ci-dessus.
+Si le bloc est absent ou si un champ est manquant, le frontend utilise les valeurs par défaut pour `title` et `text`. Les champs `farewell_line1` et `farewell_line2` ne s'affichent que s'ils sont renseignés.
+
+---
+
+### `creations`
+Liste des types de créations proposées, affichée sur la page À propos. **Si ce bloc est absent, la section n'est pas affichée.**
+
+| Champ | Type | Exemple |
+|-------|------|---------|
+| `eyebrow` | string | `"Ce que je crée"` |
+| `title` | string | `"Voici ce que je crée principalement"` |
+| `items` | `CreationItem[]` | voir ci-dessous |
+
+**Structure `CreationItem`** :
+
+| Champ | Type | Exemple |
+|-------|------|---------|
+| `icon` | string (emoji) | `"🧸"` |
+| `label` | string | `"Oursons (Teddy Bear)"` |
+
+Le frontend affiche les items dans une grille à 2 colonnes. Exemple de jeu de données complet :
+
+```json
+{
+  "eyebrow": "Ce que je crée",
+  "title": "Voici ce que je crée principalement",
+  "items": [
+    { "icon": "🪆", "label": "Poupées" },
+    { "icon": "🧸", "label": "Oursons (Teddy Bear)" },
+    { "icon": "🐰", "label": "Amigurumis" },
+    { "icon": "🐱", "label": "Chats « boules »" },
+    { "icon": "🦋", "label": "Papillons « boules »" },
+    { "icon": "⭐", "label": "Doudous étoiles endormies" },
+    { "icon": "💜", "label": "Doudous divers" },
+    { "icon": "👑", "label": "Couronnes de naissance (personnalisables avec le prénom)" },
+    { "icon": "🦋", "label": "Porte-clés papillon" },
+    { "icon": "🪆", "label": "Porte-clés fillette" },
+    { "icon": "👗", "label": "Robes pour poupées Barbie (vendues avec la poupée)" },
+    { "icon": "💎", "label": "Boucles d'oreilles" }
+  ]
+}
+```
 
 ---
 
