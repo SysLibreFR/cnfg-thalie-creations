@@ -73,7 +73,7 @@ export default async function AboutPage() {
           alignItems: "center",
           justifyContent: "center",
           gap: "20px",
-          padding: "40px 44px 48px",
+          padding: "40px 72px 48px",
           position: "relative",
           overflow: "hidden",
         }}>
@@ -125,20 +125,20 @@ export default async function AboutPage() {
         </div>
 
         {/* Colonne texte */}
-        <div style={{ padding: "56px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <div style={{ padding: "56px 52px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <span className="eyebrow-row">{eyebrow}</span>
-          <h1 style={{ fontSize: "36px", color: "var(--prune)", lineHeight: 1.2, marginBottom: "16px", whiteSpace: "pre-line" }}>
+          <h1 style={{ fontSize: "48px", color: "var(--prune)", lineHeight: 1.15, marginBottom: "20px", whiteSpace: "pre-line" }}>
             {heroTitle}
           </h1>
           {((aboutHeroData.subtitle as string | undefined) ?? aboutPage?.excerpt ?? artisan?.description) && (
-            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "17px", color: "var(--text)", lineHeight: 1.8, marginBottom: "22px" }}>
+            <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "20px", color: "var(--text)", lineHeight: 1.8, marginBottom: "28px" }}>
               {(aboutHeroData.subtitle as string | undefined) ?? aboutPage?.excerpt ?? artisan?.description}
             </p>
           )}
-          <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "30px", color: "var(--prune)" }}>
+          <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "38px", color: "var(--prune)" }}>
             {signatureName ?? ""}
           </p>
-          <p style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: "9px", letterSpacing: ".12em", textTransform: "uppercase", color: "var(--text-muted)", marginTop: "3px" }}>
+          <p style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: "10px", letterSpacing: ".14em", textTransform: "uppercase", color: "var(--text-muted)", marginTop: "4px" }}>
             {signatureRole}
           </p>
         </div>
