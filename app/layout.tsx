@@ -4,6 +4,7 @@ import "./globals.css";
 import { getArtisan, getMenu } from "@/lib/api";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -61,6 +62,7 @@ export default async function RootLayout({
         <Nav artisan={artisan} menu={menu} />
         <main>{children}</main>
         <Footer artisan={artisan} />
+        <Analytics />
       </body>
     </html>
   );
