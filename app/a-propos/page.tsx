@@ -214,7 +214,7 @@ export default async function AboutPage() {
                     <span className="section__eyebrow">{valuesData.eyebrow as string}</span>
                   )}
                   {(valuesData.title as string | undefined) && (
-                    <h2 className="section__title" style={{ fontSize: "22px" }}>{valuesData.title as string}</h2>
+                    <h2 className="section__title" style={{ fontSize: "24px" }}>{valuesData.title as string}</h2>
                   )}
                   <div className="section__line" />
                 </div>
@@ -234,7 +234,7 @@ export default async function AboutPage() {
                         background: "var(--lavande-pale)",
                       }}>
                         <span style={{ fontSize: "26px", marginBottom: "10px", display: "block" }}>{v.icon}</span>
-                        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "15px", fontWeight: 500, color: "var(--prune)", marginBottom: "6px" }}>{v.title}</p>
+                        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px", fontWeight: 500, color: "var(--prune)", marginBottom: "6px" }}>{v.title}</p>
                         <p style={{ fontSize: "11px", color: "var(--text)", lineHeight: 1.6 }}>{v.text}</p>
                       </div>
                     ))}
