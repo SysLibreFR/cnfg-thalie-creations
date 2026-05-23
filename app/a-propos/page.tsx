@@ -50,6 +50,7 @@ export default async function AboutPage() {
   const heroTitle     = (aboutHeroData.title as string | undefined) ??
     (artisan?.name ? `Bonjour,\nje suis ${artisan.name.split(" ")[0]} !` : "Bonjour !");
   const photoUrl      = (aboutHeroData.photo_url as string | undefined) ?? artisan?.logo_url;
+  const coinUrl       = aboutHeroData.coin_url as string | undefined;
   const signatureName = (aboutHeroData.signature_name as string | undefined) ?? artisan?.name?.split(" ")[0];
   const signatureRole = (aboutHeroData.signature_role as string | undefined) ?? artisanRole;
   const universeText  = aboutUniverseData.text as string | undefined;
@@ -64,7 +65,27 @@ export default async function AboutPage() {
     <div style={{ background: "var(--lavande-pale)", overflowX: "hidden" }}>
 
       {/* ── Hero ── */}
-      <section className="hero-2col" style={{ background: "transparent", minHeight: "460px" }}>
+      <section className="hero-2col" style={{ background: "transparent", minHeight: "460px", position: "relative" }}>
+
+        {/* Coin décoratif — image dans le coin supérieur droit */}
+        {coinUrl && (
+          <div style={{
+            position: "absolute",
+            top: "16px",
+            right: "16px",
+            width: "72px",
+            height: "72px",
+            zIndex: 2,
+            pointerEvents: "none",
+          }}>
+            <Image
+              src={coinUrl}
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
+        )}
 
         {/* Colonne photo */}
         <div style={{

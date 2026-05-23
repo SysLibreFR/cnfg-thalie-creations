@@ -111,11 +111,13 @@ Bannière en haut de la page À propos.
 | `title` | string | `"Bonjour, je suis Nathalie !"` |
 | `subtitle` | string | `"Je suis passionnée de crochet depuis plusieurs années. J'aime transformer un simple fil en créations uniques, réalisées avec patience, créativité et beaucoup de cœur."` |
 | `photo_url` | string (URL) | `"https://…/nathalie.jpg"` |
+| `coin_url` | string (URL) | `"https://…/coin-deco.png"` |
 | `signature_name` | string | `"Nathalie"` |
 | `signature_role` | string | `"Créatrice & artisane"` |
 
 - `title` : ligne d'accueil affichée comme `<h1>`. Si absent, le frontend replie sur `"Bonjour, je suis {prénom} !"` construit à partir de `artisan.name`.
 - `photo_url` : portrait de l'artisane affiché dans la colonne visuelle. Si absent, le frontend utilise `artisan.logo_url`.
+- `coin_url` : image décorative affichée dans le coin supérieur droit du bloc hero. Si absent, rien n'est affiché.
 - `signature_name` : prénom affiché en signature cursive sous le texte. Si absent, le frontend utilise le premier mot de `artisan.name`.
 - `signature_role` : rôle affiché en petites capitales sous la signature. Si absent, le frontend utilise `artisan.theme_config.artisan_role` (valeur par défaut : `"Créatrice & artisane"`).
 
