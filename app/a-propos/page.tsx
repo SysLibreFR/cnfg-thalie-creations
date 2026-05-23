@@ -252,7 +252,7 @@ export default async function AboutPage() {
                     <span className="section__eyebrow">{creationsData.eyebrow as string}</span>
                   )}
                   {(creationsData.title as string | undefined) && (
-                    <h2 className="section__title" style={{ fontSize: "22px" }}>{creationsData.title as string}</h2>
+                    <h2 className="section__title" style={{ fontSize: "24px" }}>{creationsData.title as string}</h2>
                   )}
                   <div className="section__line" />
                 </div>
@@ -268,7 +268,7 @@ export default async function AboutPage() {
                       background: i % 2 === 0 ? "var(--lavande-pale)" : "transparent",
                     }}>
                       <span style={{ fontSize: "19px", flexShrink: 0, lineHeight: 1 }}>{item.icon}</span>
-                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "14px", color: "var(--prune)", lineHeight: 1.3 }}>{item.label}</span>
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px", color: "var(--prune)", lineHeight: 1.3 }}>{item.label}</span>
                     </div>
                   ))}
                 </div>
