@@ -65,27 +65,16 @@ export default async function AboutPage() {
     <div style={{ background: "var(--lavande-pale)", overflowX: "hidden" }}>
 
       {/* ── Hero ── */}
-      <section className="hero-2col" style={{ background: "transparent", minHeight: "460px", position: "relative" }}>
-
-        {/* Coin décoratif — image dans le coin supérieur droit */}
-        {coinUrl && (
-          <div style={{
-            position: "absolute",
-            top: "16px",
-            right: "16px",
-            width: "72px",
-            height: "72px",
-            zIndex: 2,
-            pointerEvents: "none",
-          }}>
-            <Image
-              src={coinUrl}
-              alt=""
-              fill
-              className="object-contain"
-            />
-          </div>
-        )}
+      <section className="hero-2col" style={{
+        minHeight: "460px",
+        position: "relative",
+        overflow: "hidden",
+        ...(coinUrl
+          ? {
+              background: `linear-gradient(to top right, var(--lavande-pale) 35%, transparent 100%), url(${coinUrl}) center / cover no-repeat`,
+            }
+          : { background: "transparent" }),
+      }}>
 
         {/* Colonne photo */}
         <div style={{
