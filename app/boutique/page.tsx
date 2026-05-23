@@ -8,7 +8,7 @@ import Link from "next/link";
 export const metadata: Metadata = { title: "Boutique" };
 export const revalidate = 600;
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 12;
 
 export default async function BoutiquePage({
   searchParams,
