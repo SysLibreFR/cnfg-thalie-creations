@@ -41,6 +41,8 @@ export default function AddToCartSection({ product }: Props) {
         "",
       quantity,
       custom_fields: customFields,
+      track_inventory: product.track_inventory,
+      stock_quantity: product.stock_quantity,
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
@@ -50,6 +52,10 @@ export default function AddToCartSection({ product }: Props) {
     product.track_inventory &&
     product.stock_quantity !== null &&
     product.stock_quantity <= 0;
+
+  const maxQty = product.track_inventory && product.stock_quantity != null
+    ? product.stock_quantity
+    : Infinity;
 
   const showAddToCart = !product.price_on_request && !isOutOfStock;
   const isPriceOnRequest = product.price_on_request;
@@ -146,12 +152,20 @@ export default function AddToCartSection({ product }: Props) {
             </button>
             <span className="w-10 text-center font-medium">{quantity}</span>
             <button
-              onClick={() => setQuantity((q) => q + 1)}
+              onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
               className="w-10 h-10 border rounded-lg"
+              disabled={quantity >= maxQty}
+              style={{ opacity: quantity >= maxQty ? 0.4 : 1 }}
             >
               +
             </button>
           </div>
+          {product.track_inventory && product.stock_quantity != null && (
+            <p className="text-xs text-gray-500 mt-1">
+              {product.stock_quantity} en stock
+              {maxQty < Infinity && quantity >= maxQty && " — quantité maximale atteinte"}
+            </p>
+          )}
         </div>
       )}
 

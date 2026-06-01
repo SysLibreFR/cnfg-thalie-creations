@@ -55,6 +55,9 @@ export default function PanierPage() {
         {items.map((item, idx) => {
           const key = `${item.product_id}-${idx}`;
           const lineTotal = item.price * item.quantity;
+          const maxQty = item.track_inventory && item.stock_quantity != null
+            ? item.stock_quantity
+            : Infinity;
 
           return (
             <div
@@ -153,18 +156,19 @@ export default function PanierPage() {
                     onClick={() =>
                       updateQuantity(item.product_id, item.quantity + 1, item.custom_fields)
                     }
+                    disabled={item.quantity >= maxQty}
                     style={{
                       width: "32px",
                       height: "32px",
                       border: "1px solid var(--lavande-light)",
                       borderRadius: "8px",
                       background: "#fff",
-                      cursor: "pointer",
+                      cursor: item.quantity >= maxQty ? "not-allowed" : "pointer",
                       fontSize: "16px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      color: "var(--text)",
+                      color: item.quantity >= maxQty ? "var(--creme-dark)" : "var(--text)",
                     }}
                   >
                     +
@@ -183,6 +187,12 @@ export default function PanierPage() {
                     Supprimer
                   </button>
                 </div>
+                {item.track_inventory && item.stock_quantity != null && (
+                  <p style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px" }}>
+                    {item.stock_quantity} en stock
+                    {item.quantity >= maxQty && " — quantité max atteinte"}
+                  </p>
+                )}
               </div>
               <div
                 style={{

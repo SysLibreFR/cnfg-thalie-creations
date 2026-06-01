@@ -10,6 +10,8 @@ export interface CartItem {
   image_url: string;
   quantity: number;
   custom_fields: Record<string, string>;
+  track_inventory?: boolean;
+  stock_quantity?: number | null;
 }
 
 const STORAGE_KEY = "artisan_cart";
@@ -48,12 +50,19 @@ export function useCart() {
         i.product_id === item.product_id &&
         JSON.stringify(i.custom_fields) === JSON.stringify(item.custom_fields)
     );
+
+    const maxQty = item.track_inventory && item.stock_quantity != null
+      ? item.stock_quantity
+      : Infinity;
+
     if (idx >= 0) {
       const copy = [...items];
-      copy[idx] = { ...copy[idx], quantity: copy[idx].quantity + item.quantity };
+      const newQty = Math.min(copy[idx].quantity + item.quantity, maxQty);
+      copy[idx] = { ...copy[idx], quantity: newQty };
       persist(copy);
     } else {
-      persist([...items, item]);
+      const newQty = Math.min(item.quantity, maxQty);
+      persist([...items, { ...item, quantity: newQty }]);
     }
   }
 
