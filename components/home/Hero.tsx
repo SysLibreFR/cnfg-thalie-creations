@@ -38,7 +38,6 @@ export default function Hero({
       {/* Gauche — monogramme ou logo */}
       <div
         style={{
-          background: "var(--lavande-pale)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
