@@ -138,6 +138,8 @@ export interface Product {
   meta_title: string;
   meta_description: string;
   images: ProductImage[];
+  stock_quantity: number | null;
+  track_inventory: boolean;
   created_at: string;
   updated_at: string;
   published_at: string | null;
@@ -157,6 +159,8 @@ export interface FieldSchemaDef {
   display_order: number;
   conditional_on_field_id: string | null;
   conditional_on_value: string | null;
+  customer_facing?: boolean;
+  customer_facing_label?: string | null;
 }
 
 // ── Page ─────────────────────────────────────────────────────────────────────
@@ -233,4 +237,59 @@ export interface Menu {
   status: string;
   created_at: string;
   updated_at: string;
+}
+
+// ── Checkout / Panier ──────────────────────────────────────────────────
+
+export interface CheckoutItem {
+  product_id: string;
+  quantity: number;
+  custom_fields?: Record<string, string>;
+}
+
+export interface ShippingZone {
+  id: string;
+  name: string;
+  countries: string[];
+  price: string;
+  free_above: string | null;
+}
+
+export interface ValidateResponse {
+  items: Array<{
+    product_id: string;
+    valid: boolean;
+    errors?: string[];
+  }>;
+  subtotal: number;
+  shipping_cost: number;
+  estimated_tax: number;
+  total: number;
+  shipping_zones_available: ShippingZone[];
+}
+
+export interface CreateSessionResponse {
+  session_url: string;
+  order_id: string;
+  token: string;
+}
+
+export interface OrderPublic {
+  status: string;
+  total: string;
+  currency: string;
+  paid_at: string | null;
+  created_at: string;
+  items: Array<{
+    product_snapshot: { name: string; slug: string; image_url?: string };
+    quantity: number;
+    unit_price: string;
+    subtotal: string;
+    customizations: Record<string, { label: string; value: unknown; label_value?: string }> | null;
+  }>;
+  status_history: Array<{
+    from_status: string | null;
+    to_status: string;
+    created_at: string;
+  }>;
 }

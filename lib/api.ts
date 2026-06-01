@@ -2,13 +2,18 @@ import type {
   Artisan,
   BlogPost,
   Category,
+  CheckoutItem,
+  CreateSessionResponse,
   EditorialBlock,
   FieldSchemaDef,
   Menu,
+  OrderPublic,
   Page,
   PaginatedResponse,
   Product,
+  ShippingZone,
   Testimonial,
+  ValidateResponse,
 } from "./types";
 
 const API_URL = (process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
@@ -164,4 +169,78 @@ export function getMenu(slug: string): Promise<Menu | null> {
     revalidate: 3600,
     tags: ["artisan"],
   });
+}
+
+// ── Checkout ────────────────────────────────────────────────────────────
+
+const BASE_CLIENT = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
+const CLIENT_SLUG = process.env.NEXT_PUBLIC_ARTISAN_SLUG ?? "";
+
+export async function validateCheckout(data: {
+  items: CheckoutItem[];
+  country: string;
+}): Promise<ValidateResponse> {
+  const res = await fetch(
+    `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/checkout/validate`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }
+  );
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+export async function createCheckoutSession(data: {
+  items: CheckoutItem[];
+  customer_email: string;
+  customer_first_name: string;
+  customer_last_name: string;
+  customer_phone?: string;
+  shipping_address: {
+    line1: string;
+    line2?: string;
+    city: string;
+    postal_code: string;
+    country: string;
+  };
+  billing_address?: Record<string, string>;
+  shipping_zone_id?: string;
+  notes?: string;
+  success_url: string;
+  cancel_url: string;
+}): Promise<CreateSessionResponse> {
+  const res = await fetch(
+    `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/checkout/create-session`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }
+  );
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+export async function getShippingZones(): Promise<ShippingZone[]> {
+  const res = await fetch(
+    `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/shipping-zones/`
+  );
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function trackOrder(token: string): Promise<OrderPublic> {
+  const res = await fetch(`${BASE_CLIENT}/api/v1/public/orders/${token}/`);
+  if (!res.ok) throw new Error("Commande introuvable");
+  return res.json();
+}
+
+export async function getClientFieldSchema(): Promise<FieldSchemaDef[]> {
+  const res = await fetch(
+    `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/field-schema/`
+  );
+  if (!res.ok) return [];
+  return res.json();
 }

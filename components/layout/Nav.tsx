@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import type { Artisan, Menu } from "@/lib/types";
+import CartBadge from "./CartBadge";
 
 const DEFAULT_LINKS = [
   { label: "Boutique", url: "/boutique" },
@@ -53,7 +54,7 @@ export default function Nav({
         </Link>
 
         {/* Liens desktop */}
-        <ul className="nav-links-desktop" style={{ display: "flex", gap: "28px" }}>
+        <ul className="nav-links-desktop" style={{ display: "flex", gap: "28px", alignItems: "center" }}>
           {links.map((link) => {
             const isActive =
               link.url === "/"
@@ -79,65 +80,73 @@ export default function Nav({
           })}
         </ul>
 
-        {/* CTA desktop */}
-        <Link
-          href="/boutique"
-          className="btn btn--primary nav-cta-desktop"
-          style={{ padding: "10px 20px", fontSize: "10px" }}
-        >
-          Voir la boutique
-        </Link>
+        {/* Panier + CTA desktop */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span className="nav-cart-header">
+            <CartBadge />
+          </span>
+          <Link
+            href="/boutique"
+            className="btn btn--primary nav-cta-desktop"
+            style={{ padding: "10px 20px", fontSize: "10px" }}
+          >
+            Voir la boutique
+          </Link>
+        </div>
 
         {/* Bouton hamburger mobile */}
-        <button
-          className="nav-hamburger"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-          aria-expanded={open}
-          style={{
-            background: "none",
-            border: "none",
-            padding: "8px",
-            display: "none",
-            flexDirection: "column",
-            gap: "5px",
-            cursor: "pointer",
-          }}
-        >
-          <span
+        <div className="nav-hamburger-group" style={{ display: "none", alignItems: "center", gap: "4px" }}>
+          <CartBadge />
+          <button
+            className="nav-hamburger"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={open}
             style={{
-              display: "block",
-              width: "22px",
-              height: "2px",
-              background: "var(--prune)",
-              borderRadius: "2px",
-              transition: "transform .2s, opacity .2s",
-              transform: open ? "translateY(7px) rotate(45deg)" : "none",
+              background: "none",
+              border: "none",
+              padding: "8px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+              cursor: "pointer",
             }}
-          />
-          <span
-            style={{
-              display: "block",
-              width: "22px",
-              height: "2px",
-              background: "var(--prune)",
-              borderRadius: "2px",
-              transition: "opacity .2s",
-              opacity: open ? 0 : 1,
-            }}
-          />
-          <span
-            style={{
-              display: "block",
-              width: "22px",
-              height: "2px",
-              background: "var(--prune)",
-              borderRadius: "2px",
-              transition: "transform .2s, opacity .2s",
-              transform: open ? "translateY(-7px) rotate(-45deg)" : "none",
-            }}
-          />
-        </button>
+          >
+            <span
+              style={{
+                display: "block",
+                width: "22px",
+                height: "2px",
+                background: "var(--prune)",
+                borderRadius: "2px",
+                transition: "transform .2s, opacity .2s",
+                transform: open ? "translateY(7px) rotate(45deg)" : "none",
+              }}
+            />
+            <span
+              style={{
+                display: "block",
+                width: "22px",
+                height: "2px",
+                background: "var(--prune)",
+                borderRadius: "2px",
+                transition: "opacity .2s",
+                opacity: open ? 0 : 1,
+              }}
+            />
+            <span
+              style={{
+                display: "block",
+                width: "22px",
+                height: "2px",
+                background: "var(--prune)",
+                borderRadius: "2px",
+                transition: "transform .2s, opacity .2s",
+                transform: open ? "translateY(-7px) rotate(-45deg)" : "none",
+              }}
+            />
+          </button>
+        </div>
       </nav>
 
       {/* Menu mobile déroulant */}
@@ -184,14 +193,17 @@ export default function Nav({
               );
             })}
           </ul>
-          <Link
-            href="/boutique"
-            onClick={() => setOpen(false)}
-            className="btn btn--primary"
-            style={{ display: "block", textAlign: "center", marginTop: "16px", fontSize: "10px" }}
-          >
-            Voir la boutique
-          </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "16px" }}>
+            <CartBadge />
+            <Link
+              href="/boutique"
+              onClick={() => setOpen(false)}
+              className="btn btn--primary"
+              style={{ flex: 1, textAlign: "center", fontSize: "10px" }}
+            >
+              Voir la boutique
+            </Link>
+          </div>
         </div>
       )}
 
@@ -214,7 +226,8 @@ export default function Nav({
           .nav-root { padding: 0 16px !important; }
           .nav-links-desktop { display: none !important; }
           .nav-cta-desktop   { display: none !important; }
-          .nav-hamburger     { display: flex !important; }
+          .nav-cart-header   { display: none !important; }
+          .nav-hamburger-group { display: flex !important; }
           .nav-mobile-menu   { display: block; }
         }
       `}</style>

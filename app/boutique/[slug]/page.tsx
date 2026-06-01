@@ -5,6 +5,7 @@ import type { FieldSchemaDef } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 import ProductGallery from "@/components/products/ProductGallery";
 import ProductCard from "@/components/products/ProductCard";
+import AddToCartSection from "@/components/products/AddToCartSection";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import Link from "next/link";
 import { marked } from "marked";
@@ -229,14 +230,17 @@ export default async function ProductPage({
               </div>
             )}
 
-            {/* Contact pour commande */}
+            {/* Ajout au panier */}
+            <AddToCartSection product={product} />
+
+            {/* Contact par email */}
             {artisan?.contact?.email && (
               <a
                 href={`mailto:${artisan.contact.email}?subject=Commande : ${product.name}`}
-                className="btn btn--primary"
-                style={{ marginBottom: "20px", textAlign: "center" }}
+                className="btn btn--outline"
+                style={{ marginBottom: "20px", textAlign: "center", fontSize: "10px" }}
               >
-                Commander ce produit
+                Commander par email
               </a>
             )}
 
