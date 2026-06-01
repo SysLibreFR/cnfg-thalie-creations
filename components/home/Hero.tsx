@@ -8,6 +8,7 @@ interface HeroBlockData {
   title?: string;
   subtitle?: string;
   caption?: string;
+  coin_url?: string;
 }
 
 export default function Hero({
@@ -22,9 +23,18 @@ export default function Hero({
   const subtitle = data.subtitle ?? artisan.description ?? "";
   const caption = data.caption ?? "";
   const mono = initials(artisan.name);
+  const coinUrl = data.coin_url;
 
   return (
-    <section className="hero-2col hero-2col--tall">
+    <section className="hero-2col hero-2col--tall" style={{
+      position: "relative",
+      overflow: "hidden",
+      ...(coinUrl
+        ? {
+            background: `linear-gradient(to top right, var(--lavande-pale) 35%, transparent 100%), url(${coinUrl}) center / cover no-repeat`,
+          }
+        : {}),
+    }}>
       {/* Gauche — monogramme ou logo */}
       <div
         style={{

@@ -28,6 +28,7 @@ export default async function HomePage() {
     title?: string;
     subtitle?: string;
     caption?: string;
+    coin_url?: string;
   };
   const bandeauData = blockData(blocks, "bandeau") as { items?: string[] };
   const featuredData = blockData(blocks, "featured_products") as {
