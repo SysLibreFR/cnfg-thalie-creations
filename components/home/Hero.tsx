@@ -31,7 +31,7 @@ export default function Hero({
       overflow: "hidden",
       ...(coinUrl
         ? {
-            background: `linear-gradient(to top right, var(--lavande-light) 50%, var(--lavande-pale) 80%, transparent 100%), url(${coinUrl}) top right / contain no-repeat`,
+            background: `linear-gradient(to top right, var(--lavande-light) 30%, var(--lavande-pale) 50%, transparent 100%), url(${coinUrl}) top right / contain no-repeat`,
           }
         : {}),
     }}>
