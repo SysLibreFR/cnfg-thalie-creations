@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Cormorant_Garamond, Nunito, Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import { getArtisan, getMenu } from "@/lib/api";
+import { CartProvider } from "@/hooks/CartContext";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/next";
@@ -59,9 +60,11 @@ export default async function RootLayout({
   return (
     <html lang="fr" className={`${playfair.variable} ${cormorant.variable} ${nunito.variable} ${josefin.variable}`}>
       <body>
-        <Nav artisan={artisan} menu={menu} />
-        <main>{children}</main>
-        <Footer artisan={artisan} />
+        <CartProvider>
+          <Nav artisan={artisan} menu={menu} />
+          <main>{children}</main>
+          <Footer artisan={artisan} />
+        </CartProvider>
         <Analytics />
       </body>
     </html>
