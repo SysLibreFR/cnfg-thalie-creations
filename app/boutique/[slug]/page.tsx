@@ -240,7 +240,7 @@ export default async function ProductPage({
                 className="btn btn--outline"
                 style={{ marginBottom: "20px", textAlign: "center", fontSize: "10px" }}
               >
-                Commander par email
+                Me contacter
               </a>
             )}
 
