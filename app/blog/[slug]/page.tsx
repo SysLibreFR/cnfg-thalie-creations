@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { marked } from "marked";
 import { getBlogPost, getBlogPosts, getArtisan, getEditorialBlocks } from "@/lib/api";
 import { formatDate, readTime, blockData, hasBlock } from "@/lib/utils";
 import Image from "next/image";
@@ -84,7 +85,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {/* Contenu + Sidebar */}
       <div className="article-with-sidebar">
-        <article className="prose-content" dangerouslySetInnerHTML={{ __html: post.content }} />
+        <article className="prose-content" dangerouslySetInnerHTML={{ __html: marked(post.content) }} />
 
         <aside>
           {relatedPosts.length > 0 && (

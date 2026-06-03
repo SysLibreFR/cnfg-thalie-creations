@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { marked } from "marked";
 import { getArtisan, getPage } from "@/lib/api";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 
@@ -24,7 +25,7 @@ export default async function MentionsLegalesPage() {
           {page?.content ? (
             <div
               className="prose-content"
-              dangerouslySetInnerHTML={{ __html: page.content }}
+              dangerouslySetInnerHTML={{ __html: marked(page.content) }}
             />
           ) : (
             <>
