@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProduct, getProducts, getCategories, getArtisan, getFieldSchema } from "@/lib/api";
+import { getProduct, getProducts, getProductTaxonomies, getArtisan, getFieldSchema } from "@/lib/api";
 import type { FieldSchemaDef } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 import ProductGallery from "@/components/products/ProductGallery";
@@ -63,17 +63,20 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
 
-  const [product, artisan, categories, similar, fieldSchema] = await Promise.all([
+  const [product, artisan, taxonomies, similar, fieldSchema] = await Promise.all([
     getProduct(slug),
     getArtisan(),
-    getCategories(),
+    getProductTaxonomies(),
     getProducts({ page_size: 3, is_featured: true }),
     getFieldSchema(),
   ]);
 
   if (!product) notFound();
 
-  const category = categories.find((c) => c.id === product.category_id);
+  const categoriesTax = taxonomies.find((t) => t.slug === "categories");
+  const category = categoriesTax
+    ? product.taxonomy_terms?.find((t) => t.product_taxonomy_type_id === categoriesTax.id)
+    : undefined;
   const price = formatPrice(product.price);
   const comparePrice = product.compare_at_price
     ? formatPrice(product.compare_at_price)
@@ -86,7 +89,7 @@ export default async function ProductPage({
       <Breadcrumb
         items={[
           { label: "Boutique", href: "/boutique" },
-          ...(category ? [{ label: category.name, href: `/boutique?categorie=${category.slug}` }] : []),
+          ...(category ? [{ label: category.name, href: `/boutique?term_ids=${category.id}` }] : []),
           { label: product.name },
         ]}
       />

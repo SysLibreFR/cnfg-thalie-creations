@@ -1,7 +1,6 @@
 import type {
   Artisan,
   BlogPost,
-  Category,
   CheckoutItem,
   CreateSessionResponse,
   EditorialBlock,
@@ -11,6 +10,7 @@ import type {
   Page,
   PaginatedResponse,
   Product,
+  ProductTaxonomyType,
   ShippingZone,
   Testimonial,
   ValidateResponse,
@@ -94,7 +94,7 @@ export async function getFieldSchema(): Promise<FieldSchemaDef[]> {
 export interface ProductListParams {
   page?: number;
   page_size?: number;
-  category_slug?: string;
+  term_ids?: string;
   is_featured?: boolean;
   search?: string;
 }
@@ -113,11 +113,11 @@ export function getProduct(slug: string): Promise<Product | null> {
   });
 }
 
-// ── Categories ───────────────────────────────────────────────────────────────
+// ── Product Taxonomies (classements) ──────────────────────────────────────────
 
-export async function getCategories(): Promise<Category[]> {
-  const result = await apiFetch<Category[] | null>(
-    `/api/v1/artisans/${SLUG}/categories/`,
+export async function getProductTaxonomies(): Promise<ProductTaxonomyType[]> {
+  const result = await apiFetch<ProductTaxonomyType[] | null>(
+    `/api/v1/artisans/${SLUG}/product-taxonomies/`,
     { revalidate: 3600 }
   );
   return result ?? [];

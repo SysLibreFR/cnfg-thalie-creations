@@ -95,16 +95,30 @@ export interface Artisan {
   updated_at: string;
 }
 
-// ── Category ─────────────────────────────────────────────────────────────────
+// ── Product Taxonomy (classements) ────────────────────────────────────────────
 
-export interface Category {
+export interface ProductTaxonomyTerm {
+  id: string;
+  product_taxonomy_type_id: string;
+  name: string;
+  slug: string;
+  emoji: string | null;
+  image_url: string | null;
+  sort_order: number;
+  created_at: string;
+}
+
+export interface ProductTaxonomyType {
   id: string;
   artisan_id: string;
-  parent_id: string | null;
   name: string;
   slug: string;
   description: string | null;
+  selection_type: "single" | "multiple";
   sort_order: number;
+  created_at: string;
+  updated_at: string;
+  terms: ProductTaxonomyTerm[];
 }
 
 // ── Product ───────────────────────────────────────────────────────────────────
@@ -131,7 +145,7 @@ export interface Product {
   status: string;
   is_featured: boolean;
   sort_order: number;
-  category_id: string | null;
+  taxonomy_terms: ProductTaxonomyTerm[];
   dimensions: Record<string, unknown>;
   tags: string[];
   custom_fields: Record<string, unknown>;

@@ -230,6 +230,41 @@ ul     { list-style: none; }
 .cards-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .cards-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 
+/* Boutique : sidebar verticale (catégories) + grille */
+.boutique-layout { display: grid; grid-template-columns: 220px 1fr; min-height: 400px; }
+.boutique-sidebar {
+  background: #fff;
+  padding: 28px 20px;
+  border-right: 1px solid var(--creme-dark);
+  position: sticky;
+  top: 64px;
+  align-self: start;
+}
+.taxonomy-sidebar__title {
+  font-family: var(--font-josefin), 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+.taxonomy-sidebar__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.taxonomy-sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+  font-size: 15px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--text);
+  transition: background .15s;
+  text-decoration: none;
+}
+.taxonomy-sidebar__item:hover { background: var(--lavande-pale); }
+.taxonomy-sidebar__item.active { background: var(--prune); color: #fff; }
+.taxonomy-sidebar__emoji { font-size: 16px; flex-shrink: 0; }
+
 /* En-têtes de page */
 .page-header-shop { background: #fff; padding: 48px 40px 32px; border-bottom: 1px solid var(--creme-dark); }
 .page-header-blog { background: #fff; padding: 56px 40px; text-align: center; border-bottom: 1px solid var(--creme-dark); }
@@ -293,6 +328,12 @@ ul     { list-style: none; }
   /* Article à la une → 1 colonne */
   .featured-article-grid { grid-template-columns: 1fr; }
 
+  /* Boutique : sidebar → pleine largeur */
+  .boutique-layout    { grid-template-columns: 1fr; }
+  .boutique-sidebar   { border-right: none; border-bottom: 1px solid var(--creme-dark); position: static; padding: 20px 16px; }
+  .taxonomy-sidebar__list { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .taxonomy-sidebar__item { font-size: 13px; padding: 6px 12px; }
+
   /* Grilles de cartes */
   .cards-grid-4         { grid-template-columns: repeat(2, 1fr); }
   .cards-grid-3         { grid-template-columns: repeat(2, 1fr); }
@@ -310,6 +351,7 @@ ul     { list-style: none; }
 
   /* En-têtes de page */
   .page-header-shop   { padding: 24px 16px 20px; }
+  .taxonomy-filter    { margin-bottom: 16px !important; }
   .page-header-blog   { padding: 32px 16px; }
   .article-header-box { padding: 20px 16px 0; }
   .article-cover      { height: 200px; }
