@@ -13,15 +13,28 @@ import Link from "next/link";
 
 export const revalidate = 600;
 
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export default async function HomePage() {
-  const [artisan, blocks, featuredProducts, testimonials] = await Promise.all([
+  const [artisan, blocks, allFeatured, testimonials] = await Promise.all([
     getArtisan(),
     getEditorialBlocks(),
-    getProducts({ is_featured: true, page_size: 6 }),
+    getProducts({ is_featured: true }),
     getTestimonials({ featured_only: true, page_size: 3 }),
   ]);
 
   if (!artisan) notFound();
+
+  const featuredProducts = allFeatured
+    ? { ...allFeatured, items: shuffleArray(allFeatured.items).slice(0, 8) }
+    : allFeatured;
 
   const heroData = blockData(blocks, "hero") as {
     eyebrow?: string;
@@ -72,7 +85,7 @@ export default async function HomePage() {
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-          {featuredProducts.total > 6 && (
+          {(allFeatured?.total ?? 0) > 8 && (
             <div style={{ textAlign: "center", marginTop: "32px" }}>
               <Link href="/boutique" className="btn btn--outline">
                 Voir toutes les créations
