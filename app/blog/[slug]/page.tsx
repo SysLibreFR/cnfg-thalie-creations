@@ -79,7 +79,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
       {post.cover_url && (
         <div className="article-cover">
-          <Image src={post.cover_url} alt={post.title} fill className="object-cover" priority />
+          <Image src={post.cover_url} alt={post.title} width={1200} height={338} priority sizes="(max-width: 768px) 100vw, 900px" />
         </div>
       )}
 
