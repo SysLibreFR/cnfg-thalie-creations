@@ -190,7 +190,7 @@ ul     { list-style: none; }
 /* ── Blog card ── */
 .article-card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid var(--creme-dark); cursor: pointer; transition: transform .2s, box-shadow .2s; }
 .article-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(107,42,90,.08); }
-.article-card__img { height: 140px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.article-card__img { height: 140px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .article-card__body { padding: 16px 18px 18px; }
 .article-card__title { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 500; color: var(--prune); line-height: 1.35; margin-bottom: 8px; }
 .article-card__excerpt { font-size: 11px; color: var(--text-muted); line-height: 1.65; margin-bottom: 12px; }
@@ -271,8 +271,8 @@ ul     { list-style: none; }
 .page-header-shop { background: #fff; padding: 48px 40px 32px; border-bottom: 1px solid var(--creme-dark); }
 .page-header-blog { background: #fff; padding: 56px 40px; text-align: center; border-bottom: 1px solid var(--creme-dark); }
 .article-header-box { background: #fff; padding: 44px 40px 0; }
-.article-cover { width: 100%; background: var(--lavande-pale); line-height: 0; }
-.article-cover img { width: 100%; height: auto !important; position: relative !important; }
+.article-cover { width: 100%; background: var(--lavande-pale); }
+.article-cover img { width: 100%; height: auto; display: block; }
 
 /* Timeline */
 .timeline-row { display: grid; grid-template-columns: 1fr 48px 1fr; align-items: start; margin-bottom: 40px; }
