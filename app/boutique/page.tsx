@@ -66,7 +66,7 @@ export default async function BoutiquePage({
             fontStyle: "italic",
             fontSize: "16px",
             color: "var(--text-muted)",
-            marginBottom: "28px",
+            marginBottom: "12px",
           }}
         >
           {boutiqueData.subtitle ?? artisan?.description ?? ""}
