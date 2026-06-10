@@ -47,6 +47,9 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: artisan.name,
       images: artisan.cover_url ? [artisan.cover_url] : [],
     },
+    icons: {
+      icon: "/favicon.svg",
+    },
   };
 }
 
