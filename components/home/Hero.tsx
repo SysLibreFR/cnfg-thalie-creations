@@ -29,12 +29,26 @@ export default function Hero({
     <section className="hero-2col hero-2col--tall" style={{
       position: "relative",
       overflow: "hidden",
-      ...(coinUrl
-        ? {
-            background: `linear-gradient(to top right, var(--lavande-light) 30%, var(--lavande-pale) 50%, transparent 100%), url(${coinUrl}) top right / contain no-repeat`,
-          }
-        : {}),
     }}>
+      {coinUrl && (
+        <div style={{ position: "absolute", inset: 0, zIndex: -1 }}>
+          <Image
+            src={coinUrl}
+            alt=""
+            fill
+            sizes="100vw"
+            priority
+            className="object-contain"
+            style={{ objectPosition: "top right" }}
+          />
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to top right, var(--lavande-light) 30%, var(--lavande-pale) 50%, transparent 100%)",
+            pointerEvents: "none",
+          }} />
+        </div>
+      )}
       {/* Gauche — monogramme ou logo */}
       <div
         style={{

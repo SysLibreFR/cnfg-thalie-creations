@@ -69,12 +69,26 @@ export default async function AboutPage() {
         minHeight: "460px",
         position: "relative",
         overflow: "hidden",
-        ...(coinUrl
-          ? {
-              background: `linear-gradient(to top right, var(--lavande-pale) 35%, transparent 100%), url(${coinUrl}) center / cover no-repeat`,
-            }
-          : { background: "transparent" }),
+        background: "transparent",
       }}>
+        {coinUrl && (
+          <div style={{ position: "absolute", inset: 0, zIndex: -1 }}>
+            <Image
+              src={coinUrl}
+              alt=""
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover"
+            />
+            <div style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to top right, var(--lavande-pale) 35%, transparent 100%)",
+              pointerEvents: "none",
+            }} />
+          </div>
+        )}
 
         {/* Colonne photo */}
         <div style={{
