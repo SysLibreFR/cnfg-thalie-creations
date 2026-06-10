@@ -109,6 +109,7 @@ export default async function AboutPage() {
                 src={photoUrl}
                 alt={artisan?.name ?? "Portrait"}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className={aboutHeroData.photo_url ? "object-cover" : "object-contain"}
                 style={{ background: "#fff" }}
               />

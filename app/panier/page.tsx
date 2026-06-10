@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/lib/utils";
@@ -80,9 +81,11 @@ export default function PanierPage() {
                     flexShrink: 0,
                   }}
                 >
-                  <img
+                  <Image
                     src={item.image_url}
                     alt={item.name}
+                    width={80}
+                    height={80}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
                 </div>

@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
       { protocol: "https" as const, hostname: "*.craieetfee.net" },
       { protocol: "http" as const, hostname: "localhost" },
     ],
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [480, 768, 1024, 1280, 1536],
+    imageSizes: [16, 32, 48, 64, 80, 96, 128, 256],
   },
 };
 
