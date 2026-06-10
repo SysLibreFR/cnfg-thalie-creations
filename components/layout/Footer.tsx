@@ -47,6 +47,9 @@ export default function Footer({ artisan }: { artisan: Artisan | null }) {
         <li>
           <Link href="/mentions-legales">Mentions légales</Link>
         </li>
+        <li>
+          <Link href="/cgv">CGV</Link>
+        </li>
       </ul>
 
       <span className="footer__hearts">♥ ♥ ♥</span>
