@@ -69,10 +69,9 @@ export default async function AboutPage() {
         minHeight: "460px",
         position: "relative",
         overflow: "hidden",
-        background: "transparent",
       }}>
         {coinUrl && (
-          <div style={{ position: "absolute", inset: 0, zIndex: -1 }}>
+          <div style={{ position: "absolute", inset: 0 }}>
             <Image
               src={coinUrl}
               alt=""
@@ -100,6 +99,7 @@ export default async function AboutPage() {
           padding: "40px 72px 48px",
           position: "relative",
           overflow: "hidden",
+          zIndex: 1,
         }}>
           {/* Éléments décoratifs */}
           <span style={{ position: "absolute", top: "18px", left: "18px", fontSize: "26px", opacity: 0.35, transform: "rotate(-30deg)", pointerEvents: "none" }}>🌿</span>
@@ -150,7 +150,7 @@ export default async function AboutPage() {
         </div>
 
         {/* Colonne texte */}
-        <div style={{ padding: "56px 52px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <div style={{ padding: "56px 52px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", zIndex: 1 }}>
           <span className="eyebrow-row">{eyebrow}</span>
           <h1 style={{ fontSize: "48px", color: "var(--prune)", lineHeight: 1.15, marginBottom: "20px", whiteSpace: "pre-line" }}>
             {heroTitle}

@@ -31,7 +31,7 @@ export default function Hero({
       overflow: "hidden",
     }}>
       {coinUrl && (
-        <div style={{ position: "absolute", inset: 0, zIndex: -1 }}>
+        <div style={{ position: "absolute", inset: 0 }}>
           <Image
             src={coinUrl}
             alt=""
@@ -58,6 +58,8 @@ export default function Hero({
           flexDirection: "column",
           gap: "12px",
           padding: "56px",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {artisan.logo_url ? (
@@ -106,6 +108,8 @@ export default function Hero({
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <span className="eyebrow-row">{eyebrow}</span>
