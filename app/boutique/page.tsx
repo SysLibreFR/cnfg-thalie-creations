@@ -54,12 +54,14 @@ export default async function BoutiquePage({
   return (
     <>
       <div className="page-header-shop">
-        <span className="eyebrow-row eyebrow-row--sable">
-          {eyebrow}
-        </span>
-        <h1 style={{ fontSize: "36px", color: "var(--prune)", marginBottom: "8px" }}>
-          {boutiqueData.title ?? artisan?.name ?? ""}
-        </h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+          <h1 style={{ fontSize: "36px", color: "var(--prune)", margin: 0 }}>
+            {boutiqueData.title ?? artisan?.name ?? ""}
+          </h1>
+          <span className="eyebrow-row eyebrow-row--sable" style={{ flexShrink: 0 }}>
+            {eyebrow}
+          </span>
+        </div>
         <p
           style={{
             fontFamily: "'Cormorant Garamond', serif",
