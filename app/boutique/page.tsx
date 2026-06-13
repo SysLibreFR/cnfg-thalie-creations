@@ -20,16 +20,28 @@ export default async function BoutiquePage({
   const termSlugs = params.terme;
   const page = parseInt(params.page ?? "1", 10);
 
-  const [artisan, taxonomies, products, blocks] = await Promise.all([
+  const [artisan, taxonomies, blocks] = await Promise.all([
     getArtisan(),
     getProductTaxonomies(),
-    getProducts({
-      page,
-      page_size: PAGE_SIZE,
-      term_ids: termSlugs,
-    }),
     getEditorialBlocks(),
   ]);
+
+  // Résout les slugs des termes en UUIDs pour l'API
+  const slugToId = new Map<string, string>();
+  for (const tax of taxonomies) {
+    for (const term of tax.terms) {
+      slugToId.set(term.slug, term.id);
+    }
+  }
+  const termIds = termSlugs
+    ? termSlugs.split(",").map((s) => slugToId.get(s)).filter(Boolean).join(",")
+    : undefined;
+
+  const products = await getProducts({
+    page,
+    page_size: PAGE_SIZE,
+    term_ids: termIds,
+  });
 
   const categoriesTax = taxonomies.find((t) => t.slug === "categories");
   const otherTaxonomies = taxonomies.filter((t) => t.slug !== "categories");
