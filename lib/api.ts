@@ -103,6 +103,7 @@ export interface ProductListParams {
   term_ids?: string;
   is_featured?: boolean;
   search?: string;
+  include_excluded?: boolean;
 }
 
 export function getProducts(params?: ProductListParams): Promise<PaginatedResponse<Product>> {

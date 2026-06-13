@@ -26,9 +26,18 @@ export default async function BoutiquePage({
     getEditorialBlocks(),
   ]);
 
+  // Exclut les termes marqués comme exclus de la boutique
+  const excludedIds = new Set(artisan?.excluded_product_taxonomy_term_ids ?? []);
+  const visibleTaxonomies = taxonomies
+    .map((tax) => ({
+      ...tax,
+      terms: tax.terms.filter((t) => !excludedIds.has(t.id)),
+    }))
+    .filter((tax) => tax.terms.length > 0);
+
   // Résout les slugs des termes en UUIDs pour l'API
   const slugToId = new Map<string, string>();
-  for (const tax of taxonomies) {
+  for (const tax of visibleTaxonomies) {
     for (const term of tax.terms) {
       slugToId.set(term.slug, term.id);
     }
@@ -43,8 +52,8 @@ export default async function BoutiquePage({
     term_ids: termIds,
   });
 
-  const categoriesTax = taxonomies.find((t) => t.slug === "categories");
-  const otherTaxonomies = taxonomies.filter((t) => t.slug !== "categories");
+  const categoriesTax = visibleTaxonomies.find((t) => t.slug === "categories");
+  const otherTaxonomies = visibleTaxonomies.filter((t) => t.slug !== "categories");
 
   const boutiqueData = blockData(blocks, "boutique_hero") as {
     eyebrow?: string;

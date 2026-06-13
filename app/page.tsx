@@ -26,7 +26,7 @@ export default async function HomePage() {
   const [artisan, blocks, allFeatured, testimonials] = await Promise.all([
     getArtisan(),
     getEditorialBlocks(),
-    getProducts({ is_featured: true }),
+    getProducts({ is_featured: true, include_excluded: true }),
     getTestimonials({ featured_only: true, page_size: 3 }),
   ]);
 

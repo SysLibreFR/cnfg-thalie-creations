@@ -91,6 +91,7 @@ export interface Artisan {
   is_featured: boolean;
   theme_config: ThemeConfig;
   contact: ArtisanContact;
+  excluded_product_taxonomy_term_ids: string[];
   created_at: string;
   updated_at: string;
 }
