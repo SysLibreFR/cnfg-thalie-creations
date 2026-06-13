@@ -66,7 +66,7 @@ export default function TaxonomyFilter({
               lineHeight: 1.2,
             }}
           >
-            Tous
+            Toutes
           </Link>
           {taxonomy.terms.map((term) => {
             const active = selected.includes(term.id);
