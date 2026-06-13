@@ -5,9 +5,9 @@ const REVALIDATE_SECRET = process.env.REVALIDATE_SECRET ?? "";
 
 // Maps backend content types to Next.js cache tags and affected paths
 const TYPE_MAP: Record<string, { tags: string[]; paths: string[] }> = {
-  editorial_block: { tags: ["editorial"], paths: ["/", "/a-propos", "/boutique", "/blog"] },
-  product:         { tags: ["product"],   paths: ["/boutique"] },
-  artisan:         { tags: ["artisan"],   paths: ["/", "/a-propos", "/boutique", "/blog"] },
+  editorial_block: { tags: ["editorial"], paths: ["/", "/a-propos", "/boutique", "/blog", "/le-petit-coin-de-line"] },
+  product:         { tags: ["product"],   paths: ["/boutique", "/le-petit-coin-de-line"] },
+  artisan:         { tags: ["artisan"],   paths: ["/", "/a-propos", "/boutique", "/blog", "/le-petit-coin-de-line"] },
   blog:            { tags: [],            paths: ["/blog"] },
   testimonial:     { tags: [],            paths: ["/", "/a-propos"] },
   page:            { tags: [],            paths: ["/mentions-legales"] },
