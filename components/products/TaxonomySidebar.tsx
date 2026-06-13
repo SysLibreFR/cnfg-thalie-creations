@@ -3,10 +3,10 @@ import type { ProductTaxonomyType } from "@/lib/types";
 
 export default function TaxonomySidebar({
   taxonomy,
-  activeTermId,
+  activeTermSlug,
 }: {
   taxonomy: ProductTaxonomyType;
-  activeTermId?: string;
+  activeTermSlug?: string;
 }) {
   if (!taxonomy.terms.length) return null;
 
@@ -17,7 +17,7 @@ export default function TaxonomySidebar({
         <li>
           <Link
             href="/boutique"
-            className={`taxonomy-sidebar__item${!activeTermId ? " active" : ""}`}
+            className={`taxonomy-sidebar__item${!activeTermSlug ? " active" : ""}`}
           >
             Toutes les catégories
           </Link>
@@ -25,8 +25,8 @@ export default function TaxonomySidebar({
         {taxonomy.terms.map((term) => (
           <li key={term.id}>
             <Link
-              href={`/boutique?term_ids=${term.id}`}
-              className={`taxonomy-sidebar__item${activeTermId === term.id ? " active" : ""}`}
+              href={`/boutique?terme=${term.slug}`}
+              className={`taxonomy-sidebar__item${activeTermSlug === term.slug ? " active" : ""}`}
             >
               {term.emoji && <span className="taxonomy-sidebar__emoji">{term.emoji}</span>}
               {term.name}

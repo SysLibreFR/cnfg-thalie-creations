@@ -14,10 +14,10 @@ const PAGE_SIZE = 12;
 export default async function BoutiquePage({
   searchParams,
 }: {
-  searchParams: Promise<{ term_ids?: string; page?: string }>;
+  searchParams: Promise<{ terme?: string; page?: string }>;
 }) {
   const params = await searchParams;
-  const termIds = params.term_ids;
+  const termSlugs = params.terme;
   const page = parseInt(params.page ?? "1", 10);
 
   const [artisan, taxonomies, products, blocks] = await Promise.all([
@@ -26,7 +26,7 @@ export default async function BoutiquePage({
     getProducts({
       page,
       page_size: PAGE_SIZE,
-      term_ids: termIds,
+      term_ids: termSlugs,
     }),
     getEditorialBlocks(),
   ]);
@@ -43,9 +43,9 @@ export default async function BoutiquePage({
   const eyebrow = boutiqueData.eyebrow ?? "Collections";
   const totalPages = Math.ceil((products?.total ?? 0) / PAGE_SIZE);
 
-  const buildUrl = (p: number, tids?: string) => {
+  const buildUrl = (p: number, slugs?: string) => {
     const sp = new URLSearchParams();
-    if (tids) sp.set("term_ids", tids);
+    if (slugs) sp.set("terme", slugs);
     if (p > 1) sp.set("page", String(p));
     const qs = sp.toString();
     return `/boutique${qs ? `?${qs}` : ""}`;
@@ -82,7 +82,7 @@ export default async function BoutiquePage({
             <TaxonomyFilter
               key={tax.id}
               taxonomy={tax}
-              activeTermIds={termIds}
+              activeTermSlugs={termSlugs}
             />
           ))}
         </div>
@@ -94,7 +94,7 @@ export default async function BoutiquePage({
           <aside className="boutique-sidebar">
             <TaxonomySidebar
               taxonomy={categoriesTax}
-              activeTermId={termIds}
+              activeTermSlug={termSlugs}
             />
           </aside>
         )}
@@ -119,7 +119,7 @@ export default async function BoutiquePage({
                 >
                   {page > 1 && (
                     <Link
-                      href={buildUrl(page - 1, termIds)}
+                      href={buildUrl(page - 1, termSlugs)}
                       className="btn btn--outline"
                       style={{ padding: "8px 18px", fontSize: "10px" }}
                     >
@@ -129,7 +129,7 @@ export default async function BoutiquePage({
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                     <Link
                       key={p}
-                      href={buildUrl(p, termIds)}
+                      href={buildUrl(p, termSlugs)}
                       style={{
                         display: "inline-flex",
                         alignItems: "center",
@@ -149,7 +149,7 @@ export default async function BoutiquePage({
                   ))}
                   {page < totalPages && (
                     <Link
-                      href={buildUrl(page + 1, termIds)}
+                      href={buildUrl(page + 1, termSlugs)}
                       className="btn btn--outline"
                       style={{ padding: "8px 18px", fontSize: "10px" }}
                     >

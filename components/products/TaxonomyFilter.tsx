@@ -4,17 +4,17 @@ import type { ProductTaxonomyType } from "@/lib/types";
 
 export default function TaxonomyFilter({
   taxonomy,
-  activeTermIds,
+  activeTermSlugs,
 }: {
   taxonomy: ProductTaxonomyType;
-  activeTermIds?: string;
+  activeTermSlugs?: string;
 }) {
-  const selected = activeTermIds ? activeTermIds.split(",") : [];
-  const allSelected = !activeTermIds;
+  const selected = activeTermSlugs ? activeTermSlugs.split(",") : [];
+  const allSelected = !activeTermSlugs;
 
-  const buildHref = (termId?: string) => {
-    if (!termId) return "/boutique";
-    return `/boutique?term_ids=${termId}`;
+  const buildHref = (slug?: string) => {
+    if (!slug) return "/boutique";
+    return `/boutique?terme=${slug}`;
   };
 
   const isOccasions = taxonomy.slug === "occasions-saisons";
@@ -69,11 +69,11 @@ export default function TaxonomyFilter({
             Toutes
           </Link>
           {taxonomy.terms.map((term) => {
-            const active = selected.includes(term.id);
+            const active = selected.includes(term.slug);
             return (
               <Link
                 key={term.id}
-                href={buildHref(term.id)}
+                href={buildHref(term.slug)}
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -153,8 +153,8 @@ export default function TaxonomyFilter({
         {taxonomy.terms.map((term) => (
           <Link
             key={term.id}
-            href={buildHref(term.id)}
-            style={pillStyle(selected.includes(term.id))}
+            href={buildHref(term.slug)}
+            style={pillStyle(selected.includes(term.slug))}
           >
             {term.emoji && `${term.emoji} `}
             {term.name}

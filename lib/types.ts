@@ -100,6 +100,7 @@ export interface Artisan {
 export interface ProductTaxonomyTerm {
   id: string;
   product_taxonomy_type_id: string;
+  product_taxonomy_type_slug: string;
   name: string;
   slug: string;
   emoji: string | null;
