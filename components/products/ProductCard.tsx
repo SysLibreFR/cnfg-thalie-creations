@@ -39,6 +39,39 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             {badge.label}
           </span>
         )}
+        {product.taxonomy_terms.filter(t => t.emoji).length > 0 && (
+          <div
+            style={{
+              position: "absolute",
+              top: "12px",
+              right: "12px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "4px",
+            }}
+          >
+            {product.taxonomy_terms.filter(t => t.emoji).map((term) => (
+              <span
+                key={term.id}
+                title={term.name}
+                style={{
+                  fontSize: "18px",
+                  lineHeight: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  background: "rgba(255,255,255,.85)",
+                  boxShadow: "0 1px 4px rgba(0,0,0,.08)",
+                }}
+              >
+                {term.emoji}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
       <div className="product-card__info">
         <p className="product-card__name">{product.name}</p>

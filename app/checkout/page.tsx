@@ -1,10 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/hooks/useCart";
-import { createCheckoutSession, getShippingZones } from "@/lib/api";
-import type { ShippingZone } from "@/lib/types";
+import {
+  createCheckoutSession,
+  getShippingZones,
+  getShippingConfig,
+  validateCheckout,
+} from "@/lib/api";
+import type { ShippingZone, ShippingConfig, PickupPoint } from "@/lib/types";
+
+type ShippingMethod = "home_delivery" | "mondial_relay";
 
 export default function CheckoutPage() {
   const { items, total, loaded } = useCart();
@@ -12,6 +19,7 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<"form" | "loading" | "error">("form");
   const [error, setError] = useState("");
   const [zones, setZones] = useState<ShippingZone[]>([]);
+  const [config, setConfig] = useState<ShippingConfig | null>(null);
 
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -27,9 +35,42 @@ export default function CheckoutPage() {
   const [notes, setNotes] = useState("");
   const [selectedZone, setSelectedZone] = useState("");
 
+  const [shippingMethod, setShippingMethod] = useState<ShippingMethod>("home_delivery");
+  const [pickupPoint, setPickupPoint] = useState<PickupPoint | null>(null);
+  const [shippingCost, setShippingCost] = useState<number | null>(null);
+  const [mrLoaded, setMrLoaded] = useState(false);
+
+  const hasMondialRelay = config?.carriers.some(
+    (c) => c.carrier === "mondial_relay" && c.enabled
+  );
+
   useEffect(() => {
     getShippingZones().then(setZones);
+    getShippingConfig().then(setConfig);
   }, []);
+
+  const debouncedValidate = useCallback(async () => {
+    if (items.length === 0) return;
+    try {
+      const result = await validateCheckout({
+        items: items.map((i) => ({
+          product_id: i.product_id,
+          quantity: i.quantity,
+          custom_fields: i.custom_fields,
+        })),
+        country: address.country,
+        shipping_method: shippingMethod,
+      });
+      setShippingCost(result.shipping_cost);
+    } catch {
+      setShippingCost(null);
+    }
+  }, [items, address.country, shippingMethod]);
+
+  useEffect(() => {
+    const timer = setTimeout(debouncedValidate, 400);
+    return () => clearTimeout(timer);
+  }, [debouncedValidate]);
 
   if (!loaded) return null;
   if (items.length === 0) {
@@ -37,10 +78,60 @@ export default function CheckoutPage() {
     return null;
   }
 
+  async function openMrWidget() {
+    if (typeof window === "undefined") return;
+
+    if (!mrLoaded) {
+      try {
+        await new Promise<void>((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src =
+            "https://widget.mondialrelay.com/parcelshop-picker/standalone.js";
+          script.onload = () => resolve();
+          script.onerror = () => reject(new Error("Impossible de charger le widget Mondial Relay"));
+          document.head.appendChild(script);
+        });
+        setMrLoaded(true);
+      } catch {
+        return;
+      }
+    }
+
+    const MRParcelShopPicker = (window as unknown as Record<string, unknown>).MRParcelShopPicker as unknown;
+    if (typeof MRParcelShopPicker !== "function") return;
+
+    try {
+      const picker = new (MRParcelShopPicker as new (opts: Record<string, unknown>) => { open: () => void })({
+        brand: "BDTEST13",
+        country: address.country || "FR",
+        postCode: address.postal_code,
+        service: ["24R"],
+        onParcelShopSelected: (parcelshop: Record<string, string>) => {
+          setPickupPoint({
+            id: parcelshop.ID,
+            name: parcelshop.Name,
+            address: parcelshop.Address1,
+            city: parcelshop.City,
+            postal_code: parcelshop.PostCode,
+          });
+        },
+      });
+      picker.open();
+    } catch {
+      // fallback: le widget peut ne pas être disponible
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStep("loading");
     setError("");
+
+    if (shippingMethod === "mondial_relay" && !pickupPoint) {
+      setError("Veuillez sélectionner un point relais");
+      setStep("form");
+      return;
+    }
 
     try {
       const session = await createCheckoutSession({
@@ -60,7 +151,11 @@ export default function CheckoutPage() {
           postal_code: address.postal_code,
           country: address.country,
         },
-        shipping_zone_id: selectedZone || undefined,
+        shipping_zone_id:
+          shippingMethod === "home_delivery" ? selectedZone || undefined : undefined,
+        shipping_method: shippingMethod,
+        pickup_point_id:
+          shippingMethod === "mondial_relay" ? pickupPoint?.id : undefined,
         notes: notes || undefined,
         success_url: `${window.location.origin}/checkout/success`,
         cancel_url: `${window.location.origin}/panier`,
@@ -72,6 +167,9 @@ export default function CheckoutPage() {
       setStep("form");
     }
   }
+
+  const estimatedTotal =
+    shippingCost != null ? total + shippingCost : total;
 
   return (
     <div style={{ maxWidth: "640px", margin: "0 auto", padding: "40px 20px" }}>
@@ -210,8 +308,8 @@ export default function CheckoutPage() {
           </select>
         </fieldset>
 
-        {/* Mode de livraison */}
-        {zones.length > 0 && (
+        {/* Transporteur */}
+        {hasMondialRelay && (
           <fieldset style={{ border: "none", padding: 0 }}>
             <legend
               style={{
@@ -223,7 +321,92 @@ export default function CheckoutPage() {
                 marginBottom: "16px",
               }}
             >
-              Mode de livraison
+              Transporteur
+            </legend>
+
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "14px 16px",
+                border: `1px solid ${shippingMethod === "home_delivery" ? "var(--prune)" : "var(--creme-dark)"}`,
+                borderRadius: "12px",
+                marginBottom: "8px",
+                cursor: "pointer",
+                background: shippingMethod === "home_delivery" ? "var(--lavande-pale)" : "#fff",
+                transition: "border-color .2s",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <input
+                  type="radio"
+                  name="shipping_method"
+                  checked={shippingMethod === "home_delivery"}
+                  onChange={() => {
+                    setShippingMethod("home_delivery");
+                    setPickupPoint(null);
+                  }}
+                />
+                <div>
+                  <p style={{ fontWeight: 500, fontSize: "14px", color: "var(--text)" }}>
+                    Livraison à domicile
+                  </p>
+                  <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                    Colissimo, Lettre suivie
+                  </p>
+                </div>
+              </div>
+            </label>
+
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "14px 16px",
+                border: `1px solid ${shippingMethod === "mondial_relay" ? "var(--prune)" : "var(--creme-dark)"}`,
+                borderRadius: "12px",
+                marginBottom: "8px",
+                cursor: "pointer",
+                background: shippingMethod === "mondial_relay" ? "var(--lavande-pale)" : "#fff",
+                transition: "border-color .2s",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <input
+                  type="radio"
+                  name="shipping_method"
+                  checked={shippingMethod === "mondial_relay"}
+                  onChange={() => setShippingMethod("mondial_relay")}
+                />
+                <div>
+                  <p style={{ fontWeight: 500, fontSize: "14px", color: "var(--text)" }}>
+                    Point relais
+                  </p>
+                  <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                    Mondial Relay
+                  </p>
+                </div>
+              </div>
+            </label>
+          </fieldset>
+        )}
+
+        {/* Mode de livraison — zones */}
+        {shippingMethod === "home_delivery" && zones.length > 0 && (
+          <fieldset style={{ border: "none", padding: 0 }}>
+            <legend
+              style={{
+                fontFamily: "'Josefin Sans', sans-serif",
+                fontSize: "10px",
+                letterSpacing: ".12em",
+                textTransform: "uppercase",
+                color: "var(--sable)",
+                marginBottom: "16px",
+              }}
+            >
+              Zone de livraison
             </legend>
             {zones.map((z) => {
               const isFree = z.free_above && total >= parseFloat(z.free_above);
@@ -269,6 +452,109 @@ export default function CheckoutPage() {
           </fieldset>
         )}
 
+        {/* Point relais — sélection */}
+        {shippingMethod === "mondial_relay" && (
+          <fieldset style={{ border: "none", padding: 0 }}>
+            <legend
+              style={{
+                fontFamily: "'Josefin Sans', sans-serif",
+                fontSize: "10px",
+                letterSpacing: ".12em",
+                textTransform: "uppercase",
+                color: "var(--sable)",
+                marginBottom: "16px",
+              }}
+            >
+              Point relais
+            </legend>
+
+            {pickupPoint ? (
+              <div
+                style={{
+                  padding: "14px 16px",
+                  border: "1px solid var(--prune)",
+                  borderRadius: "12px",
+                  background: "var(--lavande-pale)",
+                }}
+              >
+                <p style={{ fontWeight: 500, fontSize: "14px", color: "var(--text)", marginBottom: "4px" }}>
+                  {pickupPoint.name}
+                </p>
+                <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+                  {pickupPoint.address}
+                </p>
+                <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "8px" }}>
+                  {pickupPoint.postal_code} {pickupPoint.city}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setPickupPoint(null)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "var(--prune)",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                    padding: 0,
+                    fontFamily: "inherit",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Modifier le point relais
+                </button>
+              </div>
+            ) : (
+              <div>
+                <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "12px" }}>
+                  Sélectionnez un point relais Mondial Relay pour la livraison.
+                </p>
+                <button
+                  type="button"
+                  onClick={openMrWidget}
+                  style={{
+                    width: "100%",
+                    padding: "14px 16px",
+                    border: "1px solid var(--creme-dark)",
+                    borderRadius: "12px",
+                    background: "var(--creme)",
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    cursor: "pointer",
+                    color: "var(--text)",
+                    fontFamily: "inherit",
+                    transition: "background .2s",
+                  }}
+                >
+                  Choisir un point relais
+                </button>
+                <div style={{ marginTop: "12px" }}>
+                  <p style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "6px" }}>
+                    Ou saisir manuellement l&apos;identifiant du point relais&nbsp;:
+                  </p>
+                  <input
+                    placeholder="Exemple : 034976"
+                    onChange={(e) => {
+                      const v = e.target.value.trim();
+                      if (v) {
+                        setPickupPoint({
+                          id: v,
+                          name: `Point relais n°${v}`,
+                          address: "",
+                          city: address.city || "",
+                          postal_code: address.postal_code || "",
+                        });
+                      } else {
+                        setPickupPoint(null);
+                      }
+                    }}
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+            )}
+          </fieldset>
+        )}
+
         {/* Notes */}
         <fieldset style={{ border: "none", padding: 0 }}>
           <legend
@@ -306,12 +592,26 @@ export default function CheckoutPage() {
               justifyContent: "space-between",
               fontSize: "14px",
               color: "var(--text-muted)",
-              marginBottom: "12px",
+              marginBottom: "8px",
             }}
           >
             <span>{items.length} article(s)</span>
             <span>{total.toFixed(2)} €</span>
           </div>
+          {shippingCost != null && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "14px",
+                color: "var(--text-muted)",
+                marginBottom: "8px",
+              }}
+            >
+              <span>Frais de port</span>
+              <span>{shippingCost.toFixed(2)} €</span>
+            </div>
+          )}
           <div
             style={{
               display: "flex",
@@ -324,7 +624,7 @@ export default function CheckoutPage() {
             }}
           >
             <span>Total estimé</span>
-            <span>{total.toFixed(2)} €</span>
+            <span>{estimatedTotal.toFixed(2)} €</span>
           </div>
         </div>
 

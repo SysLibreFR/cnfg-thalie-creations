@@ -253,6 +253,26 @@ export interface Menu {
   updated_at: string;
 }
 
+// ── Shipping / Carriers ────────────────────────────────────────────────
+
+export interface ShippingCarrier {
+  carrier: string;
+  enabled: boolean;
+  public_config: Record<string, unknown>;
+}
+
+export interface ShippingConfig {
+  carriers: ShippingCarrier[];
+}
+
+export interface PickupPoint {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  postal_code: string;
+}
+
 // ── Checkout / Panier ──────────────────────────────────────────────────
 
 export interface CheckoutItem {

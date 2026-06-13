@@ -11,6 +11,7 @@ import type {
   PaginatedResponse,
   Product,
   ProductTaxonomyType,
+  ShippingConfig,
   ShippingZone,
   Testimonial,
   ValidateResponse,
@@ -39,7 +40,12 @@ async function apiFetch<T>(path: string, opts: FetchOptions = {}): Promise<T> {
   const url = new URL(`${API_URL}${path}`);
   if (opts.params) {
     for (const [k, v] of Object.entries(opts.params)) {
-      if (v !== undefined) url.searchParams.set(k, String(v));
+      if (v === undefined) continue;
+      if (typeof v === "object") {
+        console.warn(`[api] param "${k}" is an object, skipping`, v);
+        continue;
+      }
+      url.searchParams.set(k, String(v));
     }
   }
   const nextConfig: { revalidate?: number; tags?: string[] } = {};
@@ -176,9 +182,18 @@ export function getMenu(slug: string): Promise<Menu | null> {
 const BASE_CLIENT = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
 const CLIENT_SLUG = process.env.NEXT_PUBLIC_ARTISAN_SLUG ?? "";
 
+export async function getShippingConfig(): Promise<ShippingConfig> {
+  const res = await fetch(
+    `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/checkout/shipping-config/`
+  );
+  if (!res.ok) return { carriers: [] };
+  return res.json();
+}
+
 export async function validateCheckout(data: {
   items: CheckoutItem[];
   country: string;
+  shipping_method?: string;
 }): Promise<ValidateResponse> {
   const res = await fetch(
     `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/checkout/validate`,
@@ -207,6 +222,8 @@ export async function createCheckoutSession(data: {
   };
   billing_address?: Record<string, string>;
   shipping_zone_id?: string;
+  shipping_method?: string;
+  pickup_point_id?: string;
   notes?: string;
   success_url: string;
   cancel_url: string;
