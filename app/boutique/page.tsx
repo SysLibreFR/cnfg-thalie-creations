@@ -27,12 +27,12 @@ export default async function BoutiquePage({
   ]);
 
   // Exclut les termes marqués comme exclus de la boutique
+  // et masque entierement les classements qui les contiennent
   const excludedIds = new Set(artisan?.excluded_product_taxonomy_term_ids ?? []);
+  const hasExcludedTerm = (tax: typeof taxonomies[number]) =>
+    tax.terms.some((t) => excludedIds.has(t.id));
   const visibleTaxonomies = taxonomies
-    .map((tax) => ({
-      ...tax,
-      terms: tax.terms.filter((t) => !excludedIds.has(t.id)),
-    }))
+    .filter((tax) => !hasExcludedTerm(tax))
     .filter((tax) => tax.terms.length > 0);
 
   // Résout les slugs des termes en UUIDs pour l'API
