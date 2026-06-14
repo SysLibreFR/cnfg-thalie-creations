@@ -80,7 +80,8 @@ export default async function PetitCoinPage({
               fill
               sizes="50vw"
               priority
-              className="object-cover"
+              className="object-contain"
+              style={{ objectPosition: "center center", padding: "20px" }}
             />
           </div>
         )}
