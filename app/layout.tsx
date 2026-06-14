@@ -58,7 +58,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [artisan, menu] = await Promise.all([getArtisan(), getMenu("principal")]);
+  const [artisan, menu, footerMenu] = await Promise.all([
+    getArtisan(),
+    getMenu("principal"),
+    getMenu("footer"),
+  ]);
 
   return (
     <html lang="fr" className={`${playfair.variable} ${cormorant.variable} ${nunito.variable} ${josefin.variable}`}>
@@ -66,7 +70,7 @@ export default async function RootLayout({
         <CartProvider>
           <Nav artisan={artisan} menu={menu} />
           <main>{children}</main>
-          <Footer artisan={artisan} />
+          <Footer artisan={artisan} menu={footerMenu} />
         </CartProvider>
         <Analytics />
       </body>
