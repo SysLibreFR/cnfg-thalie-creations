@@ -15,14 +15,14 @@ export default async function PetitCoinPage() {
     getEditorialBlocks(),
   ]);
 
-  const heroData = blockData(blocks, "le-petit-coin-de-line_hero") as {
+  const heroData = blockData(blocks, "le_petit_coin_de_line_hero") as {
     eyebrow?: string;
     title?: string;
     subtitle?: string;
     coin_url?: string;
   };
 
-  const themeData = blockData(blocks, "le-petit-coin-de-line_theme") as {
+  const themeData = blockData(blocks, "le_petit_coin_de_line_theme") as {
     primary_color?: string;
     accent_color?: string;
     background_color?: string;
