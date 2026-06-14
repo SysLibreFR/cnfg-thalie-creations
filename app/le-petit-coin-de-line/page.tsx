@@ -84,15 +84,15 @@ export default async function PetitCoinPage({
               priority
               className="object-cover"
             />
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to right, rgba(248,246,248,.92) 0%, rgba(248,246,248,.85) 40%, transparent 70%)",
-                pointerEvents: "none",
-              }}
-            />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(135deg, rgba(248,246,248,.95) 0%, rgba(248,246,248,.7) 30%, transparent 55%)",
+                  pointerEvents: "none",
+                }}
+              />
           </div>
         )}
 
