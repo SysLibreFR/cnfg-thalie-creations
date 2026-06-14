@@ -34,6 +34,12 @@ export default async function PetitCoinPage({
     coin_url?: string;
   };
 
+  const themeData = blockData(blocks, "le_petit_coin_de_line_theme") as {
+    primary_color?: string;
+    accent_color?: string;
+    background_color?: string;
+  } | null;
+
   const products = await getProducts({
     term_ids: TERM_SLUG,
     include_excluded: true,
@@ -125,132 +131,144 @@ export default async function PetitCoinPage({
             zIndex: 1,
             display: "flex",
             flexDirection: "column",
-            background: "transparent",
+            justifyContent: "center",
+            padding: "32px",
           }}
         >
-          {/* Ligne 1 — titre + sous-titre */}
           <div
             style={{
-              padding: "48px 44px 32px",
+              display: "flex",
+              flexDirection: "column",
+              background: "rgba(255,255,255,.55)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              borderRadius: "20px",
+              border: "1px solid rgba(255,255,255,.3)",
+              padding: "36px 40px",
+              maxHeight: "calc(100vh - 64px)",
+              overflowY: "auto",
             }}
           >
-            {heroData.eyebrow && (
-              <span
-                className="eyebrow-row"
-                style={{ display: "block", marginBottom: "10px" }}
-              >
-                {heroData.eyebrow}
-              </span>
-            )}
-            <h1
-              style={{
-                fontSize: "34px",
-                color: "var(--prune)",
-                lineHeight: 1.2,
-                margin: "0 0 10px",
-              }}
-            >
-              {heroData.title ?? "Le Petit Coin de Line"}
-            </h1>
-            {heroData.subtitle && (
-              <p
+            {/* Ligne 1 — titre + sous-titre */}
+            <div>
+              {heroData.eyebrow && (
+                <span
+                  className="eyebrow-row"
+                  style={{ display: "block", marginBottom: "10px" }}
+                >
+                  {heroData.eyebrow}
+                </span>
+              )}
+              <h1
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontStyle: "italic",
-                  fontSize: "16px",
-                  color: "var(--text-muted)",
-                  lineHeight: 1.6,
-                  margin: 0,
-                  maxWidth: "480px",
+                  fontSize: "34px",
+                  color: themeData?.primary_color ?? "var(--prune)",
+                  lineHeight: 1.2,
+                  margin: "0 0 10px",
                 }}
               >
-                {heroData.subtitle}
-              </p>
-            )}
-          </div>
-
-          {/* Ligne 2 — grille produits 2x4 */}
-          <div style={{ flex: 1, padding: "0 44px 24px" }}>
-            {products?.items?.length ? (
-              <div className="cards-grid-2">
-                {products.items.map((product, i) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    priority={i === 0 && page === 1}
-                  />
-                ))}
-              </div>
-            ) : (
-              <p
-                style={{
-                  textAlign: "center",
-                  color: "var(--text-muted)",
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontStyle: "italic",
-                  fontSize: "18px",
-                  padding: "60px 0",
-                }}
-              >
-                Aucun produit pour le moment.
-              </p>
-            )}
-          </div>
-
-          {/* Ligne 3 — navigation */}
-          {totalPages > 1 && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "8px",
-                flexWrap: "wrap",
-                padding: "0 44px 32px",
-              }}
-            >
-              {page > 1 && (
-                <Link
-                  href={buildUrl(page - 1)}
-                  className="btn btn--outline"
-                  style={{ padding: "8px 18px", fontSize: "10px" }}
+                {heroData.title ?? "Le Petit Coin de Line"}
+              </h1>
+              {heroData.subtitle && (
+                <p
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontStyle: "italic",
+                    fontSize: "16px",
+                    color: "var(--text-muted)",
+                    lineHeight: 1.6,
+                    margin: "0 0 24px",
+                    maxWidth: "480px",
+                  }}
                 >
-                  ← Précédent
-                </Link>
-              )}
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (p) => (
-                  <Link
-                    key={p}
-                    href={buildUrl(p)}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "36px",
-                      height: "36px",
-                      borderRadius: "50%",
-                      border: "1px solid var(--lavande-light)",
-                      background: p === page ? "var(--prune)" : "#fff",
-                      color: p === page ? "#fff" : "var(--text-muted)",
-                      fontFamily: "'Josefin Sans', sans-serif",
-                      fontSize: "11px",
-                    }}
-                  >
-                    {p}
-                  </Link>
-                )
-              )}
-              {page < totalPages && (
-                <Link
-                  href={buildUrl(page + 1)}
-                  className="btn btn--outline"
-                  style={{ padding: "8px 18px", fontSize: "10px" }}
-                >
-                  Suivant →
-                </Link>
+                  {heroData.subtitle}
+                </p>
               )}
             </div>
-          )}
+
+            {/* Ligne 2 — grille produits 2x4 */}
+            <div style={{ flex: 1 }}>
+              {products?.items?.length ? (
+                <div className="cards-grid-2">
+                  {products.items.map((product, i) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      priority={i === 0 && page === 1}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p
+                  style={{
+                    textAlign: "center",
+                    color: "var(--text-muted)",
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontStyle: "italic",
+                    fontSize: "18px",
+                    padding: "60px 0",
+                  }}
+                >
+                  Aucun produit pour le moment.
+                </p>
+              )}
+            </div>
+
+            {/* Ligne 3 — navigation */}
+            {totalPages > 1 && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "8px",
+                  flexWrap: "wrap",
+                  paddingTop: "24px",
+                }}
+              >
+                {page > 1 && (
+                  <Link
+                    href={buildUrl(page - 1)}
+                    className="btn btn--outline"
+                    style={{ padding: "8px 18px", fontSize: "10px" }}
+                  >
+                    ← Précédent
+                  </Link>
+                )}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (p) => (
+                    <Link
+                      key={p}
+                      href={buildUrl(p)}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "36px",
+                        height: "36px",
+                        borderRadius: "50%",
+                        border: "1px solid var(--lavande-light)",
+                        background: p === page ? "var(--prune)" : "#fff",
+                        color: p === page ? "#fff" : "var(--text-muted)",
+                        fontFamily: "'Josefin Sans', sans-serif",
+                        fontSize: "11px",
+                      }}
+                    >
+                      {p}
+                    </Link>
+                  )
+                )}
+                {page < totalPages && (
+                  <Link
+                    href={buildUrl(page + 1)}
+                    className="btn btn--outline"
+                    style={{ padding: "8px 18px", fontSize: "10px" }}
+                  >
+                    Suivant →
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </div>
