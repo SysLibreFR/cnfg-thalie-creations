@@ -255,6 +255,14 @@ export async function trackOrder(token: string): Promise<OrderPublic> {
   return res.json();
 }
 
+export async function getArtisanClient(): Promise<Artisan | null> {
+  const res = await fetch(
+    `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/`
+  );
+  if (!res.ok) return null;
+  return res.json();
+}
+
 export async function getClientFieldSchema(): Promise<FieldSchemaDef[]> {
   const res = await fetch(
     `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/field-schema/`

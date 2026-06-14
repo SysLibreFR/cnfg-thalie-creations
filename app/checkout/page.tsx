@@ -8,8 +8,9 @@ import {
   getShippingZones,
   getShippingConfig,
   validateCheckout,
+  getArtisanClient,
 } from "@/lib/api";
-import type { ShippingZone, ShippingConfig, PickupPoint } from "@/lib/types";
+import type { ShippingZone, ShippingConfig, PickupPoint, Artisan } from "@/lib/types";
 
 type ShippingMethod = "home_delivery" | "mondial_relay";
 
@@ -20,6 +21,8 @@ export default function CheckoutPage() {
   const [error, setError] = useState("");
   const [zones, setZones] = useState<ShippingZone[]>([]);
   const [config, setConfig] = useState<ShippingConfig | null>(null);
+  const [artisan, setArtisan] = useState<Artisan | null>(null);
+  const [paymentError, setPaymentError] = useState(false);
 
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -47,6 +50,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     getShippingZones().then(setZones);
     getShippingConfig().then(setConfig);
+    getArtisanClient().then(setArtisan);
   }, []);
 
   const debouncedValidate = useCallback(async () => {
@@ -163,7 +167,20 @@ export default function CheckoutPage() {
 
       window.location.href = session.session_url;
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Erreur lors du paiement");
+      const msg = err instanceof Error ? err.message : "";
+      const isPaymentNotActive =
+        msg.includes("paiements en ligne") ||
+        msg.includes("stripe_onboarding") ||
+        msg.includes("Stripe Connect");
+      if (isPaymentNotActive) {
+        setPaymentError(true);
+        setError(
+          "Le paiement par carte n'est pas encore disponible pour cette boutique. " +
+          "Contactez l'artisane pour finaliser votre commande."
+        );
+      } else {
+        setError(msg || "Erreur lors du paiement");
+      }
       setStep("form");
     }
   }
@@ -188,7 +205,7 @@ export default function CheckoutPage() {
       {error && (
         <div
           style={{
-            padding: "16px",
+            padding: "20px",
             borderRadius: "12px",
             background: "#fef2f2",
             border: "1px solid #fecaca",
@@ -197,7 +214,44 @@ export default function CheckoutPage() {
             marginBottom: "24px",
           }}
         >
-          {error}
+          <p style={{ margin: 0 }}>{error}</p>
+          {paymentError && artisan?.contact?.email && (
+            <a
+              href={`mailto:${artisan.contact.email}?subject=${encodeURIComponent(
+                "Demande de commande — paiement par carte indisponible"
+              )}&body=${encodeURIComponent(
+                `Bonjour,\n\n` +
+                `Je souhaite passer une commande mais le paiement par carte n'est pas encore disponible.\n\n` +
+                `Voici le récapitulatif de mon panier :\n` +
+                items
+                  .map(
+                    (i) =>
+                      `- ${i.name} x${i.quantity} = ${(i.price * i.quantity).toFixed(2)} €`
+                  )
+                  .join("\n") +
+                `\n\nTotal : ${total.toFixed(2)} €` +
+                `\n\nAdresse de livraison :\n${address.line1}${address.line2 ? `\n${address.line2}` : ""}\n${address.postal_code} ${address.city}\n\n` +
+                `Merci de me contacter pour finaliser cette commande.\n\nCordialement,\n${firstName} ${lastName}`
+              )}`}
+              className="btn btn--outline"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                marginTop: "16px",
+                padding: "10px 20px",
+                fontSize: "12px",
+                color: "#991b1b",
+                borderColor: "#fecaca",
+                background: "#fff",
+                textDecoration: "none",
+                borderRadius: "10px",
+                fontWeight: 500,
+              }}
+            >
+              Contacter l&apos;artisane
+            </a>
+          )}
         </div>
       )}
 
