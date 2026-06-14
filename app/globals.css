@@ -231,6 +231,7 @@ ul     { list-style: none; }
 /* Grilles de cartes */
 .cards-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .cards-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.cards-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 
 /* Boutique : sidebar verticale (catégories) + grille */
 .boutique-layout { display: grid; grid-template-columns: 220px 1fr; min-height: 400px; }
