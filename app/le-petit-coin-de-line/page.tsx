@@ -110,17 +110,31 @@ export default async function PetitCoinPage({
               overflow: "hidden",
               background: "transparent",
               zIndex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "32px",
             }}
           >
-            <Image
-              src={heroData.photo_url}
-              alt={sigName}
-              fill
-              sizes="50vw"
-              priority
-              className="object-contain"
-              style={{ objectPosition: "center center", padding: "40px" }}
-            />
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                height: "100%",
+                borderRadius: "20px",
+                overflow: "hidden",
+              }}
+            >
+              <Image
+                src={heroData.photo_url}
+                alt={sigName}
+                fill
+                sizes="50vw"
+                priority
+                className="object-contain"
+                style={{ objectPosition: "center center", padding: "20px" }}
+              />
+            </div>
           </div>
         )}
 
