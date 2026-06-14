@@ -60,18 +60,50 @@ export default async function PetitCoinPage({
     <div>
       <section
         style={{
+          position: "relative",
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           minHeight: "100vh",
+          overflow: "hidden",
         }}
       >
+        {/* coin_url en fond sur les deux colonnes */}
+        {heroData.coin_url && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              pointerEvents: "none",
+            }}
+          >
+            <Image
+              src={heroData.coin_url}
+              alt=""
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover"
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(to right, rgba(248,246,248,.92) 0%, rgba(248,246,248,.85) 40%, transparent 70%)",
+                pointerEvents: "none",
+              }}
+            />
+          </div>
+        )}
+
         {/* Colonne gauche — portrait */}
         {heroData.photo_url && (
           <div
             style={{
               position: "relative",
               overflow: "hidden",
-              background: "var(--lavande-pale)",
+              background: "transparent",
+              zIndex: 1,
             }}
           >
             <Image
@@ -81,7 +113,7 @@ export default async function PetitCoinPage({
               sizes="50vw"
               priority
               className="object-contain"
-              style={{ objectPosition: "center center", padding: "20px" }}
+              style={{ objectPosition: "center center", padding: "40px" }}
             />
           </div>
         )}
@@ -89,81 +121,52 @@ export default async function PetitCoinPage({
         {/* Colonne droite — contenu + produits */}
         <div
           style={{
+            position: "relative",
+            zIndex: 1,
             display: "flex",
             flexDirection: "column",
-            background: "var(--creme)",
+            background: "transparent",
           }}
         >
-          {/* Ligne 1 — titre + sous-titre + coin_url */}
+          {/* Ligne 1 — titre + sous-titre */}
           <div
             style={{
-              position: "relative",
-              overflow: "hidden",
               padding: "48px 44px 32px",
             }}
           >
-            {heroData.coin_url && (
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  pointerEvents: "none",
-                }}
+            {heroData.eyebrow && (
+              <span
+                className="eyebrow-row"
+                style={{ display: "block", marginBottom: "10px" }}
               >
-                <Image
-                  src={heroData.coin_url}
-                  alt=""
-                  fill
-                  sizes="50vw"
-                  className="object-contain"
-                  style={{ objectPosition: "top right" }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "linear-gradient(to top right, var(--creme) 30%, var(--creme) 50%, transparent 100%)",
-                    pointerEvents: "none",
-                  }}
-                />
-              </div>
+                {heroData.eyebrow}
+              </span>
             )}
-            <div style={{ position: "relative", zIndex: 1 }}>
-              {heroData.eyebrow && (
-                <span
-                  className="eyebrow-row"
-                  style={{ display: "block", marginBottom: "10px" }}
-                >
-                  {heroData.eyebrow}
-                </span>
-              )}
-              <h1
+            <h1
+              style={{
+                fontSize: "34px",
+                color: "var(--prune)",
+                lineHeight: 1.2,
+                margin: "0 0 10px",
+              }}
+            >
+              {heroData.title ?? "Le Petit Coin de Line"}
+            </h1>
+            {heroData.subtitle && (
+              <p
                 style={{
-                  fontSize: "34px",
-                  color: "var(--prune)",
-                  lineHeight: 1.2,
-                  margin: "0 0 10px",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontStyle: "italic",
+                  fontSize: "16px",
+                  color: "var(--text-muted)",
+                  lineHeight: 1.6,
+                  margin: 0,
+                  maxWidth: "480px",
                 }}
               >
-                {heroData.title ?? "Le Petit Coin de Line"}
-              </h1>
-              {heroData.subtitle && (
-                <p
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontStyle: "italic",
-                    fontSize: "16px",
-                    color: "var(--text-muted)",
-                    lineHeight: 1.6,
-                    margin: 0,
-                    maxWidth: "480px",
-                  }}
-                >
-                  {heroData.subtitle}
-                </p>
-              )}
-            </div>
+                {heroData.subtitle}
+              </p>
+            )}
           </div>
 
           {/* Ligne 2 — grille produits 2x4 */}
