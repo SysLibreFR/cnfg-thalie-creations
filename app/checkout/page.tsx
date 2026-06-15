@@ -69,7 +69,7 @@ export default function CheckoutPage() {
         country: address.country,
         shipping_method: shippingMethod,
       });
-      setShippingCost(result.shipping_cost);
+      setShippingCost(Number(result.shipping_cost));
     } catch {
       setShippingCost(null);
     }
