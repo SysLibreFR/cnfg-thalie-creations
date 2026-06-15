@@ -99,41 +99,56 @@ export default function CheckoutPage() {
   }
 
   async function openMrWidget() {
+    window.alert("1: début");
     if (typeof window === "undefined") return;
 
+    window.alert("2: window OK");
     if (!(window as unknown as Record<string, unknown>).jQuery) {
+      window.alert("3: chargement jQuery");
       try {
         await loadScript("https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js");
+        window.alert("4: jQuery chargé");
       } catch (e) {
-        console.error("MR: échec chargement jQuery", e);
+        window.alert("5: échec jQuery: " + e);
         return;
       }
+    } else {
+      window.alert("3b: jQuery déjà présent");
     }
 
+    window.alert("4: jQuery dispo");
     if (!mrLoaded) {
+      window.alert("5: chargement widget MR");
       try {
         await loadScript(
           "https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"
         );
         setMrLoaded(true);
+        window.alert("6: widget MR chargé");
       } catch (e) {
-        console.error("MR: échec chargement widget", e);
+        window.alert("7: échec widget: " + e);
         return;
       }
+    } else {
+      window.alert("5b: MR déjà chargé");
     }
 
+    window.alert("7: script chargé, attente 500ms");
     await new Promise((r) => setTimeout(r, 500));
 
+    window.alert("8: après attente");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const $ = (window as any).jQuery;
     if (!$) {
-      console.error("MR: jQuery introuvable");
+      window.alert("9: jQuery introuvable");
       return;
     }
+    window.alert("10: jQuery OK");
     if (typeof $.fn.MR_ParcelShopPicker !== "function") {
-      console.error("MR: plugin MR_ParcelShopPicker non trouvé", { fn: Object.keys($.fn).filter(k => k.includes("MR")) });
+      window.alert("11: plugin MR introuvable");
       return;
     }
+    window.alert("12: plugin trouvé, création overlay");
 
     const overlay = document.createElement("div");
     overlay.style.cssText =
@@ -169,8 +184,8 @@ export default function CheckoutPage() {
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 
+    window.alert("13: overlay ajouté, init widget");
     try {
-      console.log("MR: initialisation du widget...");
       $("#" + container.id).MR_ParcelShopPicker({
         brand: mrPublicConfig?.enseigne ?? "BDTEST13",
         country: address.country || "FR",
@@ -179,7 +194,7 @@ export default function CheckoutPage() {
         Responsive: true,
         ShowResultsOnMap: true,
         OnParcelShopSelected: (parcelshop: Record<string, string>) => {
-          console.log("MR: point relais sélectionné", parcelshop);
+          window.alert("14: point sélectionné: " + parcelshop.Nom);
           setPickupPoint({
             id: parcelshop.ID,
             name: parcelshop.Name,
@@ -190,9 +205,9 @@ export default function CheckoutPage() {
           overlay.remove();
         },
       });
-      console.log("MR: widget initialisé");
+      window.alert("15: widget initialisé");
     } catch (e) {
-      console.error("MR: erreur initialisation", e);
+      window.alert("16: erreur init: " + e);
       overlay.remove();
     }
   }
@@ -637,11 +652,11 @@ export default function CheckoutPage() {
                   Sélectionnez un point relais Mondial Relay pour la livraison.
                 </p>
                 <div
-                  onClick={() => window.alert("clic!")}
+                  onClick={() => openMrWidget()}
                   style={{
                     width: "100%",
                     padding: "14px 16px",
-                    border: "2px solid red",
+                    border: "1px solid var(--creme-dark)",
                     borderRadius: "12px",
                     background: "var(--creme)",
                     fontSize: "13px",
@@ -653,7 +668,7 @@ export default function CheckoutPage() {
                     boxSizing: "border-box",
                   }}
                 >
-                  TEST CLIC
+                  Choisir un point relais
                 </div>
                 <div style={{ marginTop: "12px" }}>
                   <p style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "6px" }}>
