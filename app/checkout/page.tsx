@@ -43,9 +43,13 @@ export default function CheckoutPage() {
   const [shippingCost, setShippingCost] = useState<number | null>(null);
   const [mrLoaded, setMrLoaded] = useState(false);
 
-  const hasMondialRelay = config?.carriers.some(
+  const mrCarrier = config?.carriers.find(
     (c) => c.carrier === "mondial_relay" && c.enabled
   );
+  const hasMondialRelay = !!mrCarrier;
+  const mrPublicConfig = mrCarrier?.public_config as
+    | { enseigne?: string; services?: string[] }
+    | undefined;
 
   useEffect(() => {
     getShippingZones().then(setZones);
@@ -106,10 +110,10 @@ export default function CheckoutPage() {
 
     try {
       const picker = new (MRParcelShopPicker as new (opts: Record<string, unknown>) => { open: () => void })({
-        brand: "BDTEST13",
+        brand: mrPublicConfig?.enseigne ?? "BDTEST13",
         country: address.country || "FR",
         postCode: address.postal_code,
-        service: ["24R"],
+        service: mrPublicConfig?.services ?? ["24R"],
         onParcelShopSelected: (parcelshop: Record<string, string>) => {
           setPickupPoint({
             id: parcelshop.ID,
