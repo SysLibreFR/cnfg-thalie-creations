@@ -102,7 +102,8 @@ export default function CheckoutPage() {
     if (!(window as unknown as Record<string, unknown>).jQuery) {
       try {
         await loadScript("https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js");
-      } catch {
+      } catch (e) {
+        console.error("MR: échec chargement jQuery", e);
         return;
       }
     }
@@ -113,16 +114,24 @@ export default function CheckoutPage() {
           "https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"
         );
         setMrLoaded(true);
-      } catch {
+      } catch (e) {
+        console.error("MR: échec chargement widget", e);
         return;
       }
     }
 
-    await new Promise((r) => setTimeout(r, 200));
+    await new Promise((r) => setTimeout(r, 500));
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const jQuery = (window as any).jQuery;
-    if (typeof jQuery?.fn?.MR_ParcelShopPicker !== "function") return;
+    const $ = (window as any).jQuery;
+    if (!$) {
+      console.error("MR: jQuery introuvable");
+      return;
+    }
+    if (typeof $.fn.MR_ParcelShopPicker !== "function") {
+      console.error("MR: plugin MR_ParcelShopPicker non trouvé", { fn: Object.keys($.fn).filter(k => k.includes("MR")) });
+      return;
+    }
 
     const overlay = document.createElement("div");
     overlay.style.cssText =
@@ -159,7 +168,8 @@ export default function CheckoutPage() {
     document.body.appendChild(overlay);
 
     try {
-      jQuery("#" + container.id).MR_ParcelShopPicker({
+      console.log("MR: initialisation du widget...");
+      $("#" + container.id).MR_ParcelShopPicker({
         brand: mrPublicConfig?.enseigne ?? "BDTEST13",
         country: address.country || "FR",
         postCode: address.postal_code,
@@ -167,6 +177,7 @@ export default function CheckoutPage() {
         Responsive: true,
         ShowResultsOnMap: true,
         OnParcelShopSelected: (parcelshop: Record<string, string>) => {
+          console.log("MR: point relais sélectionné", parcelshop);
           setPickupPoint({
             id: parcelshop.ID,
             name: parcelshop.Name,
@@ -177,7 +188,9 @@ export default function CheckoutPage() {
           overlay.remove();
         },
       });
-    } catch {
+      console.log("MR: widget initialisé");
+    } catch (e) {
+      console.error("MR: erreur initialisation", e);
       overlay.remove();
     }
   }
