@@ -633,7 +633,10 @@ export default function CheckoutPage() {
                 </p>
                 <button
                   type="button"
-                  onClick={openMrWidget}
+                  onClick={() => {
+                    console.log("MR: clic");
+                    openMrWidget().catch((e) => console.error("MR: erreur", e));
+                  }}
                   style={{
                     width: "100%",
                     padding: "14px 16px",
@@ -652,13 +655,13 @@ export default function CheckoutPage() {
                 </button>
                 <div style={{ marginTop: "12px" }}>
                   <p style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "6px" }}>
-                    Ou saisir manuellement l&apos;identifiant du point relais&nbsp;:
+                    Ou saisir manuellement l&apos;identifiant du point relais (5-6 chiffres)&nbsp;:
                   </p>
                   <input
                     placeholder="Exemple : 034976"
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       const v = e.target.value.trim();
-                      if (v) {
+                      if (/^\d{5,6}$/.test(v)) {
                         setPickupPoint({
                           id: v,
                           name: `Point relais n°${v}`,
@@ -666,8 +669,6 @@ export default function CheckoutPage() {
                           city: address.city || "",
                           postal_code: address.postal_code || "",
                         });
-                      } else {
-                        setPickupPoint(null);
                       }
                     }}
                     style={inputStyle}
