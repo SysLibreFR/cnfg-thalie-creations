@@ -310,7 +310,7 @@ ul     { list-style: none; }
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   padding: 32px;
 }
 .petit-coin-panel {
