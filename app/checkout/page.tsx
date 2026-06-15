@@ -164,9 +164,8 @@ export default function CheckoutPage() {
       $("#" + container.id).MR_ParcelShopPicker({
         Brand: mrPublicConfig?.enseigne ?? "BDTEST13",
         Country: address.country || "FR",
-        PostCode: address.postal_code,
-        City: address.city || "",
-        Service: (mrPublicConfig?.services ?? ["24R"]).join(","),
+        PostCode: "",
+        City: "",
         ColLivMod: "24R",
         NbResults: "7",
         Responsive: true,
