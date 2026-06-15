@@ -316,7 +316,7 @@ ul     { list-style: none; }
 .petit-coin-panel {
   display: flex;
   flex-direction: column;
-  background: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.35);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 20px;
