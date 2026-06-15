@@ -25,6 +25,8 @@ function loadScript(src: string): Promise<void> {
 type ShippingMethod = "home_delivery" | "mondial_relay";
 
 export default function CheckoutPage() {
+  console.log("MR: RENDER", Date.now());
+
   const { items, total, loaded } = useCart();
   const router = useRouter();
   const [step, setStep] = useState<"form" | "loading" | "error">("form");
