@@ -103,7 +103,17 @@ export default function CheckoutPage() {
     };
     btn.addEventListener("click", handler);
     return () => btn.removeEventListener("click", handler);
-  }, [mrBtnRef]);
+  });
+
+  useEffect(() => {
+    if (shippingMethod === "mondial_relay" && !pickupPoint) {
+      const timer = setTimeout(() => {
+        console.log("MR: ouverture auto");
+        openMrRef.current();
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [shippingMethod, pickupPoint]);
 
   if (!loaded) return null;
   if (items.length === 0) {
