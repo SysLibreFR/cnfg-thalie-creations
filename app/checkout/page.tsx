@@ -52,7 +52,7 @@ export default function CheckoutPage() {
   const [pickupPoint, setPickupPoint] = useState<PickupPoint | null>(null);
   const [shippingCost, setShippingCost] = useState<number | null>(null);
   const [mrLoaded, setMrLoaded] = useState(false);
-  const mrBtnRef = useRef<HTMLButtonElement>(null);
+  const mrBtnRef = useRef<HTMLDivElement>(null);
 
   const mrCarrier = config?.carriers.find(
     (c) => c.carrier === "mondial_relay" && c.enabled
@@ -91,29 +91,7 @@ export default function CheckoutPage() {
     return () => clearTimeout(timer);
   }, [debouncedValidate]);
 
-  const openMrRef = useRef(openMrWidget);
-  openMrRef.current = openMrWidget;
 
-  useEffect(() => {
-    const btn = mrBtnRef.current;
-    if (!btn) return;
-    const handler = () => {
-      console.log("MR: clic natif");
-      openMrRef.current();
-    };
-    btn.addEventListener("click", handler);
-    return () => btn.removeEventListener("click", handler);
-  });
-
-  useEffect(() => {
-    if (shippingMethod === "mondial_relay" && !pickupPoint) {
-      const timer = setTimeout(() => {
-        console.log("MR: ouverture auto");
-        openMrRef.current();
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [shippingMethod, pickupPoint]);
 
   if (!loaded) return null;
   if (items.length === 0) {
@@ -526,7 +504,13 @@ export default function CheckoutPage() {
                   type="radio"
                   name="shipping_method"
                   checked={shippingMethod === "mondial_relay"}
-                  onChange={() => setShippingMethod("mondial_relay")}
+                  onChange={() => {
+                    setShippingMethod("mondial_relay");
+                    setTimeout(() => {
+                      console.log("MR: ouverture auto");
+                      openMrWidget();
+                    }, 300);
+                  }}
                 />
                 <div>
                   <p style={{ fontWeight: 500, fontSize: "14px", color: "var(--text)" }}>
@@ -656,9 +640,12 @@ export default function CheckoutPage() {
                 <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "12px" }}>
                   Sélectionnez un point relais Mondial Relay pour la livraison.
                 </p>
-                <button
-                  type="button"
+                <div
                   ref={mrBtnRef}
+                  onClick={() => {
+                    console.log("MR: clic");
+                    openMrWidget();
+                  }}
                   style={{
                     width: "100%",
                     padding: "14px 16px",
@@ -671,10 +658,12 @@ export default function CheckoutPage() {
                     color: "var(--text)",
                     fontFamily: "inherit",
                     transition: "background .2s",
+                    textAlign: "center",
+                    boxSizing: "border-box",
                   }}
                 >
                   Choisir un point relais
-                </button>
+                </div>
                 <div style={{ marginTop: "12px" }}>
                   <p style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "6px" }}>
                     Ou saisir manuellement l&apos;identifiant du point relais (5-6 chiffres)&nbsp;:
