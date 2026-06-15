@@ -293,7 +293,7 @@ ul     { list-style: none; }
 .petit-coin-hero {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   min-height: 100vh;
   overflow: hidden;
 }
