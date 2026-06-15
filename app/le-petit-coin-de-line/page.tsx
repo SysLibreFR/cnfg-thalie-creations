@@ -64,15 +64,7 @@ export default async function PetitCoinPage({
 
   return (
     <div>
-      <section
-        style={{
-          position: "relative",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          minHeight: "100vh",
-          overflow: "hidden",
-        }}
-      >
+      <section className="petit-coin-hero">
         {/* coin_url en fond sur les deux colonnes */}
         {heroData.coin_url && (
           <div
@@ -104,16 +96,7 @@ export default async function PetitCoinPage({
 
         {/* Colonne gauche — portrait */}
         {heroData.photo_url && (
-          <div
-            style={{
-              position: "relative",
-              overflow: "hidden",
-              background: "transparent",
-              zIndex: 1,
-              margin: "32px",
-              borderRadius: "20px",
-            }}
-          >
+          <div className="petit-coin-photo">
             <Image
               src={heroData.photo_url}
               alt={sigName}
@@ -127,30 +110,8 @@ export default async function PetitCoinPage({
         )}
 
         {/* Colonne droite — contenu + produits */}
-        <div
-          style={{
-            position: "relative",
-            zIndex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: "32px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              background: "rgba(255,255,255,.55)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              borderRadius: "20px",
-              border: "1px solid rgba(255,255,255,.3)",
-              padding: "36px 40px",
-              maxHeight: "calc(100vh - 64px)",
-              overflowY: "auto",
-            }}
-          >
+        <div className="petit-coin-content">
+          <div className="petit-coin-panel">
             {/* Ligne 1 — titre + sous-titre */}
             <div>
               {heroData.eyebrow && (

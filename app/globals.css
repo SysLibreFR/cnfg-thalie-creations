@@ -289,6 +289,43 @@ ul     { list-style: none; }
 /* Description produit (grille conditionnelle) */
 .product-desc-grid { display: grid; gap: 32px; align-items: start; }
 
+/* Petit Coin de Line — Hero */
+.petit-coin-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.petit-coin-photo {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  z-index: 1;
+  margin: 32px;
+  border-radius: 20px;
+}
+.petit-coin-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px;
+}
+.petit-coin-panel {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.3);
+  padding: 36px 40px;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
 /* ═══════════════════════════════════════════
    MEDIA QUERIES — 768px (tablette / mobile)
    ═══════════════════════════════════════════ */
@@ -314,6 +351,25 @@ ul     { list-style: none; }
 
   /* Hero → 1 colonne */
   .hero-2col, .hero-2col--tall, .hero-2col--medium { grid-template-columns: 1fr; min-height: auto; }
+
+  /* Petit Coin de Line → empilement */
+  .petit-coin-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .petit-coin-photo {
+    margin: 16px;
+    height: 320px;
+    border-radius: 12px;
+  }
+  .petit-coin-content {
+    padding: 16px;
+  }
+  .petit-coin-panel {
+    max-height: none;
+    overflow-y: visible;
+    padding: 24px 20px;
+  }
 
   /* Fiche produit → empilement */
   .product-page-layout { grid-template-columns: 1fr; height: auto; min-height: auto; }
@@ -371,4 +427,17 @@ ul     { list-style: none; }
   .cards-grid-values { grid-template-columns: 1fr !important; }
   .creations-grid  { grid-template-columns: 1fr; }
   .tiles-2col      { gap: 24px; }
+
+  /* Petit Coin de Line → ultra-rétréci */
+  .petit-coin-photo {
+    margin: 8px;
+    height: 240px;
+    border-radius: 8px;
+  }
+  .petit-coin-content {
+    padding: 8px;
+  }
+  .petit-coin-panel {
+    padding: 20px 16px;
+  }
 }
