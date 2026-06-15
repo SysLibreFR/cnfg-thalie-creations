@@ -25,8 +25,6 @@ function loadScript(src: string): Promise<void> {
 type ShippingMethod = "home_delivery" | "mondial_relay";
 
 export default function CheckoutPage() {
-  console.log("MR: RENDER", Date.now());
-
   const { items, total, loaded } = useCart();
   const router = useRouter();
   const [step, setStep] = useState<"form" | "loading" | "error">("form");
@@ -54,7 +52,6 @@ export default function CheckoutPage() {
   const [pickupPoint, setPickupPoint] = useState<PickupPoint | null>(null);
   const [shippingCost, setShippingCost] = useState<number | null>(null);
   const [mrLoaded, setMrLoaded] = useState(false);
-  const mrBtnRef = useRef<HTMLDivElement>(null);
 
   const mrCarrier = config?.carriers.find(
     (c) => c.carrier === "mondial_relay" && c.enabled
@@ -508,10 +505,7 @@ export default function CheckoutPage() {
                   checked={shippingMethod === "mondial_relay"}
                   onChange={() => {
                     setShippingMethod("mondial_relay");
-                    setTimeout(() => {
-                      console.log("MR: ouverture auto");
-                      openMrWidget();
-                    }, 300);
+                    setTimeout(() => window.alert("MR: auto"), 300);
                   }}
                 />
                 <div>
@@ -643,15 +637,11 @@ export default function CheckoutPage() {
                   Sélectionnez un point relais Mondial Relay pour la livraison.
                 </p>
                 <div
-                  ref={mrBtnRef}
-                  onClick={() => {
-                    console.log("MR: clic");
-                    openMrWidget();
-                  }}
+                  onClick={() => window.alert("clic!")}
                   style={{
                     width: "100%",
                     padding: "14px 16px",
-                    border: "1px solid var(--creme-dark)",
+                    border: "2px solid red",
                     borderRadius: "12px",
                     background: "var(--creme)",
                     fontSize: "13px",
@@ -659,12 +649,11 @@ export default function CheckoutPage() {
                     cursor: "pointer",
                     color: "var(--text)",
                     fontFamily: "inherit",
-                    transition: "background .2s",
                     textAlign: "center",
                     boxSizing: "border-box",
                   }}
                 >
-                  Choisir un point relais
+                  TEST CLIC
                 </div>
                 <div style={{ marginTop: "12px" }}>
                   <p style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "6px" }}>
