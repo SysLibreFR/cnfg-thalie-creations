@@ -22,7 +22,7 @@ function loadScript(src: string): Promise<void> {
   });
 }
 
-type ShippingMethod = "home_delivery" | "mondial_relay";
+type ShippingMethod = string;
 
 export default function CheckoutPage() {
   const { items, total, loaded } = useCart();
@@ -53,13 +53,18 @@ export default function CheckoutPage() {
   const [shippingCost, setShippingCost] = useState<number | null>(null);
   const [mrLoaded, setMrLoaded] = useState(false);
 
-  const mrCarrier = config?.carriers.find(
-    (c) => c.carrier === "mondial_relay" && c.enabled
-  );
-  const hasMondialRelay = !!mrCarrier;
+  const activeCarriers = config?.carriers.filter((c) => c.enabled) ?? [];
+  const hasActiveCarrier = activeCarriers.length > 0;
+  const mrCarrier = activeCarriers.find((c) => c.carrier === "mondial_relay");
   const mrPublicConfig = mrCarrier?.public_config as
     | { enseigne?: string; services?: string[] }
     | undefined;
+
+  useEffect(() => {
+    if (activeCarriers.length > 0 && !activeCarriers.find((c) => c.carrier === shippingMethod)) {
+      setShippingMethod(activeCarriers[0].carrier);
+    }
+  }, [activeCarriers, shippingMethod]);
 
   useEffect(() => {
     getShippingZones().then(setZones);
@@ -423,21 +428,64 @@ export default function CheckoutPage() {
         </fieldset>
 
         {/* Transporteur */}
-        {hasMondialRelay && (
-          <fieldset style={{ border: "none", padding: 0 }}>
-            <legend
-              style={{
-                fontFamily: "'Josefin Sans', sans-serif",
-                fontSize: "10px",
-                letterSpacing: ".12em",
-                textTransform: "uppercase",
-                color: "var(--sable)",
-                marginBottom: "16px",
-              }}
-            >
-              Transporteur
-            </legend>
+        <fieldset style={{ border: "none", padding: 0 }}>
+          <legend
+            style={{
+              fontFamily: "'Josefin Sans', sans-serif",
+              fontSize: "10px",
+              letterSpacing: ".12em",
+              textTransform: "uppercase",
+              color: "var(--sable)",
+              marginBottom: "16px",
+            }}
+          >
+            Transporteur
+          </legend>
 
+          {hasActiveCarrier ? (
+            activeCarriers.map((carrier) => {
+              const selected = shippingMethod === carrier.carrier;
+              const isMr = carrier.carrier === "mondial_relay";
+              return (
+                <label
+                  key={carrier.carrier}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "14px 16px",
+                    border: `1px solid ${selected ? "var(--prune)" : "var(--creme-dark)"}`,
+                    borderRadius: "12px",
+                    marginBottom: "8px",
+                    cursor: "pointer",
+                    background: selected ? "var(--lavande-pale)" : "#fff",
+                    transition: "border-color .2s",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <input
+                      type="radio"
+                      name="shipping_method"
+                      checked={selected}
+                      onChange={() => {
+                        setShippingMethod(carrier.carrier);
+                        setPickupPoint(null);
+                        if (isMr) setTimeout(() => openMrWidget(), 300);
+                      }}
+                    />
+                    <div>
+                      <p style={{ fontWeight: 500, fontSize: "14px", color: "var(--text)" }}>
+                        {carrier.carrier === "mondial_relay" ? "Point relais" : carrier.carrier}
+                      </p>
+                      <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                        {carrier.carrier === "mondial_relay" ? "Mondial Relay" : ""}
+                      </p>
+                    </div>
+                  </div>
+                </label>
+              );
+            })
+          ) : (
             <label
               style={{
                 display: "flex",
@@ -472,43 +520,8 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </label>
-
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "14px 16px",
-                border: `1px solid ${shippingMethod === "mondial_relay" ? "var(--prune)" : "var(--creme-dark)"}`,
-                borderRadius: "12px",
-                marginBottom: "8px",
-                cursor: "pointer",
-                background: shippingMethod === "mondial_relay" ? "var(--lavande-pale)" : "#fff",
-                transition: "border-color .2s",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <input
-                  type="radio"
-                  name="shipping_method"
-                  checked={shippingMethod === "mondial_relay"}
-                  onChange={() => {
-                    setShippingMethod("mondial_relay");
-                    setTimeout(() => openMrWidget(), 300);
-                  }}
-                />
-                <div>
-                  <p style={{ fontWeight: 500, fontSize: "14px", color: "var(--text)" }}>
-                    Point relais
-                  </p>
-                  <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>
-                    Mondial Relay
-                  </p>
-                </div>
-              </div>
-            </label>
-          </fieldset>
-        )}
+          )}
+        </fieldset>
 
         {/* Mode de livraison — zones */}
         {shippingMethod === "home_delivery" && zones.length > 0 && (
