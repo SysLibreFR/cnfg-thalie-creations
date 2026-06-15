@@ -302,7 +302,7 @@ ul     { list-style: none; }
   overflow: hidden;
   background: transparent;
   z-index: 1;
-  margin: 32px;
+  margin: 16px;
   border-radius: 20px;
 }
 .petit-coin-content {
