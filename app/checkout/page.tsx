@@ -99,56 +99,32 @@ export default function CheckoutPage() {
   }
 
   async function openMrWidget() {
-    window.alert("1: début");
     if (typeof window === "undefined") return;
 
-    window.alert("2: window OK");
     if (!(window as unknown as Record<string, unknown>).jQuery) {
-      window.alert("3: chargement jQuery");
       try {
         await loadScript("https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js");
-        window.alert("4: jQuery chargé");
-      } catch (e) {
-        window.alert("5: échec jQuery: " + e);
+      } catch {
         return;
       }
-    } else {
-      window.alert("3b: jQuery déjà présent");
     }
 
-    window.alert("4: jQuery dispo");
     if (!mrLoaded) {
-      window.alert("5: chargement widget MR");
       try {
         await loadScript(
           "https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"
         );
         setMrLoaded(true);
-        window.alert("6: widget MR chargé");
-      } catch (e) {
-        window.alert("7: échec widget: " + e);
+      } catch {
         return;
       }
-    } else {
-      window.alert("5b: MR déjà chargé");
     }
 
-    window.alert("7: script chargé, attente 500ms");
     await new Promise((r) => setTimeout(r, 500));
 
-    window.alert("8: après attente");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const $ = (window as any).jQuery;
-    if (!$) {
-      window.alert("9: jQuery introuvable");
-      return;
-    }
-    window.alert("10: jQuery OK");
-    if (typeof $.fn.MR_ParcelShopPicker !== "function") {
-      window.alert("11: plugin MR introuvable");
-      return;
-    }
-    window.alert("12: plugin trouvé, création overlay");
+    if (!$ || typeof $.fn.MR_ParcelShopPicker !== "function") return;
 
     const overlay = document.createElement("div");
     overlay.style.cssText =
@@ -184,30 +160,27 @@ export default function CheckoutPage() {
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 
-    window.alert("13: overlay ajouté, init widget");
     try {
       $("#" + container.id).MR_ParcelShopPicker({
-        brand: mrPublicConfig?.enseigne ?? "BDTEST13",
-        country: address.country || "FR",
-        postCode: address.postal_code,
-        service: mrPublicConfig?.services ?? ["24R"],
+        Brand: mrPublicConfig?.enseigne ?? "BDTEST13",
+        Country: address.country || "FR",
+        PostCode: address.postal_code,
+        Service: (mrPublicConfig?.services ?? ["24R"]).join(","),
+        ColLivMod: "24R",
         Responsive: true,
         ShowResultsOnMap: true,
         OnParcelShopSelected: (parcelshop: Record<string, string>) => {
-          window.alert("14: point sélectionné: " + parcelshop.Nom);
           setPickupPoint({
             id: parcelshop.ID,
-            name: parcelshop.Name,
-            address: parcelshop.Address1,
-            city: parcelshop.City,
-            postal_code: parcelshop.PostCode,
+            name: parcelshop.Nom,
+            address: parcelshop.Adresse1,
+            city: parcelshop.Ville,
+            postal_code: parcelshop.CP,
           });
           overlay.remove();
         },
       });
-      window.alert("15: widget initialisé");
-    } catch (e) {
-      window.alert("16: erreur init: " + e);
+    } catch {
       overlay.remove();
     }
   }
@@ -520,7 +493,7 @@ export default function CheckoutPage() {
                   checked={shippingMethod === "mondial_relay"}
                   onChange={() => {
                     setShippingMethod("mondial_relay");
-                    setTimeout(() => window.alert("MR: auto"), 300);
+                    setTimeout(() => openMrWidget(), 300);
                   }}
                 />
                 <div>
