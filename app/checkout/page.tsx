@@ -165,8 +165,10 @@ export default function CheckoutPage() {
         Brand: mrPublicConfig?.enseigne ?? "BDTEST13",
         Country: address.country || "FR",
         PostCode: address.postal_code,
+        City: address.city || "",
         Service: (mrPublicConfig?.services ?? ["24R"]).join(","),
         ColLivMod: "24R",
+        NbResults: "7",
         Responsive: true,
         ShowResultsOnMap: true,
         OnParcelShopSelected: (parcelshop: Record<string, string>) => {
