@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/hooks/useCart";
 import {
@@ -11,6 +11,16 @@ import {
   getArtisanClient,
 } from "@/lib/api";
 import type { ShippingZone, ShippingConfig, PickupPoint, Artisan } from "@/lib/types";
+
+function loadScript(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error(`Échec du chargement de ${src}`));
+    document.head.appendChild(s);
+  });
+}
 
 type ShippingMethod = "home_delivery" | "mondial_relay";
 
@@ -89,32 +99,74 @@ export default function CheckoutPage() {
   async function openMrWidget() {
     if (typeof window === "undefined") return;
 
+    if (!(window as unknown as Record<string, unknown>).jQuery) {
+      try {
+        await loadScript("https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js");
+      } catch {
+        return;
+      }
+    }
+
     if (!mrLoaded) {
       try {
-        await new Promise<void>((resolve, reject) => {
-          const script = document.createElement("script");
-          script.src =
-            "https://widget.mondialrelay.com/parcelshop-picker/standalone.js";
-          script.onload = () => resolve();
-          script.onerror = () => reject(new Error("Impossible de charger le widget Mondial Relay"));
-          document.head.appendChild(script);
-        });
+        await loadScript(
+          "https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"
+        );
         setMrLoaded(true);
       } catch {
         return;
       }
     }
 
-    const MRParcelShopPicker = (window as unknown as Record<string, unknown>).MRParcelShopPicker as unknown;
-    if (typeof MRParcelShopPicker !== "function") return;
+    await new Promise((r) => setTimeout(r, 200));
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const jQuery = (window as any).jQuery;
+    if (typeof jQuery?.fn?.MR_ParcelShopPicker !== "function") return;
+
+    const overlay = document.createElement("div");
+    overlay.style.cssText =
+      "position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;";
+
+    const modal = document.createElement("div");
+    modal.style.cssText =
+      "width:90%;max-width:800px;height:80vh;background:#fff;border-radius:12px;position:relative;overflow:hidden;display:flex;flex-direction:column;";
+
+    const header = document.createElement("div");
+    header.style.cssText =
+      "display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #eee;flex-shrink:0;";
+
+    const title = document.createElement("span");
+    title.textContent = "Choisir un point relais";
+    title.style.cssText = "font-weight:600;font-size:15px;";
+
+    const closeBtn = document.createElement("button");
+    closeBtn.textContent = "✕";
+    closeBtn.style.cssText =
+      "background:none;border:none;font-size:20px;cursor:pointer;color:#666;line-height:1;padding:4px;";
+    closeBtn.onclick = () => overlay.remove();
+
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+
+    const container = document.createElement("div");
+    container.id = "mr-widget-" + Date.now();
+    container.style.cssText = "flex:1;min-height:0;";
+
+    modal.appendChild(header);
+    modal.appendChild(container);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
 
     try {
-      const picker = new (MRParcelShopPicker as new (opts: Record<string, unknown>) => { open: () => void })({
+      jQuery("#" + container.id).MR_ParcelShopPicker({
         brand: mrPublicConfig?.enseigne ?? "BDTEST13",
         country: address.country || "FR",
         postCode: address.postal_code,
         service: mrPublicConfig?.services ?? ["24R"],
-        onParcelShopSelected: (parcelshop: Record<string, string>) => {
+        Responsive: true,
+        ShowResultsOnMap: true,
+        OnParcelShopSelected: (parcelshop: Record<string, string>) => {
           setPickupPoint({
             id: parcelshop.ID,
             name: parcelshop.Name,
@@ -122,11 +174,11 @@ export default function CheckoutPage() {
             city: parcelshop.City,
             postal_code: parcelshop.PostCode,
           });
+          overlay.remove();
         },
       });
-      picker.open();
     } catch {
-      // fallback: le widget peut ne pas être disponible
+      overlay.remove();
     }
   }
 
