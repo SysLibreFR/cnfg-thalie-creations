@@ -52,6 +52,7 @@ export default function CheckoutPage() {
   const [pickupPoint, setPickupPoint] = useState<PickupPoint | null>(null);
   const [shippingCost, setShippingCost] = useState<number | null>(null);
   const [mrLoaded, setMrLoaded] = useState(false);
+  const mrBtnRef = useRef<HTMLButtonElement>(null);
 
   const mrCarrier = config?.carriers.find(
     (c) => c.carrier === "mondial_relay" && c.enabled
@@ -89,6 +90,20 @@ export default function CheckoutPage() {
     const timer = setTimeout(debouncedValidate, 400);
     return () => clearTimeout(timer);
   }, [debouncedValidate]);
+
+  const openMrRef = useRef(openMrWidget);
+  openMrRef.current = openMrWidget;
+
+  useEffect(() => {
+    const btn = mrBtnRef.current;
+    if (!btn) return;
+    const handler = () => {
+      console.log("MR: clic natif");
+      openMrRef.current();
+    };
+    btn.addEventListener("click", handler);
+    return () => btn.removeEventListener("click", handler);
+  }, [mrBtnRef]);
 
   if (!loaded) return null;
   if (items.length === 0) {
@@ -633,10 +648,7 @@ export default function CheckoutPage() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => {
-                    console.log("MR: clic");
-                    openMrWidget().catch((e) => console.error("MR: erreur", e));
-                  }}
+                  ref={mrBtnRef}
                   style={{
                     width: "100%",
                     padding: "14px 16px",
