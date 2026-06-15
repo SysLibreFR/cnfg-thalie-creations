@@ -185,7 +185,7 @@ const CLIENT_SLUG = process.env.NEXT_PUBLIC_ARTISAN_SLUG ?? "";
 
 export async function getShippingConfig(): Promise<ShippingConfig> {
   const res = await fetch(
-    `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/checkout/shipping-config/`
+    `${BASE_CLIENT}/api/v1/artisans/${CLIENT_SLUG}/checkout/shipping-config`
   );
   if (!res.ok) return { carriers: [] };
   return res.json();
